@@ -12,13 +12,22 @@ amCompanion.config(['$routeProvider',"USER_ROLES", function($routeProvider,USER_
     });
 
     $routeProvider.when('/settings', {templateUrl: '../partials/settings.html', controller: 'SettingsController'});
+
+    $routeProvider.when('/login', {
+        templateUrl: 'partials/login.html',
+        controller: 'LoginController',
+        data: {
+            authorizedRoles: [USER_ROLES.all]
+        }
+    });
+
     $routeProvider.otherwise({redirectTo: '/'});
 }]);
 
 amCompanion.run(function ($rootScope, AUTH_EVENTS, AuthService) {
     $rootScope.$on('$routeChangeStart', function (event, next) {
 
-        var authorizedRoles = next.data.authorizedRoles;
+        var authorizedRoles = next.$$route.data.authorizedRoles;
         if (!AuthService.isAuthorized(authorizedRoles)) {
             event.preventDefault();
             if (AuthService.isAuthenticated()) {
@@ -27,6 +36,7 @@ amCompanion.run(function ($rootScope, AUTH_EVENTS, AuthService) {
             } else {
                 // user is not logged in
                 $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
+                console.log("heyehye");
             }
         }
     });
@@ -36,12 +46,12 @@ amCompanion.config(function ($httpProvider) {
     $httpProvider.interceptors.push([
         '$injector',
         function ($injector) {
-            return $injector.get(‘AuthInterceptor’);
+            return $injector.get("AuthInterceptor");
         }
     ]);
 })
 
-amCompanion.factory(‘AuthInterceptor’, function ($rootScope, $q,
+amCompanion.factory("AuthInterceptor", function ($rootScope, $q,
                                           AUTH_EVENTS) {
     return {
         responseError: function (response) {
