@@ -24,10 +24,15 @@ amCompanion.config(['$routeProvider',"USER_ROLES", function($routeProvider,USER_
     $routeProvider.otherwise({redirectTo: '/'});
 }]);
 
-amCompanion.run(function ($rootScope, AUTH_EVENTS, AuthService) {
+amCompanion.run(function ($rootScope, AUTH_EVENTS, AuthService, $location, $cookies) {
     $rootScope.$on('$routeChangeStart', function (event, next) {
 
-        var authorizedRoles = next.$$route.data.authorizedRoles;
+        var authorizedRoles = [];
+
+        if( next.$$route.data != undefined){
+            authorizedRoles = next.$$route.data.authorizedRoles;
+        }
+
         if (!AuthService.isAuthorized(authorizedRoles)) {
             event.preventDefault();
             if (AuthService.isAuthenticated()) {
@@ -36,7 +41,7 @@ amCompanion.run(function ($rootScope, AUTH_EVENTS, AuthService) {
             } else {
                 // user is not logged in
                 $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
-                console.log("heyehye");
+                $location.path("/login");
             }
         }
     });
