@@ -39,7 +39,6 @@ input
 #loginModal
 {
     background: url("../img/writing-336370_1920.jpg");
-    background-position: 568px;
     background-size: cover;
     height: 100%;
 }
@@ -48,5 +47,10 @@ input
     #logo
     {
         width: 300px;
+    }
+
+    #loginModal
+    {
+        background-position: 568px;
     }
 }
