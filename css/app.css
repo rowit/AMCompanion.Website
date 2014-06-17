@@ -6,6 +6,11 @@ html, body
     margin: 0;
 }
 
+.clear
+{
+    clear:both;
+}
+
 input
 {
     font-family: 'Maven Pro', sans-serif !important;
@@ -41,6 +46,7 @@ input
     background: url("../img/writing-336370_1920.jpg");
     background-size: cover;
     height: 100%;
+    text-align: center;
 }
 
 @media screen and (max-width: 640px) {
