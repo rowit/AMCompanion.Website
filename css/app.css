@@ -16,11 +16,6 @@ input
     font-family: 'Maven Pro', sans-serif !important;
 }
 
-.input-group
-{
-    opacity: 0.8;
-}
-
 #main-container
 {
     height: 100%;
@@ -39,6 +34,11 @@ input
 
 #logo
 {
+}
+
+#loginModal .form-group
+{
+    opacity: 0.8;
 }
 
 #loginModal .row
@@ -67,6 +67,7 @@ input
     #loginModal
     {
         background: url("../img/login-background-mobile.jpg");
+        background-size: cover;
     }
 
     #logo
