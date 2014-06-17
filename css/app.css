@@ -41,22 +41,36 @@ input
 {
 }
 
+#loginModal .row
+{
+    margin-left: 0;
+    margin-right: 0;
+}
+
 #loginModal
 {
-    background: url("../img/writing-336370_1920.jpg");
+    background: url("../img/login-background-full.jpg");
     background-size: cover;
     height: 100%;
     text-align: center;
 }
 
+.btn-steria
+{
+    background: #04315b;
+    color: white;
+}
+
+
 @media screen and (max-width: 640px) {
+
+    #loginModal
+    {
+        background: url("../img/login-background-mobile.jpg");
+    }
+
     #logo
     {
         width: 300px;
     }
 
-    #loginModal
-    {
-        background-position: 568px;
-    }
-}
