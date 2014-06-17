@@ -3,12 +3,50 @@ html, body
 {
     height: 100%;
     width: 100%;
+    margin: 0;
+}
+
+input
+{
     font-family: 'Maven Pro', sans-serif !important;
 }
 
-body
+.input-group
 {
-    width: 100%;
+    opacity: 0.8;
+}
+
+#main-container
+{
     height: 100%;
+}
+
+#am-companion .container
+{
     margin: 0;
-}2
+    padding: 0;
+}
+
+#am-companion h1
+{
+    margin-top: 0;
+}
+
+#logo
+{
+}
+
+#loginModal
+{
+    background: url("../img/writing-336370_1920.jpg");
+    background-position: 568px;
+    background-size: cover;
+    height: 100%;
+}
+
+@media screen and (max-width: 640px) {
+    #logo
+    {
+        width: 300px;
+    }
+}
