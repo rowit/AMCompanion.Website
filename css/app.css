@@ -61,17 +61,24 @@ input
     color: white;
 }
 
+.btn-steria:hover
+{
+    color: white !important;
+}
+
+.btn-steria:active
+{
+    background: #064885;
+}
 
 @media screen and (max-width: 640px) {
 
-    #loginModal
-    {
+    #loginModal {
         background: url("../img/login-background-mobile.jpg");
         background-size: cover;
     }
 
-    #logo
-    {
+    #logo {
         width: 300px;
     }
-
+}
