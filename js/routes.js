@@ -24,7 +24,8 @@ amCompanion.config(['$routeProvider',"USER_ROLES", function($routeProvider,USER_
     $routeProvider.otherwise({redirectTo: '/'});
 }]);
 
-amCompanion.run(function ($rootScope, AUTH_EVENTS, AuthService, $location, $cookies) {
+amCompanion.run(["$rootScope","AUTH_EVENTS", "AuthService", "$location", "$cookies",
+    function ($rootScope, AUTH_EVENTS, AuthService, $location, $cookies) {
     $rootScope.$on('$routeChangeStart', function (event, next) {
 
         var authorizedRoles = [];
@@ -45,17 +46,20 @@ amCompanion.run(function ($rootScope, AUTH_EVENTS, AuthService, $location, $cook
             }
         }
     });
-})
+}]);
 
-amCompanion.config(function ($httpProvider) {
+/*
+amCompanion.config(["$httpProvider", function ($httpProvider) {
     $httpProvider.interceptors.push([
         '$injector',
         function ($injector) {
             return $injector.get("AuthInterceptor");
         }
     ]);
-})
+}]);
+*/
 
+/*
 amCompanion.factory("AuthInterceptor", function ($rootScope, $q,
                                           AUTH_EVENTS) {
     return {
@@ -75,4 +79,5 @@ amCompanion.factory("AuthInterceptor", function ($rootScope, $q,
             return $q.reject(response);
         }
     };
-})
+});
+*/

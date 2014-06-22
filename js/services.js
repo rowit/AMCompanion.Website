@@ -1,11 +1,37 @@
 'use strict';
 /* Services */
 
-amCompanion.factory('AuthService', function ($http, Session , $location) {
+amCompanion.factory("EmployeesService", [ "$http", function( $http )
+{
+    var employes = [];
+    var links = [];
+
+    this.initEmployees = function ()
+    {
+        $http.get('/data/data.json').then(function (res) {
+            employes = res.data;
+            angular.forEach(employes , function( employee )
+            {
+                links.push.apply(links, employee.Links);
+            });
+            console.log(links);
+        });
+    }
+
+    this.getEmployees = function()
+    {
+        return employes;
+    }
+
+    return this;1
+}]);
+
+amCompanion.factory('AuthService', ["$http", "Session" , "$location", function ($http, Session , $location) {
     return {
         login: function (credentials) {
 
-            if(credentials.email == "sro@test.com" && credentials.password == "testSro")
+            console.log("is ok");
+            if(credentials.email == "a" && credentials.password == "a")
             {
                 Session.create(8, "romainseb", "admin");
                 $location.path("/");
@@ -29,9 +55,9 @@ amCompanion.factory('AuthService', function ($http, Session , $location) {
                 authorizedRoles.indexOf(Session.userRole) !== -1);
         }
     };
-});
+}]);
 
-amCompanion.service('Session', function ( $cookies ) {
+amCompanion.service('Session', [ "$cookies", function ( $cookies ) {
     this.create = function (sessionId, userId, userRole) {
         this.id = sessionId;
         this.userId = userId;
@@ -54,4 +80,4 @@ amCompanion.service('Session', function ( $cookies ) {
     }
 
     return this;
-});
+}]);

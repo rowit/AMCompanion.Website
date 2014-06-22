@@ -276,29 +276,31 @@ var amCompanion = angular.module('amCompanion', [
 'use strict';
 
 /* Controllers */
-amCompanion.controller('HomeController',[ "$scope","USER_ROLES","AuthService","$http", function(
+amCompanion.controller('HomeController',[ "$scope","USER_ROLES","AuthService","EmployeesService", function(
                                                             $scope,
                                                             USER_ROLES,
                                                             AuthService,
-                                                            $http ){
+                                                            EmployeesService ){
 
     $scope.currentUser = null;
     $scope.userRoles = USER_ROLES;
     $scope.isAuthorized = AuthService.isAuthorized;
 
+    EmployeesService.initEmployees();
+    console.log(EmployeesService.getEmployees());
+    /*
     $http.get("http://amcompanion.azurewebsites.net/api/v1/help/", {
         headers: {
             'Content-type': 'application/json'
         }
     }).success(function (data) {
-        /*
         console.log(data);
         console.log("Appel Serveur OK ! :)");
-        */
     }).error(function()
     {
         console.log("website params not loaded :(");
-    });;
+    });
+    */
 
 }]);
 
@@ -362,7 +364,8 @@ amCompanion.config(['$routeProvider',"USER_ROLES", function($routeProvider,USER_
     $routeProvider.otherwise({redirectTo: '/'});
 }]);
 
-amCompanion.run(function ($rootScope, AUTH_EVENTS, AuthService, $location, $cookies) {
+amCompanion.run(["$rootScope","AUTH_EVENTS", "AuthService", "$location", "$cookies",
+    function ($rootScope, AUTH_EVENTS, AuthService, $location, $cookies) {
     $rootScope.$on('$routeChangeStart', function (event, next) {
 
         var authorizedRoles = [];
@@ -383,17 +386,20 @@ amCompanion.run(function ($rootScope, AUTH_EVENTS, AuthService, $location, $cook
             }
         }
     });
-})
+}]);
 
-amCompanion.config(function ($httpProvider) {
+/*
+amCompanion.config(["$httpProvider", function ($httpProvider) {
     $httpProvider.interceptors.push([
         '$injector',
         function ($injector) {
             return $injector.get("AuthInterceptor");
         }
     ]);
-})
+}]);
+*/
 
+/*
 amCompanion.factory("AuthInterceptor", function ($rootScope, $q,
                                           AUTH_EVENTS) {
     return {
@@ -413,15 +419,42 @@ amCompanion.factory("AuthInterceptor", function ($rootScope, $q,
             return $q.reject(response);
         }
     };
-})
+});
+*/
 'use strict';
 /* Services */
 
-amCompanion.factory('AuthService', function ($http, Session , $location) {
+amCompanion.factory("EmployeesService", [ "$http", function( $http )
+{
+    var employes = [];
+    var links = [];
+
+    this.initEmployees = function ()
+    {
+        $http.get('/data/data.json').then(function (res) {
+            employes = res.data;
+            angular.forEach(employes , function( employee )
+            {
+                links.push.apply(links, employee.Links);
+            });
+            console.log(links);
+        });
+    }
+
+    this.getEmployees = function()
+    {
+        return employes;
+    }
+
+    return this;1
+}]);
+
+amCompanion.factory('AuthService', ["$http", "Session" , "$location", function ($http, Session , $location) {
     return {
         login: function (credentials) {
 
-            if(credentials.email == "sro@test.com" && credentials.password == "testSro")
+            console.log("is ok");
+            if(credentials.email == "a" && credentials.password == "a")
             {
                 Session.create(8, "romainseb", "admin");
                 $location.path("/");
@@ -445,9 +478,9 @@ amCompanion.factory('AuthService', function ($http, Session , $location) {
                 authorizedRoles.indexOf(Session.userRole) !== -1);
         }
     };
-});
+}]);
 
-amCompanion.service('Session', function ( $cookies ) {
+amCompanion.service('Session', [ "$cookies", function ( $cookies ) {
     this.create = function (sessionId, userId, userRole) {
         this.id = sessionId;
         this.userId = userId;
@@ -470,4 +503,4 @@ amCompanion.service('Session', function ( $cookies ) {
     }
 
     return this;
-});
+}]);
