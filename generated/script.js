@@ -287,7 +287,7 @@ amCompanion.controller('HomeController',[ "$scope","USER_ROLES","AuthService","E
     $scope.isAuthorized = AuthService.isAuthorized;
 
     EmployeesService.initEmployees();
-    console.log(EmployeesService.getEmployees());
+    $scope.links = EmployeesService.getLinks();
     /*
     $http.get("http://amcompanion.azurewebsites.net/api/v1/help/", {
         headers: {
@@ -382,7 +382,7 @@ amCompanion.run(["$rootScope","AUTH_EVENTS", "AuthService", "$location", "$cooki
             } else {
                 // user is not logged in
                 $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
-                $location.path("/login");
+                //$location.path("/login");
             }
         }
     });
@@ -437,16 +437,22 @@ amCompanion.factory("EmployeesService", [ "$http", function( $http )
             {
                 links.push.apply(links, employee.Links);
             });
+
             console.log(links);
         });
-    }
+    };
 
     this.getEmployees = function()
     {
         return employes;
-    }
+    };
 
-    return this;1
+    this.getLinks = function()
+    {
+        return links;
+    };
+
+    return this;
 }]);
 
 amCompanion.factory('AuthService', ["$http", "Session" , "$location", function ($http, Session , $location) {
@@ -500,7 +506,7 @@ amCompanion.service('Session', [ "$cookies", function ( $cookies ) {
         this.userId = session.userId;
         this.userRole = session.userRole;
         $cookies.amManager = angular.toJson(this);
-    }
+    };
 
     return this;
 }]);

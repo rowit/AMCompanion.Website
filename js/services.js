@@ -3,27 +3,33 @@
 
 amCompanion.factory("EmployeesService", [ "$http", function( $http )
 {
-    var employes = [];
-    var links = [];
+    var data = {};
+    data.employees = [];
+    data.links = [];
 
     this.initEmployees = function ()
     {
         $http.get('/data/data.json').then(function (res) {
-            employes = res.data;
-            angular.forEach(employes , function( employee )
+            data.employees.push.apply(data.employees , res.data);
+            angular.forEach(data.employees , function( employee )
             {
-                links.push.apply(links, employee.Links);
+                data.links.push.apply(data.links, employee.Links);
             });
-            console.log(links);
+            console.log(data.employees);
         });
-    }
+    };
 
     this.getEmployees = function()
     {
-        return employes;
-    }
+        return data.employees;
+    };
 
-    return this;1
+    this.getLinks = function()
+    {
+        return data.links;
+    };
+
+    return this;
 }]);
 
 amCompanion.factory('AuthService', ["$http", "Session" , "$location", function ($http, Session , $location) {
@@ -77,7 +83,7 @@ amCompanion.service('Session', [ "$cookies", function ( $cookies ) {
         this.userId = session.userId;
         this.userRole = session.userRole;
         $cookies.amManager = angular.toJson(this);
-    }
+    };
 
     return this;
 }]);

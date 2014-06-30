@@ -41,10 +41,10 @@ input
     opacity: 0.8;
 }
 
-#loginModal .row
+.row
 {
-    margin-left: 0;
-    margin-right: 0;
+    margin-left: 0 !important;
+    margin-right: 0 !important;;
 }
 
 #loginModal
