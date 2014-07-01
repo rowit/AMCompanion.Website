@@ -42,7 +42,7 @@ amCompanion.run(["$rootScope","AUTH_EVENTS", "AuthService", "$location", "$cooki
             } else {
                 // user is not logged in
                 $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
-                //$location.path("/login");
+                $location.path("/login");
             }
         }
     });
