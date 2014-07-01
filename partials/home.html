@@ -4,8 +4,10 @@
     <am-header></am-header>
 
     <div class="row">
+        <div class="separator"><span>Dernier Rendez-Vous<span></div>
+
         <div class="col-md-8" ng-repeat="link in (links|orderBy:'date':'reverse'|limitTo:1)">
-            {{link.date|date}}
+            <am-link-preview link="link"></am-link-preview>
         </div>
 
         <div ng-repeat="employee in employees">
