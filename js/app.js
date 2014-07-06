@@ -4,5 +4,6 @@
 // Declare app level module which depends on filters, and services
 var amCompanion = angular.module('amCompanion', [
   'ngRoute',
-  'ngCookies'
+  'ngCookies',
+  'jp.ng-bs-animated-button'
 ]);

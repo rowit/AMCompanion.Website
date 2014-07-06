@@ -1,5 +1,16 @@
 'use strict';
 /* Services */
+amCompanion.factory("Employees", function( $http )
+{
+    this.init = function()
+    {
+
+    }
+
+
+    return this;
+
+});
 
 amCompanion.factory("EmployeesService", [ "$http", function( $http )
 {

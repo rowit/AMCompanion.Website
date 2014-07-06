@@ -1,6 +1,6 @@
 {
-    "name" : "AMCompaniono",
-    "title" : "AMCompaniono",
+    "name" : "AMCompanion",
+    "title" : "AMCompanion",
     "version" : "0.0.1",
     "devDependencies": {
         "grunt": "0.4.5",
