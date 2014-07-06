@@ -36,7 +36,6 @@ amCompanion.factory('AuthService', ["$http", "Session" , "$location", function (
     return {
         login: function (credentials) {
 
-            console.log("is ok");
             if(credentials.email == "a" && credentials.password == "a")
             {
                 Session.create(8, "romainseb", "admin");

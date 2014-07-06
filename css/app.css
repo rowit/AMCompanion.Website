@@ -65,7 +65,7 @@ input
 .btn-steria
 {
     background: #04315b;
-    color: white;
+    color: white !important;
 }
 
 .btn-steria:hover
