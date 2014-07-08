@@ -4,9 +4,7 @@ amCompanion.factory("Employees", function( $http )
 {
     this.init = function()
     {
-
     }
-
 
     return this;
 
@@ -45,12 +43,33 @@ amCompanion.factory("EmployeesService", [ "$http", function( $http )
 
 amCompanion.factory('AuthService', ["$http", "Session" , "$location", function ($http, Session , $location) {
     return {
-        login: function (credentials) {
+        login: function (credentials){
+
+            var data = {Email:credentials.email,Password:credentials.password};
+            //var data = {Email:"sm@mail.com",Password:"test"};
+            $http.post(
+                "https://amcompanion.azurewebsites.net/amcAuth",
+                JSON.stringify(data),
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            ).success(function (data, status, headers ) {
+                Session.create(8, "romainseb", "admin");
+                sessionStorage.setItem("token", headers()["x-xsrf-token"]);
+                $location.path("/");
+                console.log(data);
+                console.log(sessionStorage.getItem("token"));
+            }).error(function()
+            {
+                console.log("website params not loaded :(");
+            });
+
 
             if(credentials.email == "a" && credentials.password == "a")
             {
-                Session.create(8, "romainseb", "admin");
-                $location.path("/");
+
             }
             /*
             return $http

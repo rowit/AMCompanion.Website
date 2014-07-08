@@ -3,7 +3,8 @@ amCompanion.controller('LoginController',[ "$scope","AuthService", function($sco
 
     $scope.login = function()
     {
-        AuthService.login($scope.credidentials);
+        console.log($scope.credentials);
+        AuthService.login($scope.credentials);
     };
 
 }]);
