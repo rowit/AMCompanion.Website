@@ -2,6 +2,19 @@
  * Created by Sébastien on 18/05/2014.
  */
 
+amCompanion
+    .config(['$sceDelegateProvider', function($sceDelegateProvider) {
+        $sceDelegateProvider.resourceUrlWhitelist([
+            // Allow same origin resource loads.
+            'self',
+            // Allow loading from our assets domain.  Notice the difference between * and **.
+            'https://amcompanion.azurewebsites.net/**'
+        ]);
+
+}]);
+
+
+
 amCompanion.config(['$routeProvider',"USER_ROLES", function($routeProvider,USER_ROLES) {
     $routeProvider.when('/', {
         templateUrl: 'partials/home.html',
