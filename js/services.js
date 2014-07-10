@@ -65,8 +65,7 @@ amCompanion.factory('AuthService', ["$http", "Session" , "$location","$q",
                         //$location.path("/");
                     }).error(function()
                     {
-                        //defer.reject("Login Incorrect");
-                        console.log("website params not loaded :(");
+                        defer.reject("Login Incorrect");
                     });
 
                 return defer.promise;
