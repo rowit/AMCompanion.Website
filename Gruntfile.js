@@ -6,10 +6,10 @@ module.exports = function(grunt) {
         concat: {
             css: {
                 src: [
-                    'css/*',
+                    'css/*.css',
                     '!css/style.min.css'
                 ],
-                dest: 'generated/style.css'
+                dest: 'css/generated/style.css'
             },
             js : {
                 src : [
@@ -20,31 +20,31 @@ module.exports = function(grunt) {
                     "js/*.js",
                     "!js/combined.js"
                 ],
-                dest : 'generated/script.js'
+                dest : 'js/generated/script.js'
             }
         },
         cssmin: {
             css: {
-                src: 'generated/style.css',
-                dest: 'css/style.min.css'
+                src: 'css/generated/style.css',
+                dest: 'css/generated/style.min.css'
             }
         },
         uglify : {
             js: {
                 files: {
-                    'js/combined.js' : [ 'generated/script.js' ]
+                    'js/generated/script.min.js' : [ 'js/generated/script.js' ]
                 }
             }
         },
         watch: {
             css:
             {
-                files: ['css/*',"!css/style.min.css"],
+                files: ['css/*',"!**/generated/**.css"],
                 tasks: ['concat:css', 'cssmin']
             },
             js:
             {
-                files: ['js/**/*.js',"!js/combined.js"],
+                files: ['js/**/*.js',"!**/generated/**.js"],
                 tasks: ['concat:js', 'uglify']
             }
         }

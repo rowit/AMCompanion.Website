@@ -41,56 +41,48 @@ amCompanion.factory("EmployeesService", [ "$http", function( $http )
     return this;
 }]);
 
-amCompanion.factory('AuthService', ["$http", "Session" , "$location", function ($http, Session , $location) {
-    return {
-        login: function (credentials){
+amCompanion.factory('AuthService', ["$http", "Session" , "$location","$q",
+    function ($http, Session , $location, $q) {
+        return {
+            login: function (credentials){
 
-            var data = {Email:credentials.email,Password:credentials.password};
-            //var data = {Email:"sm@mail.com",Password:"test"};
-            $http.post(
-                "https://amcompanion.azurewebsites.net/amcAuth",
-                JSON.stringify(data),
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
+                var defer = $q.defer();
+                console.log(defer);
+                var data = {Email:credentials.email,Password:credentials.password};
+                //var data = {Email:"sm@mail.com",Password:"test"};
+                $http.post(
+                    "https://amcompanion.azurewebsites.net/amcAuth",
+                    JSON.stringify(data),
+                    {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
                     }
+                ).success(function (data, status, headers ) {
+                        Session.create(8, "romainseb", "admin");
+                        sessionStorage.setItem("token", headers()["x-xsrf-token"]);
+                        defer.resolve("Login correct");
+                        //$location.path("/");
+                    }).error(function()
+                    {
+                        //defer.reject("Login Incorrect");
+                        console.log("website params not loaded :(");
+                    });
+
+                return defer.promise;
+            },
+            isAuthenticated: function () {
+                return !!Session.userId;
+            },
+            isAuthorized: function (authorizedRoles) {
+                if (!angular.isArray(authorizedRoles)) {
+                    authorizedRoles = [authorizedRoles];
                 }
-            ).success(function (data, status, headers ) {
-                Session.create(8, "romainseb", "admin");
-                sessionStorage.setItem("token", headers()["x-xsrf-token"]);
-                $location.path("/");
-                console.log(data);
-                console.log(sessionStorage.getItem("token"));
-            }).error(function()
-            {
-                console.log("website params not loaded :(");
-            });
-
-
-            if(credentials.email == "a" && credentials.password == "a")
-            {
-
+                return (this.isAuthenticated() &&
+                    authorizedRoles.indexOf(Session.userRole) !== -1);
             }
-            /*
-            return $http
-                .post('/login', credentials)
-                .then(function (res) {
-                    Session.create(res.id, res.userid, res.role);
-                });
-            */
-        },
-        isAuthenticated: function () {
-            return !!Session.userId;
-        },
-        isAuthorized: function (authorizedRoles) {
-            if (!angular.isArray(authorizedRoles)) {
-                authorizedRoles = [authorizedRoles];
-            }
-            return (this.isAuthenticated() &&
-                authorizedRoles.indexOf(Session.userRole) !== -1);
-        }
-    };
-}]);
+        };
+    }]);
 
 amCompanion.service('Session', [ "$cookies", function ( $cookies ) {
     this.create = function (sessionId, userId, userRole) {

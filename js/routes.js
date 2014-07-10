@@ -5,10 +5,8 @@
 amCompanion
     .config(['$sceDelegateProvider', function($sceDelegateProvider) {
         $sceDelegateProvider.resourceUrlWhitelist([
-            // Allow same origin resource loads.
             'self',
-            // Allow loading from our assets domain.  Notice the difference between * and **.
-            'https://amcompanion.azurewebsites.net/**'
+            'https://*.azurewebsites.net/**'
         ]);
 
 }]);
@@ -37,8 +35,8 @@ amCompanion.config(['$routeProvider',"USER_ROLES", function($routeProvider,USER_
     $routeProvider.otherwise({redirectTo: '/'});
 }]);
 
-amCompanion.run(["$rootScope","AUTH_EVENTS", "AuthService", "$location", "$cookies",
-    function ($rootScope, AUTH_EVENTS, AuthService, $location, $cookies) {
+amCompanion.run(["$rootScope","AUTH_EVENTS", "AuthService", "$location",
+    function ($rootScope, AUTH_EVENTS, AuthService, $location ) {
     $rootScope.$on('$routeChangeStart', function (event, next) {
 
         var authorizedRoles = [];

@@ -39,13 +39,13 @@ input {
 }
 
 #home {
-    background: url("../img/brushed.png");
+    background: url("/img/brushed.png");
     height: 100%;
     width: 100%;
 }
 
 #loginModal {
-    background: url("../img/login-background-full.jpg");
+    background: url("/img/login-background-full.jpg");
     background-size: cover;
     height: 100%;
     text-align: center;
@@ -103,6 +103,25 @@ NavBAR
     width: 30px;
 }
 
+.loading {
+    display: inline !important;
+    animation-name: rotateThis;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    margin-left: 15px;
+}
+
+#loginModal button .glyphicon
+{
+    display: none;
+}
+
+@keyframes rotateThis {
+    from { transform: scale( 1 ) rotate( 0deg );   }
+    to   { transform: scale( 1 ) rotate( 360deg ); }
+}
+
 input.ng-dirty.ng-invalid{
     border: 1px solid #ff0000 !important;
 }
@@ -110,7 +129,7 @@ input.ng-dirty.ng-invalid{
 @media screen and (max-width: 640px) {
 
     #loginModal {
-        background: url("../img/login-background-mobile.jpg");
+        background: url("/img/login-background-mobile.jpg");
         background-size: cover;
     }
 
