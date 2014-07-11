@@ -371,6 +371,11 @@ amCompanion.constant('USER_ROLES', {
     editor: 'editor',
     guest: 'guest'
 });
+
+amCompanion.constant("urls", {
+        AuthApi: "https://amcompanion.azurewebsites.net/amcAuth"
+    }
+);
 'use strict';
 /* Directives */
 amCompanion.directive('amHeader', function() {
@@ -397,97 +402,31 @@ amCompanion.directive('amLinkPreview', function() {
 /**
  * Created by Sébastien on 18/05/2014.
  */
-
-amCompanion
-    .config(['$sceDelegateProvider', function($sceDelegateProvider) {
-        $sceDelegateProvider.resourceUrlWhitelist([
-            'self',
-            'https://*.azurewebsites.net/**'
-        ]);
-
-}]);
-
-
-
 amCompanion.config(['$routeProvider',"USER_ROLES", function($routeProvider,USER_ROLES) {
     $routeProvider.when('/', {
         templateUrl: 'partials/home.html',
-        controller: 'HomeController',
-        data:{
-            authorizedRoles:[USER_ROLES.admin, USER_ROLES.editor]
-        }
+        controller: 'HomeController'
     });
-
-    $routeProvider.when('/settings', {templateUrl: '../partials/settings.html', controller: 'SettingsController'});
 
     $routeProvider.when('/login', {
         templateUrl: 'partials/login.html',
-        controller: 'LoginController',
-        data: {
-            authorizedRoles: [USER_ROLES.all]
-        }
+        controller: 'LoginController'
     });
 
     $routeProvider.otherwise({redirectTo: '/'});
 }]);
 
-amCompanion.run(["$rootScope","AUTH_EVENTS", "AuthService", "$location",
-    function ($rootScope, AUTH_EVENTS, AuthService, $location ) {
+amCompanion.run(["$rootScope", "$location",
+    function ($rootScope, $location ) {
     $rootScope.$on('$routeChangeStart', function (event, next) {
 
-        var authorizedRoles = [];
-
-        if( next.$$route.data != undefined){
-            authorizedRoles = next.$$route.data.authorizedRoles;
+        if( sessionStorage.getItem("token") == undefined )
+        {
+            $location.path("/login");
         }
 
-        if (!AuthService.isAuthorized(authorizedRoles)) {
-            event.preventDefault();
-            if (AuthService.isAuthenticated()) {
-                // user is not allowed
-                $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
-            } else {
-                // user is not logged in
-                $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
-                $location.path("/login");
-            }
-        }
     });
 }]);
-
-/*
-amCompanion.config(["$httpProvider", function ($httpProvider) {
-    $httpProvider.interceptors.push([
-        '$injector',
-        function ($injector) {
-            return $injector.get("AuthInterceptor");
-        }
-    ]);
-}]);
-*/
-
-/*
-amCompanion.factory("AuthInterceptor", function ($rootScope, $q,
-                                          AUTH_EVENTS) {
-    return {
-        responseError: function (response) {
-            if (response.status === 401) {
-                $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated,
-                    response);
-            }
-            if (response.status === 403) {
-                $rootScope.$broadcast(AUTH_EVENTS.notAuthorized,
-                    response);
-            }
-            if (response.status === 419 || response.status === 440) {
-                $rootScope.$broadcast(AUTH_EVENTS.sessionTimeout,
-                    response);
-            }
-            return $q.reject(response);
-        }
-    };
-});
-*/
 'use strict';
 /* Services */
 amCompanion.factory("Employees", function( $http )
@@ -531,15 +470,15 @@ amCompanion.factory("EmployeesService", [ "$http", function( $http )
     return this;
 }]);
 
-amCompanion.factory('AuthService', ["$http", "Session" , "$location","$q",
-    function ($http, Session , $location, $q) {
+amCompanion.factory('AuthService', ["$http", "Session" , "$location","$q", "urls",
+    function ($http, Session , $location, $q, urls) {
         return {
             login: function (credentials){
 
                 var defer = $q.defer();
                 var data = {Email:credentials.email,Password:credentials.password};
                 $http.post(
-                    "https://amcompanion.azurewebsites.net/amcAuth",
+                    urls.AuthApi,
                     JSON.stringify(data),
                     {
                         headers: {
@@ -547,8 +486,7 @@ amCompanion.factory('AuthService', ["$http", "Session" , "$location","$q",
                         }
                     }
                 ).success(function (data, status, headers ) {
-                        Session.create(8, "romainseb", "admin");
-                        console.log(data);
+                        Session.create(data.Id, data.FirstName + " " + data.LastName , data.Profile);
                         sessionStorage.setItem("token", headers()["x-xsrf-token"]);
                         defer.resolve("Login correct");
                     }).error(function()

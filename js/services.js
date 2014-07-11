@@ -41,15 +41,15 @@ amCompanion.factory("EmployeesService", [ "$http", function( $http )
     return this;
 }]);
 
-amCompanion.factory('AuthService', ["$http", "Session" , "$location","$q",
-    function ($http, Session , $location, $q) {
+amCompanion.factory('AuthService', ["$http", "Session" , "$location","$q", "urls",
+    function ($http, Session , $location, $q, urls) {
         return {
             login: function (credentials){
 
                 var defer = $q.defer();
                 var data = {Email:credentials.email,Password:credentials.password};
                 $http.post(
-                    "https://amcompanion.azurewebsites.net/amcAuth",
+                    urls.AuthApi,
                     JSON.stringify(data),
                     {
                         headers: {
@@ -57,8 +57,7 @@ amCompanion.factory('AuthService', ["$http", "Session" , "$location","$q",
                         }
                     }
                 ).success(function (data, status, headers ) {
-                        Session.create(8, "romainseb", "admin");
-                        console.log(data);
+                        Session.create(data.Id, data.FirstName + " " + data.LastName , data.Profile);
                         sessionStorage.setItem("token", headers()["x-xsrf-token"]);
                         defer.resolve("Login correct");
                     }).error(function()

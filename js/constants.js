@@ -17,3 +17,8 @@ amCompanion.constant('USER_ROLES', {
     editor: 'editor',
     guest: 'guest'
 });
+
+amCompanion.constant("urls", {
+        AuthApi: "https://amcompanion.azurewebsites.net/amcAuth"
+    }
+);
