@@ -301,23 +301,57 @@ amCompanion.controller('HomeController',[ "$scope","USER_ROLES","AuthService","E
 
 }]);
 
-amCompanion.controller('LoginController',[ "$scope","AuthService", function($scope, AuthService)
-{
-    $scope.login = function()
-    {
-        $scope.loading = true;
-        var promise = AuthService.login($scope.credentials);
-        promise.then(function()
+amCompanion.controller('LoginController',
+    [ "$scope","$timeout","$location","AuthService",
+        function($scope,$timeout,$location ,AuthService)
         {
-            $scope.loading = false;
-        },function()
-        {
-            $scope.loading = false;
-        });
+            /**
+             * Cette méthode permet d'initialiser le bouton de connexion
+             */
+            $scope.resetButton = function()
+            {
+                $scope.buttonLabel = "Connexion";
+                $scope.failed = false;
+                $scope.success = false;
+            };
 
-    };
+            /**
+             * Cette méthode redirige vers la page principale de l'application une fois connecté
+             */
+            $scope.redirectToHome = function ()
+            {
+                $location.path("/");
+            };
 
-}]);
+            $scope.resetButton();
+
+            /**
+             * Cette fonction permet de connecter l'utilisateur
+             */
+            $scope.login = function()
+            {
+                $scope.loading = true;
+                var promise = AuthService.login($scope.credentials);
+                promise.then(function()
+                {
+                    $scope.loading = false;
+                    $scope.success = true;
+                    $scope.buttonLabel = "Succès";
+
+                    $timeout($scope.redirectToHome, 1000);
+                },function()
+                {
+                    $scope.buttonLabel = "Echec de la connexion";
+                    $scope.failed = true;
+                    $scope.loading = false;
+
+                    $timeout($scope.resetButton, 2000);
+
+                });
+
+            };
+
+        }]);
 /**
  * Created by Sébastien on 24/05/2014.
  */
@@ -503,9 +537,7 @@ amCompanion.factory('AuthService', ["$http", "Session" , "$location","$q",
             login: function (credentials){
 
                 var defer = $q.defer();
-                console.log(defer);
                 var data = {Email:credentials.email,Password:credentials.password};
-                //var data = {Email:"sm@mail.com",Password:"test"};
                 $http.post(
                     "https://amcompanion.azurewebsites.net/amcAuth",
                     JSON.stringify(data),
@@ -516,9 +548,9 @@ amCompanion.factory('AuthService', ["$http", "Session" , "$location","$q",
                     }
                 ).success(function (data, status, headers ) {
                         Session.create(8, "romainseb", "admin");
+                        console.log(data);
                         sessionStorage.setItem("token", headers()["x-xsrf-token"]);
                         defer.resolve("Login correct");
-                        //$location.path("/");
                     }).error(function()
                     {
                         defer.reject("Login Incorrect");

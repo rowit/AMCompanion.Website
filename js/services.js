@@ -47,9 +47,7 @@ amCompanion.factory('AuthService', ["$http", "Session" , "$location","$q",
             login: function (credentials){
 
                 var defer = $q.defer();
-                console.log(defer);
                 var data = {Email:credentials.email,Password:credentials.password};
-                //var data = {Email:"sm@mail.com",Password:"test"};
                 $http.post(
                     "https://amcompanion.azurewebsites.net/amcAuth",
                     JSON.stringify(data),
@@ -60,9 +58,9 @@ amCompanion.factory('AuthService', ["$http", "Session" , "$location","$q",
                     }
                 ).success(function (data, status, headers ) {
                         Session.create(8, "romainseb", "admin");
+                        console.log(data);
                         sessionStorage.setItem("token", headers()["x-xsrf-token"]);
                         defer.resolve("Login correct");
-                        //$location.path("/");
                     }).error(function()
                     {
                         defer.reject("Login Incorrect");
