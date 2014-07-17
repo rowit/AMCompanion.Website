@@ -3,13 +3,13 @@
         "Id": "9AC0030B-58B1-07F0-281D-E965E42A2C54",
         "LastName": "Velez",
         "FirstName": "Germaine",
-        "Status": 6,
+        "Status": 4,
         "nextEPDI": 1424415541000,
         "AM": "sro@test.com",
         "Links": [
             {
                 "date": 1423868556000,
-                "type": "Restaurant",
+                "type": "Restaurant a a aa a a a",
                 "Comment": "dui, nec tempus mauris erat eget ipsum. Suspendisse sagittis. Nullam vitae diam. Proin dolor. Nulla semper tellus id"
             },
             {
@@ -31,10 +31,12 @@
         "CurrentObjectives": [
             {
                 "progressionPercent": 41,
+                "ponderation":30,
                 "text": "Mise en place d'outils"
             },
             {
                 "progressionPercent": 61,
+                "ponderation":70,
                 "text": "Innovation"
             }
         ]
@@ -43,7 +45,7 @@
         "Id": "5B2A748C-0269-62F4-D4F5-8DE7CC3D358C",
         "LastName": "Malone",
         "FirstName": "Colorado",
-        "Status": 10,
+        "Status": 5,
         "nextEPDI": 1423885176000,
         "AM": "sro@test.com",
         "Links": [
@@ -61,10 +63,12 @@
         "CurrentObjectives": [
             {
                 "progressionPercent": 27,
+                "ponderation":30,
                 "text": "Mise en place d'outils"
             },
             {
                 "progressionPercent": 62,
+                "ponderation":70,
                 "text": "Innovation"
             }
         ]
@@ -73,7 +77,7 @@
         "Id": "9B38517D-2143-FD2D-DA6A-78E7B43B3B48",
         "LastName": "Hester",
         "FirstName": "Buckminster",
-        "Status": 8,
+        "Status": 3,
         "nextEPDI": 1420093246000,
         "AM": "sro@test.com",
         "Links": [
@@ -96,10 +100,12 @@
         "CurrentObjectives": [
             {
                 "progressionPercent": 74,
+                "ponderation":20,
                 "text": "Innovation"
             },
             {
                 "progressionPercent": 8,
+                "ponderation":80,
                 "text": "Developpement"
             }
         ]
@@ -108,7 +114,7 @@
         "Id": "D6AEC9EA-382A-55B4-9B16-6E5A4C34905A",
         "LastName": "Holland",
         "FirstName": "Yvette",
-        "Status": 1,
+        "Status": 2,
         "nextEPDI": 1409821079000,
         "AM": "sro@test.com",
         "Links": [],
@@ -118,7 +124,7 @@
         "Id": "68BE86BD-DFC9-A5DA-F0AD-B63777842E7A",
         "LastName": "Leblanc",
         "FirstName": "Dawn",
-        "Status": 8,
+        "Status": 5,
         "nextEPDI": 1423154986000,
         "AM": "sro@test.com",
         "Links": [
@@ -141,14 +147,17 @@
         "CurrentObjectives": [
             {
                 "progressionPercent": 99,
+                "ponderation":30,
                 "text": "Innovation"
             },
             {
                 "progressionPercent": 51,
+                "ponderation":30,
                 "text": "Developpement"
             },
             {
                 "progressionPercent": 80,
+                "ponderation":20,
                 "text": "Mise en place d'outils"
             }
         ]
@@ -173,7 +182,7 @@
         "Id": "E6AFA7E3-1988-B1AA-2074-8E4779DA08A2",
         "LastName": "Howard",
         "FirstName": "Ariel",
-        "Status": 7,
+        "Status": 3,
         "nextEPDI": 1409653563000,
         "AM": "sro@test.com",
         "Links": [
@@ -191,14 +200,17 @@
         "CurrentObjectives": [
             {
                 "progressionPercent": 68,
+                "ponderation":30,
                 "text": "Developpement"
             },
             {
                 "progressionPercent": 89,
+                "ponderation":30,
                 "text": "Mise en place d'outils"
             },
             {
                 "progressionPercent": 49,
+                "ponderation":20,
                 "text": "Connaissance de langage"
             }
         ]
@@ -207,7 +219,7 @@
         "Id": "B09423E6-CCC9-ECDC-F252-C23F950FBAFB",
         "LastName": "Castillo",
         "FirstName": "Marsden",
-        "Status": 8,
+        "Status": 2,
         "nextEPDI": 1409636281000,
         "AM": "sro@test.com",
         "Links": [
@@ -280,10 +292,12 @@
         "CurrentObjectives": [
             {
                 "progressionPercent": 38,
+                "ponderation":30,
                 "text": "Developpement"
             },
             {
                 "progressionPercent": 17,
+                "ponderation":70,
                 "text": "Innovation"
             }
         ]
@@ -310,10 +324,12 @@
         "CurrentObjectives": [
             {
                 "progressionPercent": 80,
+                "ponderation":30,
                 "text": "Innovation"
             },
             {
                 "progressionPercent": 84,
+                "ponderation":70,
                 "text": "Mise en place d'outils"
             }
         ]
@@ -335,14 +351,17 @@
         "CurrentObjectives": [
             {
                 "progressionPercent": 80,
+                "ponderation":30,
                 "text": "Innovation"
             },
             {
                 "progressionPercent": 61,
+                "ponderation":30,
                 "text": "Gestion de projet"
             },
             {
                 "progressionPercent": 70,
+                "ponderation":20,
                 "text": "Developpement"
             }
         ]
@@ -351,7 +370,7 @@
         "Id": "374459B1-13AB-A3F5-D0F7-C82616F1C25F",
         "LastName": "Cline",
         "FirstName": "Mufutau",
-        "Status": 2,
+        "Status": 1,
         "nextEPDI": 1424752714000,
         "AM": "sro@test.com",
         "Links": [],

@@ -1,18 +1,17 @@
 <div id="home" class="container">
 
-    <!--
     <am-header></am-header>
 
     <div class="row">
-        <div class="separator"><span>Dernier Rendez-Vous<span></div>
-
-        <div class="col-md-8" ng-repeat="link in (links|orderBy:'date':'reverse'|limitTo:1)">
-            <am-link-preview link="link"></am-link-preview>
+        <!--
+        <div class="separator">
+            <span class="text">Dernier Rendez-Vous</span>
+            <span class="ligne"></span>
         </div>
-
-        <div ng-repeat="employee in employees">
-            {{employee.FirstName}}
+        -->
+        <div ng-repeat="employee in employees track by employee.Id">
+            <employee employee="employee" last="$last"></employee>
         </div>
     </div>
-    -->
+
 </div>

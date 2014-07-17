@@ -1,8 +1,43 @@
+/** NG view fade **/
+.fade-view {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    opacity: 1;
+}
+.fade-view.ng-enter,
+.fade-view.ng-leave {
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+}
+.fade-view.ng-enter {
+    opacity: 0;
+}
+.fade-view.ng-enter-active {
+    opacity: 1;
+}
+.fade-view.ng-leave {
+    opacity: 1;
+}
+.fade-view.ng-leave-active {
+    opacity: 0;
+}
+
 /* app css stylesheet */
 html, body {
     height: 100%;
     margin: 0;
     width: 100%;
+}
+
+body
+{
+    background-color: #e5e5e5 !important;
+    font-family: "Maven Pro" !important;
 }
 
 .clear {
@@ -39,9 +74,11 @@ input {
 }
 
 #home {
-    background: url("/img/brushed.png");
+    background-color: #e5e5e5;
     height: 100%;
     width: 100%;
+    padding-top:60px !important;
+    font-size: 18px;
 }
 
 #loginModal {
@@ -69,12 +106,80 @@ input {
     background: #064885;
 }
 
+/**Login page animation button */
+.loading {
+    display: inline !important;
+    animation-name: rotateThis;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    margin-left: 15px;
+}
+
+#loginModal button .glyphicon
+{
+    display: none;
+}
+
+@keyframes rotateThis {
+    from { transform: scale( 1 ) rotate( 0deg );   }
+    to   { transform: scale( 1 ) rotate( 360deg ); }
+}
+
+input.ng-dirty.ng-invalid{
+    border: 1px solid #ff0000 !important;
+}
+
+.separator
+{
+    text-align: center;
+}
+
+.separator span
+{
+    background-color: #e5e5e5;
+}
+
+.separator span.text
+{
+    background-color: #e5e5e5;
+    position: relative;
+    z-index: 10;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.separator span.ligne
+{
+    border-top: 1px solid #000;
+    width: 92%;
+    height: 1px;
+    display: block;
+    position: absolute;
+    margin-top: -9px;
+    margin-left: 4%;
+    z-index: 1;
+}
+
+
 /*
 NavBAR
 */
+
+#home .navbar
+{
+    border: 0px;
+    background-color: #04315b;
+    height: 60px;
+    color: #ffffff;
+}
+
 #nav-logo {
     height: 30px;
-    margin-top: 10px;
+    position: absolute;
+    margin: 15px auto;
+    right: 0;
+    left: 0;
 }
 
 .navbar-header {
@@ -102,33 +207,77 @@ NavBAR
 #log-off {
     float: right;
     font-size: 31px;
-    height: 30px;
-    margin-right: 7px;
-    margin-top: 6px;
+    height: 28px;
+    margin-right: 10px;
+    margin-top: 12px;
     width: 30px;
 }
 
-.loading {
-    display: inline !important;
-    animation-name: rotateThis;
-    animation-duration: 2s;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
-    margin-left: 15px;
-}
-
-#loginModal button .glyphicon
+/*** employee preview ****/
+.employee.last
 {
-    display: none;
+    margin-bottom: 20px;
 }
 
-@keyframes rotateThis {
-    from { transform: scale( 1 ) rotate( 0deg );   }
-    to   { transform: scale( 1 ) rotate( 360deg ); }
+.employee
+{
+    background: #ffffff;
+    margin-top: 20px;
+    box-shadow: 1px 1px 2px #777;
+    height: 90px;
+    padding-top: 7px;
+    padding-bottom: 5px;
 }
 
-input.ng-dirty.ng-invalid{
-    border: 1px solid #ff0000 !important;
+.employee .user-icon
+{
+    text-align: center;
+    font-size: 30px;
+    margin-top: 5px;
+}
+
+.employee .user-info
+{
+    padding-left: 10px;
+}
+
+.employee .user-info .glyphicon-calendar
+{
+    color:#888888;
+    margin-right: 5px;
+    display: inline-block;
+}
+
+.employee .objectives
+{
+    margin-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.status-1
+{
+    color:#ff0000;
+}
+
+.status-2
+{
+    color:darkorange;
+}
+
+.status-3
+{
+    color:#FFD700;
+}
+
+.status-4
+{
+    color:greenyellow;
+}
+
+.status-5
+{
+    color:green;
 }
 
 @media screen and (max-width: 640px) {

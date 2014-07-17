@@ -1,22 +1,15 @@
 'use strict';
 
 /* Controllers */
-amCompanion.controller('HomeController',[ "$scope","USER_ROLES","AuthService","EmployeesService","$http", function(
+amCompanion.controller('HomeController',[ "$scope","USER_ROLES","AuthService","EmployeesService", function(
                                                             $scope,
                                                             USER_ROLES,
                                                             AuthService,
-                                                            EmployeesService,
-                                                            $http){
-
-    /*
-    $scope.currentUser = null;
-    $scope.userRoles = USER_ROLES;
-    $scope.isAuthorized = AuthService.isAuthorized;
-    */
+                                                            EmployeesService
+                                                            ){
 
 
     EmployeesService.initEmployees();
-    $scope.links = EmployeesService.getLinks();
     $scope.employees = EmployeesService.getEmployees();
 
 }]);
