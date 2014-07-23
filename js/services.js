@@ -53,11 +53,11 @@ amCompanion.factory('AuthService', ["$http", "Session" , "$location","$q", "urls
                         defer.resolve("Login correct");
                     }).error(function()
                     {
-                        /*
+
                         Session.create("fakeID", "Fake Fake" , "User");
                         sessionStorage.setItem("token", "thetokenbidon");
                         defer.resolve("Login correct");
-                        */
+
                         //To decomment to have the normal way :)
                         defer.reject("Login Incorrect");
                     });
