@@ -37,7 +37,7 @@ html, body {
 body
 {
     background-color: #e5e5e5 !important;
-    font-family: "Maven Pro" !important;
+    font-family: 'Lato', sans-serif !important;
 }
 
 .clear {
@@ -126,7 +126,8 @@ input.ng-dirty.ng-invalid{
 
 .separator
 {
-    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .separator span
@@ -216,11 +217,13 @@ NavBAR
 .employee
 {
     background: #ffffff;
+    /*
     margin-top: 20px;
     box-shadow: 1px 1px 2px #777;
-    height: 90px;
-    padding-top: 7px;
-    padding-bottom: 5px;
+    */
+    height: 45px;
+    padding-top: 3px;
+    padding-bottom: 3px;
 }
 
 .employee .user-icon
