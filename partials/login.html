@@ -4,29 +4,25 @@
     <div class="row">
         <form class="columns large-4 large-centered small-10 small-centered center-block" ng-submit="login()" name="loginForm">
             <div class="row collapse">
-                <div class="columns small-1 large-2">
-                    <span class="prefix">@</span>
-                </div>
-                <div class="columns small-11 large-10">
-                    <input type="email" name="email" class="form-control" placeholder="Adresse mail" ng-model="credentials.email" required>
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon">@</span>
+                        <input type="email" name="email" class="form-control" placeholder="Adresse mail" ng-model="credentials.email" required>
                 </div>
             </div>
             <div class="row collapse">
-                <div class="columns small-1 large-2">
-                    <span class="prefix"><i class="fi-lock"></i></span>
-                </div>
-                <div class="columns small-11 large-10">
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
                     <input name="password" type="password" class="form-control" placeholder="Mot de passe" ng-model="credentials.password" required>
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row collapse">
                 <button type="submit"
-                        ng-class="{'alert':failed,'success':success}"
-                       class="btn-steria"
+                        ng-class="{'btn-danger':failed,'btn-success':success}"
+                       class="btn btn-steria btn-lg btn-block small-10 small-centered columns large-12"
                        ng-disabled="!loginForm.$valid || loading">
                     {{buttonLabel}}
-                    <i class="fi-refresh" ng-class="{'loading':loading}"></i>
+                    <span ng-class="{'loading':loading}" class="glyphicon glyphicon-refresh"></span>
                 </button>
             </div>
         </form>

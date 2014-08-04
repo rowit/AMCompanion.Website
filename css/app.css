@@ -82,6 +82,13 @@ input {
     text-align: center;
 }
 
+#loginModal .row
+{
+    margin-top: 10px;
+}
+
+
+
 .btn-steria {
     background: #04315b;
     color: white !important;
