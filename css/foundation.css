@@ -119,8 +119,6 @@ select {
     margin-right: 0; }
 .row .row {
     width: auto;
-    margin-left: -0.9375em;
-    margin-right: -0.9375em;
     margin-top: 0;
     margin-bottom: 0;
     max-width: none; }
@@ -141,8 +139,6 @@ select {
 
 .column,
 .columns {
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
     width: 100%;
     float: left; }
 
@@ -276,8 +272,6 @@ select {
     .column,
     .columns {
         position: relative;
-        padding-left: 0.9375em;
-        padding-right: 0.9375em;
         float: left; }
 
     .small-1 {
@@ -506,8 +500,6 @@ select {
     .column,
     .columns {
         position: relative;
-        padding-left: 0.9375em;
-        padding-right: 0.9375em;
         float: left; }
 
     .medium-1 {
@@ -856,8 +848,6 @@ select {
     .column,
     .columns {
         position: relative;
-        padding-left: 0.9375em;
-        padding-right: 0.9375em;
         float: left; }
 
     .large-1 {

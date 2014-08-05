@@ -1,3 +1,15 @@
+body
+{
+    background-color: #e5e5e5 !important;
+    font-family: 'Lato', sans-serif !important;
+    font-weight: 300 !important;
+}
+
+.sub-info
+{
+    font-size: 13px;
+}
+
 /** NG view fade **/
 .fade-view {
     position: absolute;
@@ -34,18 +46,11 @@ html, body {
     width: 100%;
 }
 
-body
-{
-    background-color: #e5e5e5 !important;
-    font-family: 'Lato', sans-serif !important;
-}
-
 .clear {
     clear: both;
 }
 
 input {
-    font-family: 'Maven Pro', sans-serif !important;
 }
 
 #main-container {
@@ -117,7 +122,7 @@ input {
     margin-left: 15px;
 }
 
-#loginModal button i
+#loginModal button .glyphicon
 {
     display: none;
 }
@@ -219,18 +224,22 @@ NavBAR
 .employee.last
 {
     margin-bottom: 20px;
+    border-bottom: none;
 }
 
 .employee
 {
     background: #ffffff;
-    /*
-    margin-top: 20px;
-    box-shadow: 1px 1px 2px #777;
-    */
-    height: 45px;
+    border-bottom: 1px solid #eeeeee;
+    height: 60px;
     padding-top: 3px;
     padding-bottom: 3px;
+}
+
+.employee:hover
+{
+    background: #eeeeee;
+    cursor: pointer;
 }
 
 .employee .user-icon
@@ -259,29 +268,43 @@ NavBAR
     padding-right: 5px;
 }
 
-.status-1
+.employee-status
 {
-    color:#ff0000;
+    height: 43px;
+    background-repeat: no-repeat;
+    background-position: 50%;
 }
 
-.status-2
+.employee-status.status-1
 {
-    color:darkorange;
+    background-image: url("/img/icon_user_red.png");
 }
 
-.status-3
+.employee-status.status-2
 {
-    color:#FFD700;
+    background-image: url("/img/icon_user_orange.png");
 }
 
-.status-4
+.employee-status.status-3
 {
-    color:greenyellow;
+    background-image: url("/img/icon_user_green.png");
 }
 
-.status-5
+.employee-status.status-4
 {
-    color:green;
+    background-image: url("/img/icon_user_blue.png");
+}
+
+.employee-status.status-5
+{
+    background-image: url("/img/icon_user_steria.png");
+}
+
+.next
+{
+    color: #8C8C8C;
+    display: inline-block;
+    margin-top: 12px;
 }
 
 @media screen and (max-width: 640px) {
@@ -2491,8 +2514,6 @@ select {
     margin-right: 0; }
 .row .row {
     width: auto;
-    margin-left: -0.9375em;
-    margin-right: -0.9375em;
     margin-top: 0;
     margin-bottom: 0;
     max-width: none; }
@@ -2513,8 +2534,6 @@ select {
 
 .column,
 .columns {
-    padding-left: 0.9375em;
-    padding-right: 0.9375em;
     width: 100%;
     float: left; }
 
@@ -2648,8 +2667,6 @@ select {
     .column,
     .columns {
         position: relative;
-        padding-left: 0.9375em;
-        padding-right: 0.9375em;
         float: left; }
 
     .small-1 {
@@ -2878,8 +2895,6 @@ select {
     .column,
     .columns {
         position: relative;
-        padding-left: 0.9375em;
-        padding-right: 0.9375em;
         float: left; }
 
     .medium-1 {
@@ -3228,8 +3243,6 @@ select {
     .column,
     .columns {
         position: relative;
-        padding-left: 0.9375em;
-        padding-right: 0.9375em;
         float: left; }
 
     .large-1 {
