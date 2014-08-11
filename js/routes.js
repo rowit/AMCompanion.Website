@@ -7,6 +7,11 @@ amCompanion.config(['$routeProvider',"USER_ROLES", function($routeProvider,USER_
         controller: 'HomeController'
     });
 
+    $routeProvider.when('/employee/:id', {
+        templateUrl: 'partials/employee_full.html',
+        controller: 'EmployeeController'
+    });
+
     $routeProvider.when('/login', {
         templateUrl: 'partials/login.html',
         controller: 'LoginController'

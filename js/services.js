@@ -1,33 +1,69 @@
 'use strict';
 /* Services */
-amCompanion.factory("Employees", function( $http )
-{
-    this.init = function()
-    {
-    }
-
-    return this;
-
-});
-
-amCompanion.factory("EmployeesService", [ "$http", function( $http )
+amCompanion.factory("EmployeesService", [ "$http","$q", function( $http, $q )
 {
     var data = {};
     data.employees = [];
+    data.selectedEmployee = undefined;
+    data.isInit = false;
 
+    /**
+     * This method get the data from the stub
+     */
     this.initEmployees = function ()
     {
-        data.employees = [];
+        var defer = $q.defer();
 
-        $http.get('/data/data.json').then(function (res) {
-            data.employees.push.apply(data.employees , res.data);
-        });
+        if( data.isInit == false )
+        {
+            var defer = $q.defer();
+            data.employees = [];
+
+            $http.get('/data/data.json').then(function (res) {
+                data.employees.push.apply(data.employees , res.data);
+                data.isInit = true;
+                defer.resolve();
+            });
+        }
+        else
+        {
+            defer.resolve();
+        }
+
+        return defer.promise;
+
     };
 
     this.getEmployees = function()
     {
         return data.employees;
     };
+
+    this.getSelectedEmployee = function()
+    {
+        return data.selectedEmployee;
+    }
+
+    this.setSelectedEmployee = function( employee )
+    {
+        data.selectedEmployee = employee;
+    }
+
+    this.setSelectedEmployeeFromId = function( id )
+    {
+        for( var i = 0 ; i < data.employees.length ; i ++ )
+        {
+            if ( data.employees[i].Id == id )
+            {
+                this.setSelectedEmployee(data.employees[i]);
+            }
+        }
+    }
+
+    this.unsetSelectedEmployee = function()
+    {
+        data.selectedEmployee = undefined;
+    }
 
     return this;
 }]);

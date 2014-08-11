@@ -519,6 +519,29 @@ var amCompanion = angular.module('amCompanion', [
 'use strict';
 
 /* Controllers */
+amCompanion.controller('EmployeeController',[
+    "$scope","$routeParams","$location","EmployeesService", function(
+        $scope,$routeParams,$location,EmployeesService
+        ){
+
+        var promise = EmployeesService.initEmployees();
+        promise.then(function(){
+            EmployeesService.setSelectedEmployeeFromId($routeParams.id);
+            $scope.selectedEmployee = EmployeesService.getSelectedEmployee();
+        })
+
+
+        $scope.goBackFonction = function()
+        {
+            $location.path("/");
+            EmployeesService.unsetSelectedEmployee();
+        }
+
+    }]);
+
+'use strict';
+
+/* Controllers */
 amCompanion.controller('HomeController',[ "$scope","USER_ROLES","AuthService","EmployeesService", function(
                                                             $scope,
                                                             USER_ROLES,
@@ -587,7 +610,7 @@ amCompanion.controller('LoginController',
 amCompanion.directive('employee', function() {
     return {
         restrict: 'E',
-        templateUrl: './partials/employee.html',
+        templateUrl: './partials/employee_preview.html',
         controller:"EmployeePreviewController",
         scope:
         {
@@ -598,58 +621,71 @@ amCompanion.directive('employee', function() {
 
 
 /* Controllers */
-amCompanion.controller('EmployeePreviewController', [ "$scope", "$filter", function($scope, $filter){
+amCompanion.controller('EmployeePreviewController',
+    [ "$scope", "$filter","$location","EmployeesService",
+        function($scope, $filter, $location, EmployeesService){
 
-    var lastLink = $filter("limitTo")($filter("orderBy")($scope.employee.Links, "date", "reverse"), 1);
-    if( lastLink.length > 0 )
-    {
-        $scope.lastLink = lastLink[0];
-    }
+            var lastLink = $filter("limitTo")($filter("orderBy")($scope.employee.Links, "date", "reverse"), 1);
+            if( lastLink.length > 0 )
+            {
+                $scope.lastLink = lastLink[0];
+            }
 
-    if( $scope.employee.CurrentObjectives == undefined || $scope.employee.CurrentObjectives.length == 0 )
-    {
-        $scope.percentObjectives = 0;
-    }
-    else
-    {
-        var sum = 0;
+            $scope.openEmployeeView = function()
+            {
+                EmployeesService.unsetSelectedEmployee();
+                $location.path("/employee/" + $scope.employee.Id)
+            }
 
-        angular.forEach( $scope.employee.CurrentObjectives, function( objective )
-        {
-            sum += (objective.progressionPercent/100) * (objective.ponderation);
-        });
+            if( $scope.employee.CurrentObjectives == undefined || $scope.employee.CurrentObjectives.length == 0 )
+            {
+                $scope.percentObjectives = 0;
+            }
+            else
+            {
+                var sum = 0;
 
-        //we round up the number to one decimal
-        $scope.percentObjectives = Math.round( sum * 10 ) / 10;
+                angular.forEach( $scope.employee.CurrentObjectives, function( objective )
+                {
+                    sum += (objective.progressionPercent/100) * (objective.ponderation);
+                });
 
-        if( $scope.percentObjectives < 25 )
-        {
-            $scope.objectiveColor = "danger";
-        }
-        else if( $scope.percentObjectives < 50 )
-        {
-            $scope.objectiveColor = "warning";
-        }
-        else if( $scope.percentObjectives < 75 )
-        {
-            $scope.objectiveColor = "success";
-        }
-        else
-        {
-            $scope.objectiveColor = "info";
-        }
+                //we round up the number to one decimal
+                $scope.percentObjectives = Math.round( sum * 10 ) / 10;
 
-    }
+                if( $scope.percentObjectives < 25 )
+                {
+                    $scope.objectiveColor = "danger";
+                }
+                else if( $scope.percentObjectives < 50 )
+                {
+                    $scope.objectiveColor = "warning";
+                }
+                else if( $scope.percentObjectives < 75 )
+                {
+                    $scope.objectiveColor = "success";
+                }
+                else
+                {
+                    $scope.objectiveColor = "info";
+                }
+
+            }
 
 
-}]);
+        }]);
 
 'use strict';
 amCompanion.directive('amHeader', function() {
     return {
         restrict: 'E',
         controller:"HeaderController",
-        templateUrl: './partials/header.html'
+        templateUrl: './partials/header.html',
+        scope:
+        {
+            mode:"@",
+            goBackAction:"&"
+        }
     }
 });
 
@@ -663,6 +699,12 @@ amCompanion.controller('HeaderController', [ "$scope","$location" , function($sc
     {
         sessionStorage.removeItem("token");
         $location.path("/login");
+    }
+
+    $scope.goBack = function()
+    {
+        console.log($scope.goBackAction);
+        $scope.goBackAction();
     }
 
 }]);
@@ -739,6 +781,11 @@ amCompanion.config(['$routeProvider',"USER_ROLES", function($routeProvider,USER_
         controller: 'HomeController'
     });
 
+    $routeProvider.when('/employee/:id', {
+        templateUrl: 'partials/employee_full.html',
+        controller: 'EmployeeController'
+    });
+
     $routeProvider.when('/login', {
         templateUrl: 'partials/login.html',
         controller: 'LoginController'
@@ -760,34 +807,70 @@ amCompanion.run(["$rootScope", "$location",
 }]);
 'use strict';
 /* Services */
-amCompanion.factory("Employees", function( $http )
-{
-    this.init = function()
-    {
-    }
-
-    return this;
-
-});
-
-amCompanion.factory("EmployeesService", [ "$http", function( $http )
+amCompanion.factory("EmployeesService", [ "$http","$q", function( $http, $q )
 {
     var data = {};
     data.employees = [];
+    data.selectedEmployee = undefined;
+    data.isInit = false;
 
+    /**
+     * This method get the data from the stub
+     */
     this.initEmployees = function ()
     {
-        data.employees = [];
+        var defer = $q.defer();
 
-        $http.get('/data/data.json').then(function (res) {
-            data.employees.push.apply(data.employees , res.data);
-        });
+        if( data.isInit == false )
+        {
+            var defer = $q.defer();
+            data.employees = [];
+
+            $http.get('/data/data.json').then(function (res) {
+                data.employees.push.apply(data.employees , res.data);
+                data.isInit = true;
+                defer.resolve();
+            });
+        }
+        else
+        {
+            defer.resolve();
+        }
+
+        return defer.promise;
+
     };
 
     this.getEmployees = function()
     {
         return data.employees;
     };
+
+    this.getSelectedEmployee = function()
+    {
+        return data.selectedEmployee;
+    }
+
+    this.setSelectedEmployee = function( employee )
+    {
+        data.selectedEmployee = employee;
+    }
+
+    this.setSelectedEmployeeFromId = function( id )
+    {
+        for( var i = 0 ; i < data.employees.length ; i ++ )
+        {
+            if ( data.employees[i].Id == id )
+            {
+                this.setSelectedEmployee(data.employees[i]);
+            }
+        }
+    }
+
+    this.unsetSelectedEmployee = function()
+    {
+        data.selectedEmployee = undefined;
+    }
 
     return this;
 }]);

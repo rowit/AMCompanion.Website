@@ -3,7 +3,12 @@ amCompanion.directive('amHeader', function() {
     return {
         restrict: 'E',
         controller:"HeaderController",
-        templateUrl: './partials/header.html'
+        templateUrl: './partials/header.html',
+        scope:
+        {
+            mode:"@",
+            goBackAction:"&"
+        }
     }
 });
 
@@ -17,6 +22,12 @@ amCompanion.controller('HeaderController', [ "$scope","$location" , function($sc
     {
         sessionStorage.removeItem("token");
         $location.path("/login");
+    }
+
+    $scope.goBack = function()
+    {
+        console.log($scope.goBackAction);
+        $scope.goBackAction();
     }
 
 }]);

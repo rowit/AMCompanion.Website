@@ -73,7 +73,7 @@ input {
     opacity: 0.7;
 }
 
-#home {
+#am-companion {
     background-color: #e5e5e5;
     height: 100%;
     width: 100%;
@@ -173,7 +173,7 @@ input.ng-dirty.ng-invalid{
 NavBAR
 */
 
-#home .navbar
+#am-companion .navbar
 {
     border: 0px;
     background-color: #04315b;
@@ -221,13 +221,13 @@ NavBAR
 }
 
 /*** employee preview ****/
-.employee.last
+.item.last
 {
     margin-bottom: 20px;
     border-bottom: none;
 }
 
-.employee
+.item
 {
     background: #ffffff;
     border-bottom: 1px solid #eeeeee;
@@ -236,7 +236,7 @@ NavBAR
     padding-bottom: 3px;
 }
 
-.employee:hover
+.item:hover
 {
     background: #eeeeee;
     cursor: pointer;
