@@ -1,0 +1,33 @@
+<div class="row" ng-click="openEmployeeView()">
+    <div class="item employee columns small-12" ng-class="{'last':last}">
+        <div class="row">
+            <div class="user-icon columns small-2 employee-status status-{{employee.Status}}">
+            </div>
+            <div class="user-info columns small-9">
+                <div>
+                    <span ng-bind="employee.FirstName"></span>
+                    <span ng-bind="employee.LastName"></span>
+                </div>
+
+                <div ng-if="lastLink != undefined" class="sub-info">
+                    <i class="glyphicon glyphicon-map-marker"></i>
+                    <span ng-bind="lastLink.date|date:'dd/MM/yyyy'"></span>,
+                    <span ng-bind="lastLink.type|truncate:20"></span>
+                </div>
+                <div ng-if="lastLink == undefined">
+                    Pas de rendez vous
+                </div>
+            </div>
+            <div class="next columns small-1">
+                <i class="glyphicon glyphicon-chevron-right"></i>
+            </div>
+        </div>
+        <div class="row objectives">
+            <!--
+            <progressbar animate="false" value="percentObjectives" type="objectiveColor">
+                <b>{{percentObjectives}}%</b>
+            </progressbar>
+            -->
+        </div>
+    </div>
+</div>
