@@ -207,7 +207,7 @@ NavBAR
     font-size: 31px;
     height: 30px;
     margin-left: 7px;
-    margin-top: 4px;
+    margin-top: 11px;
     width: 30px;
 }
 
@@ -238,7 +238,6 @@ NavBAR
 
 .item:hover
 {
-    background: #eeeeee;
     cursor: pointer;
 }
 
