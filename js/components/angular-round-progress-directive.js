@@ -61,7 +61,7 @@ amCompanion.directive('angRoundProgress', [function () {
             ctx.fillText(newValue.label + "%", x, y);
 
             // The "foreground" circle
-            var startAngle = - (Math.PI / 2);wee
+            var startAngle = - (Math.PI / 2);
             var endAngle = ((Math.PI * 2 ) * newValue.percentage) - (Math.PI / 2);
             var anticlockwise = false;
             ctx.beginPath();
