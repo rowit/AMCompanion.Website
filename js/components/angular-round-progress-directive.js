@@ -12,8 +12,6 @@ amCompanion.directive('angRoundProgress', [function () {
       canvas.setAttribute('height', height);
       canvas.setAttribute('round-progress-model', node.getAttribute('round-progress-model'));
 
-        alert(node.getAttribute('round-progress-model'));
-
       node.parentNode.replaceChild(canvas, node);
 
       var outerCircleWidth = node.getAttribute('round-progress-outer-circle-width') || '20';
@@ -59,6 +57,8 @@ amCompanion.directive('angRoundProgress', [function () {
             ctx.textBaseline = 'middle';
             ctx.fillStyle = labelColor;
             ctx.fillText(newValue.label + "%", x, y);
+
+              console.log(newValue.label);
 
             // The "foreground" circle
             var startAngle = - (Math.PI / 2);

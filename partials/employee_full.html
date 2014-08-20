@@ -1,22 +1,13 @@
-<div class="container">
-    <am-header mode="view" go-back-action="goBackFonction()"></am-header>
+<div class="container" id="employee-view">
+    <employee-header></employee-header>
     <div class="row">
         <div class="separator columns small-12">
             <span class="text">Objectifs</span>
         </div>
         <div class="item columns small-12" ng-repeat="objective in selectedEmployee.CurrentObjectives">
-            <div ang-round-progress round-progress-model="{label:12,percentage:0.12}"
-                 round-progress-width="45"
-                 round-progress-height="45"
-                 round-progress-outer-circle-width="3"
-                 round-progress-inner-circle-width="0"
-                 round-progress-outer-circle-radius="20"
-                 round-progress-inner-circle-radius="0"
-                 round-progress-label-font="14pt"
-                 round-progress-outer-circle-background-color="#eee"
-                 round-progress-outer-circle-foreground-color="#12eeb9"
-                 round-progress-label-color="#000"></div>
-            {{objective.text}}
+            <progress-arc complete="objective.progressionPercent/100" stroke="progressColors[$index]"></progress-arc>
+            <div class="percent" ng-class="{'cent':objective.progressionPercent == 100}">{{objective.progressionPercent}}%</div>
+            <div class="text">{{objective.text}} </div>
         </div>
         <div class="separator columns small-12">
             <span class="text">Entretiens</span>

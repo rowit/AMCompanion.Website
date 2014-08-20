@@ -306,6 +306,34 @@ NavBAR
     margin-top: 12px;
 }
 
+/******* Employee Full **************/
+#employee-view .item .text
+{
+    margin-left: 55px;
+    margin-top: 12px;
+}
+
+.percent
+{
+    font-size: 14px;
+    position: absolute;
+    top: 16px;
+    left: 15px;
+}
+
+.percent.cent
+{
+    left:10px;
+}
+
+progress-arc
+{
+    position: absolute;
+    top: 8px;
+    left:5px;
+}
+
+
 @media screen and (max-width: 640px) {
 
     #loginModal {

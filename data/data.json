@@ -35,8 +35,13 @@
                 "text": "Mise en place d'outils"
             },
             {
+                "progressionPercent": 100,
+                "ponderation":30,
+                "text": "test de 100%"
+            },
+            {
                 "progressionPercent": 61,
-                "ponderation":70,
+                "ponderation":40,
                 "text": "Innovation"
             }
         ]

@@ -20,6 +20,14 @@ var getColorForPercentage = function(pct) {
         g: Math.floor(lower.color.g * pctLower + upper.color.g * pctUpper),
         b: Math.floor(lower.color.b * pctLower + upper.color.b * pctUpper)
     };
-    return 'rgb(' + [color.r, color.g, color.b].join(',') + ')';
+    //return 'rgb(' + [color.r, color.g, color.b].join(',') + ')';
+    return "#" + componentToHex(color.r) + componentToHex(color.g) + componentToHex(color.b);
     // or output as hex if preferred
 }
+
+function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+}
+
+console.log(getColorForPercentage(0.60));
