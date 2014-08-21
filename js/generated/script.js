@@ -23641,7 +23641,7 @@ angular.module("ngLocale", [], ["$provide", function($provide) {
     app.provider('progressArcDefaults', function () {
 
         var defaults = {
-            size: 45,
+            size: 48,
             strokeWidth: 2,
             stroke: 'black',
             background: null
@@ -24070,6 +24070,17 @@ amCompanion.controller('EmployeeHeaderController', [ "$scope","$location","Emplo
     {
         $location.path("/");
         EmployeesService.unsetSelectedEmployee();
+    }
+
+    $scope.getNomPrenom = function()
+    {
+        var employee = EmployeesService.getSelectedEmployee();
+        return employee.FirstName + " " + employee.LastName;
+    }
+
+    $scope.switchEditMode = function()
+    {
+
     }
 
 }]);

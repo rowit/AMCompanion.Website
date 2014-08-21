@@ -7,7 +7,7 @@
     app.provider('progressArcDefaults', function () {
 
         var defaults = {
-            size: 45,
+            size: 48,
             strokeWidth: 2,
             stroke: 'black',
             background: null

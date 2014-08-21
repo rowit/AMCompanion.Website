@@ -16,4 +16,15 @@ amCompanion.controller('EmployeeHeaderController', [ "$scope","$location","Emplo
         EmployeesService.unsetSelectedEmployee();
     }
 
+    $scope.getNomPrenom = function()
+    {
+        var employee = EmployeesService.getSelectedEmployee();
+        return employee.FirstName + " " + employee.LastName;
+    }
+
+    $scope.switchEditMode = function()
+    {
+
+    }
+
 }]);
