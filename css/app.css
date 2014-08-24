@@ -235,12 +235,34 @@ NavBAR
     border-bottom: none;
 }
 
+.item-text
+{
+    padding-left: 10px;
+    padding-top: 13px;
+}
+
 .item
 {
     background: #ffffff;
     border-bottom: 1px solid #eeeeee;
     height: 60px;
     padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.item-fit
+{
+    padding: 5px;
+    background: #ffffff;
+    border-bottom: 1px solid #eeeeee;
+}
+
+
+.item-gray
+{
+    border-bottom: 1px solid #eeeeee;
+    height: 60px;
+    padding-top: 10px;
     padding-bottom: 3px;
 }
 

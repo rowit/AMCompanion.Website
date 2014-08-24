@@ -8,12 +8,22 @@ amCompanion.directive('linkHeader', function() {
 });
 
 /* Controllers */
-amCompanion.controller('LinkHeaderController', [ "$scope","$location" , function($scope, $location){
+amCompanion.controller('LinkHeaderController', [ "$scope","$location", "EmployeesService" , function($scope, $location, EmployeesService){
 
     $scope.goBack = function()
     {
-        console.log($scope.goBackAction);
-        $scope.goBackAction();
+        $location.path("/employee/" + $scope.selectedEmployee.Id)
+    }
+
+    $scope.getNomPrenom = function()
+    {
+        var employee = EmployeesService.getSelectedEmployee();
+        var str = "";
+        if( employee != undefined )
+        {
+            str = employee.FirstName + " " + employee.LastName;
+        }
+        return str;
     }
 
 }]);

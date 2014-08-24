@@ -23898,7 +23898,13 @@ amCompanion.controller('EmployeeController',[
             {
                 $scope.progressColors[i] = getColorForPercentage($scope.selectedEmployee.CurrentObjectives[i].progressionPercent/100);
             }
-        })
+        });
+
+        $scope.showFullLink = function( link )
+        {
+            $location.path("/link/"+$scope.selectedEmployee.Id+"/"+link.date);
+        }
+
 
     }]);
 
@@ -23917,6 +23923,37 @@ amCompanion.controller('HomeController',[ "$scope","USER_ROLES","AuthService","E
     $scope.employees = EmployeesService.getEmployees();
 
 }]);
+
+'use strict';
+
+/* Controllers */
+amCompanion.controller('LinkController',[
+    "$scope","$routeParams","$location","EmployeesService", function(
+        $scope,$routeParams,$location,EmployeesService){
+
+        var promise = EmployeesService.initEmployees();
+        promise.then(function(){
+            EmployeesService.setSelectedEmployeeFromId($routeParams.id);
+            $scope.selectedEmployee = EmployeesService.getSelectedEmployee();
+
+            var currentLink = undefined;
+            for( var i = 0 ; i < $scope.selectedEmployee.Links.length ; i++ )
+            {
+                currentLink = $scope.selectedEmployee.Links[i];
+                if( currentLink.date == $routeParams.timestamp )
+                {
+                    $scope.selectedLink = currentLink;
+                }
+            }
+
+            if( $scope.selectedLink == undefined )
+            {
+                $location.path("/employee/" + $scope.selectedEmployee.Id)
+            }
+
+        })
+
+    }]);
 
 amCompanion.controller('LoginController',
     [ "$scope","$timeout","$location","AuthService",
@@ -24075,7 +24112,12 @@ amCompanion.controller('EmployeeHeaderController', [ "$scope","$location","Emplo
     $scope.getNomPrenom = function()
     {
         var employee = EmployeesService.getSelectedEmployee();
-        return employee.FirstName + " " + employee.LastName;
+        var str = "";
+        if( employee != undefined )
+        {
+            str = employee.FirstName + " " + employee.LastName;
+        }
+        return str;
     }
 
     $scope.switchEditMode = function()
@@ -24221,12 +24263,22 @@ amCompanion.directive('linkHeader', function() {
 });
 
 /* Controllers */
-amCompanion.controller('LinkHeaderController', [ "$scope","$location" , function($scope, $location){
+amCompanion.controller('LinkHeaderController', [ "$scope","$location", "EmployeesService" , function($scope, $location, EmployeesService){
 
     $scope.goBack = function()
     {
-        console.log($scope.goBackAction);
-        $scope.goBackAction();
+        $location.path("/employee/" + $scope.selectedEmployee.Id)
+    }
+
+    $scope.getNomPrenom = function()
+    {
+        var employee = EmployeesService.getSelectedEmployee();
+        var str = "";
+        if( employee != undefined )
+        {
+            str = employee.FirstName + " " + employee.LastName;
+        }
+        return str;
     }
 
 }]);
@@ -24300,8 +24352,6 @@ function componentToHex(c) {
     var hex = c.toString(16);
     return hex.length == 1 ? "0" + hex : hex;
 }
-
-console.log(getColorForPercentage(0.60));
 /**
  * Created by Sébastien on 18/05/2014.
  */
@@ -24314,6 +24364,11 @@ amCompanion.config(['$routeProvider',"USER_ROLES", function($routeProvider,USER_
     $routeProvider.when('/employee/:id', {
         templateUrl: 'partials/employee_full.html',
         controller: 'EmployeeController'
+    });
+
+    $routeProvider.when('/link/:id/:timestamp', {
+        templateUrl: 'partials/link_full.html',
+        controller: 'LinkController'
     });
 
     $routeProvider.when('/login', {

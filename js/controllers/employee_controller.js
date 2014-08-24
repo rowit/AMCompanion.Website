@@ -16,6 +16,12 @@ amCompanion.controller('EmployeeController',[
             {
                 $scope.progressColors[i] = getColorForPercentage($scope.selectedEmployee.CurrentObjectives[i].progressionPercent/100);
             }
-        })
+        });
+
+        $scope.showFullLink = function( link )
+        {
+            $location.path("/link/"+$scope.selectedEmployee.Id+"/"+link.date);
+        }
+
 
     }]);

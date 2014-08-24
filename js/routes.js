@@ -12,6 +12,11 @@ amCompanion.config(['$routeProvider',"USER_ROLES", function($routeProvider,USER_
         controller: 'EmployeeController'
     });
 
+    $routeProvider.when('/link/:id/:timestamp', {
+        templateUrl: 'partials/link_full.html',
+        controller: 'LinkController'
+    });
+
     $routeProvider.when('/login', {
         templateUrl: 'partials/login.html',
         controller: 'LoginController'

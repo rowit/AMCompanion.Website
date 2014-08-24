@@ -19,7 +19,12 @@ amCompanion.controller('EmployeeHeaderController', [ "$scope","$location","Emplo
     $scope.getNomPrenom = function()
     {
         var employee = EmployeesService.getSelectedEmployee();
-        return employee.FirstName + " " + employee.LastName;
+        var str = "";
+        if( employee != undefined )
+        {
+            str = employee.FirstName + " " + employee.LastName;
+        }
+        return str;
     }
 
     $scope.switchEditMode = function()

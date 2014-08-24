@@ -29,5 +29,3 @@ function componentToHex(c) {
     var hex = c.toString(16);
     return hex.length == 1 ? "0" + hex : hex;
 }
-
-console.log(getColorForPercentage(0.60));

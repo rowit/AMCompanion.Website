@@ -12,19 +12,27 @@
         <div class="separator columns small-12">
             <span class="text">Entretiens</span>
         </div>
-        <div class="item columns small-12" ng-repeat="link in selectedEmployee.Links | orderBy:'date':'reverse'">
+        <div class="item columns small-12"
+                ng-repeat="link in selectedEmployee.Links | orderBy:'date':'reverse'"
+                ng-click="showFullLink( link )"
+                >
             <div class="row">
                 <div class="small-2 columns">
                     <span class="glyphicon glyphicon-calendar item-icon-left"></span>
                 </div>
                 <div class="small-9 columns">
                     <div>{{link.type}}</div>
-                    <div>{{link.date|date}}</div>
+                    <div>{{link.date|date:'d MMMM yyyy'}}</div>
                 </div>
                 <div class="next columns small-1">
                     <span class="glyphicon glyphicon-chevron-right"></span>
                 </div>
             </div>
+        </div>
+        <div class="item-gray columns small-12">
+            <button class="btn btn-success btn-lg btn-block small-10 small-centered columns btn-sm">
+                Ajouter
+            </button>
         </div>
     </div>
 </div>

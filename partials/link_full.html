@@ -1,0 +1,26 @@
+<div class="container" id="employee-view">
+    <link-header></link-header>
+    <div class="row">
+        <!-- Affichage de l'endroit -->
+        <div class="separator columns small-12">
+            <span class="text">Lieu</span>
+        </div>
+        <div class="item columns small-12">
+            <div class="item-text" ng-bind="selectedLink.type"></div>
+        </div>
+        <!-- Affichage de la date -->
+        <div class="separator columns small-12">
+            <span class="text">Date</span>
+        </div>
+        <div class="item columns small-12">
+            <div class="item-text" ng-bind="selectedLink.date|date:'d MMMM yyyy'"></div>
+        </div>
+        <!-- Affichage du commentaire -->
+        <div class="separator columns small-12">
+            <span class="text">Commentaire</span>
+        </div>
+        <div class="item-fit columns small-12">
+            <div class="" ng-bind="selectedLink.Comment"></div>
+        </div>
+    </div>
+</div>
