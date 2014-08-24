@@ -19,7 +19,7 @@ amCompanion.factory("EmployeesService", [ "$http","$q", function( $http, $q )
             var defer = $q.defer();
             data.employees = [];
 
-            $http.get('/data/data.json').then(function (res) {
+            $http.get('/js/data/data.json').then(function (res) {
                 data.employees.push.apply(data.employees , res.data);
                 data.isInit = true;
                 defer.resolve();
