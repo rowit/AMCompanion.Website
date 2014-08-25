@@ -24,6 +24,12 @@ module.exports = function(grunt) {
                 dest : 'js/generated/script.js'
             }
         },
+        autoprefixer: {
+            single_file: {
+                src: 'css/generated/style.css',
+                dest: 'css/generated/style.css'
+            }
+        },
         cssmin: {
             css: {
                 src: 'css/generated/style.css',
@@ -41,7 +47,7 @@ module.exports = function(grunt) {
             css:
             {
                 files: ['css/*',"!**/generated/**.css"],
-                tasks: ['concat:css', 'cssmin']
+                tasks: ['concat:css','autoprefixer', 'cssmin']
             },
             js:
             {
@@ -57,5 +63,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.registerTask('default', [ 'concat:css', 'cssmin:css', 'concat:js' , 'uglify:js' ]);
+    grunt.loadNpmTasks('grunt-autoprefixer');
+    grunt.registerTask('default', [ 'concat:css','autoprefixer','cssmin:css', 'concat:js' , 'uglify:js' ]);
 };

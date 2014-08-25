@@ -2,10 +2,12 @@
 
 /* Controllers */
 amCompanion.controller('EmployeeController',[
-    "$scope","$routeParams","$location","EmployeesService", function(
-        $scope,$routeParams,$location,EmployeesService){
+    "$scope","$routeParams","$location","$anchorScroll","EmployeesService", function(
+        $scope,$routeParams,$location, $anchorScroll ,EmployeesService){
 
         $scope.progressColors = [];
+
+        $anchorScroll();
 
         var promise = EmployeesService.initEmployees();
         promise.then(function(){

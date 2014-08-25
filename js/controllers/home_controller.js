@@ -12,4 +12,5 @@ amCompanion.controller('HomeController',[ "$scope","USER_ROLES","AuthService","E
     EmployeesService.initEmployees();
     $scope.employees = EmployeesService.getEmployees();
 
+
 }]);

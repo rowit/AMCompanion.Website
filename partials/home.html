@@ -6,7 +6,7 @@
         <div class="separator columns small-12">
             <span class="text">Collaborateurs</span>
         </div>
-        <div ng-repeat="employee in employees track by employee.Id" class="columns sm">
+        <div id="index{{$index}}" ng-repeat="employee in employees track by employee.Id" class="columns sm">
             <employee employee="employee" last="$last"></employee>
         </div>
     </div>
