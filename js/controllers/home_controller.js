@@ -1,9 +1,8 @@
 'use strict';
 
 /* Controllers */
-amCompanion.controller('HomeController',[ "$scope","USER_ROLES","AuthService","EmployeesService", function(
+amCompanion.controller('HomeController',[ "$scope","AuthService","EmployeesService", function(
                                                             $scope,
-                                                            USER_ROLES,
                                                             AuthService,
                                                             EmployeesService
                                                             ){
