@@ -407,6 +407,12 @@ progress-arc
     margin-top: 10px;
 }
 
+/*****************************/
+/**    EDIT MODE         *****/
+.item.height-300
+{
+    height: 100px;
+}
 
 @media screen and (max-width: 640px) {
 

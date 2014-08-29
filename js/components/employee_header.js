@@ -3,7 +3,11 @@ amCompanion.directive('employeeHeader', function() {
     return {
         restrict: 'E',
         controller:"EmployeeHeaderController",
-        templateUrl: './partials/employee_header.html'
+        templateUrl: './partials/employee_header.html',
+        scope:
+        {
+            editMode:"="
+        }
     }
 });
 
@@ -27,9 +31,19 @@ amCompanion.controller('EmployeeHeaderController', [ "$scope","$location","Emplo
         return str;
     }
 
-    $scope.switchEditMode = function()
+    $scope.toggleEditMode = function()
     {
+        $scope.$emit("startEdit");
+    }
 
+    $scope.validateEditMode = function()
+    {
+        $scope.$emit("validateEdit");
+    }
+
+    $scope.cancelEditMode = function()
+    {
+        $scope.$emit("cancelEdit");
     }
 
 }]);

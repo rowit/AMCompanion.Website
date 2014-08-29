@@ -34,6 +34,7 @@ amCompanion.factory("EmployeesService", [ "$http","$q", function( $http, $q )
 
     };
 
+    //Accessor of employees
     this.getEmployees = function()
     {
         return data.employees;
@@ -75,6 +76,7 @@ amCompanion.factory('AuthService', ["$http", "Session" , "$location","$q", "urls
 
                 var defer = $q.defer();
                 var data = {Email:credentials.email,Password:credentials.password};
+
                 $http.post(
                     urls.AuthApi,
                     JSON.stringify(data),

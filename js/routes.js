@@ -31,21 +31,17 @@ amCompanion.config(['$routeProvider', function($routeProvider) {
 
 amCompanion.run(["$rootScope", "$location",
     function ($rootScope, $location ) {
-    $rootScope.$on('$routeChangeStart', function (event, next, current) {
+        $rootScope.$on('$routeChangeStart', function (event, next, current) {
 
-        console.log(event);
-        console.log(next);
-        console.log(current);
+            var mainContainer = angular.element(document.getElementById("am-companion"))
 
-        var mainContainer = angular.element(document.getElementById("am-companion"));
-        mainContainer.removeClass("slide-right-view");
-        mainContainer.removeClass("slide-left-view");
-        mainContainer.removeClass("fade-view");
+            mainContainer.removeClass("slide-right-view");
+            mainContainer.removeClass("slide-left-view");
+            mainContainer.removeClass("fade-view");
 
-        if( current != undefined)
-        {
-            if( ( current.$$route.id == "login" && next.$$route.id == "home" )
-                 || ( current.$$route.id == "home" && next.$$route.id == "login" )  )
+            if( ( current == undefined
+                ||  current.$$route.id == "login" && next.$$route.id == "home" )
+                || ( current.$$route.id == "home" && next.$$route.id == "login" )  )
             {
                 mainContainer.addClass("fade-view");
             }
@@ -58,13 +54,12 @@ amCompanion.run(["$rootScope", "$location",
             {
                 mainContainer.addClass("slide-left-view");
             }
-        }
 
-        if( sessionStorage.getItem("token") == undefined )
-        {
-            $location.path("/login");
-        }
+            if( sessionStorage.getItem("token") == undefined )
+            {
+                $location.path("/login");
+            }
 
-    });
-}]);
+        });
+    }]);
 

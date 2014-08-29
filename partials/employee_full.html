@@ -1,14 +1,22 @@
 <div class="container" id="employee-view">
-    <employee-header></employee-header>
+    <employee-header edit-mode="editMode"></employee-header>
     <div class="row">
         <div class="separator columns small-12">
             <span class="text">Objectifs</span>
         </div>
-        <div class="item columns small-12" ng-repeat="objective in selectedEmployee.CurrentObjectives">
-            <progress-arc complete="objective.progressionPercent/100" stroke="progressColors[$index]"></progress-arc>
-            <div class="percent" ng-class="{'cent':objective.progressionPercent == 100}">{{objective.progressionPercent}}%</div>
-            <div class="text">{{objective.text}} </div>
+        <div ng-if="!editMode" class="item columns small-12" ng-repeat="objective in selectedEmployee.CurrentObjectives">
+                <progress-arc complete="objective.progressionPercent/100" stroke="progressColors[$index]"></progress-arc>
+                <div class="percent" ng-class="{'cent':objective.progressionPercent == 100}">{{objective.progressionPercent}}%</div>
+                <div class="text">{{objective.text}} </div>
+
+
         </div>
+        <div ng-if="editMode" class="item height-300 columns small-12" ng-repeat="objective in selectedEmployeeEdited.CurrentObjectives">
+            <input type="text" class="form-control" ng-model="objective.text">
+            <input type="text" class="form-control" ng-model="objective.progressionPercent">
+            <input type="text" class="form-control" ng-model="objective.ponderation">
+        </div>
+
         <div class="separator columns small-12">
             <span class="text">Entretiens</span>
         </div>

@@ -6,6 +6,8 @@ amCompanion.controller('EmployeeController',[
         $scope,$routeParams,$location, $anchorScroll ,EmployeesService){
 
         $scope.progressColors = [];
+        $scope.editMode = false;
+        $scope.selectedEmployeeEdited = undefined;
 
         $anchorScroll();
 
@@ -25,5 +27,20 @@ amCompanion.controller('EmployeeController',[
             $location.path("/link/"+$scope.selectedEmployee.Id+"/"+link.date);
         }
 
+        $scope.$on( "startEdit" , function()
+        {
+            $scope.selectedEmployeeEdited = angular.copy($scope.selectedEmployee);
+            $scope.editMode = true;
+        });
+
+        $scope.$on("cancelEdit",function()
+        {
+            $scope.editMode = false;
+        });
+
+        $scope.$on("validateEdit",function()
+        {
+            $scope.editMode = false;
+        });
 
     }]);

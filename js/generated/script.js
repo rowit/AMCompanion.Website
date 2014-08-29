@@ -23888,6 +23888,8 @@ amCompanion.controller('EmployeeController',[
         $scope,$routeParams,$location, $anchorScroll ,EmployeesService){
 
         $scope.progressColors = [];
+        $scope.editMode = false;
+        $scope.selectedEmployeeEdited = undefined;
 
         $anchorScroll();
 
@@ -23907,6 +23909,21 @@ amCompanion.controller('EmployeeController',[
             $location.path("/link/"+$scope.selectedEmployee.Id+"/"+link.date);
         }
 
+        $scope.$on( "startEdit" , function()
+        {
+            $scope.selectedEmployeeEdited = angular.copy($scope.selectedEmployee);
+            $scope.editMode = true;
+        });
+
+        $scope.$on("cancelEdit",function()
+        {
+            $scope.editMode = false;
+        });
+
+        $scope.$on("validateEdit",function()
+        {
+            $scope.editMode = false;
+        });
 
     }]);
 
@@ -24098,7 +24115,11 @@ amCompanion.directive('employeeHeader', function() {
     return {
         restrict: 'E',
         controller:"EmployeeHeaderController",
-        templateUrl: './partials/employee_header.html'
+        templateUrl: './partials/employee_header.html',
+        scope:
+        {
+            editMode:"="
+        }
     }
 });
 
@@ -24122,9 +24143,19 @@ amCompanion.controller('EmployeeHeaderController', [ "$scope","$location","Emplo
         return str;
     }
 
-    $scope.switchEditMode = function()
+    $scope.toggleEditMode = function()
     {
+        $scope.$emit("startEdit");
+    }
 
+    $scope.validateEditMode = function()
+    {
+        $scope.$emit("validateEdit");
+    }
+
+    $scope.cancelEditMode = function()
+    {
+        $scope.$emit("cancelEdit");
     }
 
 }]);
@@ -24371,21 +24402,17 @@ amCompanion.config(['$routeProvider', function($routeProvider) {
 
 amCompanion.run(["$rootScope", "$location",
     function ($rootScope, $location ) {
-    $rootScope.$on('$routeChangeStart', function (event, next, current) {
+        $rootScope.$on('$routeChangeStart', function (event, next, current) {
 
-        console.log(event);
-        console.log(next);
-        console.log(current);
+            var mainContainer = angular.element(document.getElementById("am-companion"))
 
-        var mainContainer = angular.element(document.getElementById("am-companion"));
-        mainContainer.removeClass("slide-right-view");
-        mainContainer.removeClass("slide-left-view");
-        mainContainer.removeClass("fade-view");
+            mainContainer.removeClass("slide-right-view");
+            mainContainer.removeClass("slide-left-view");
+            mainContainer.removeClass("fade-view");
 
-        if( current != undefined)
-        {
-            if( ( current.$$route.id == "login" && next.$$route.id == "home" )
-                 || ( current.$$route.id == "home" && next.$$route.id == "login" )  )
+            if( ( current == undefined
+                ||  current.$$route.id == "login" && next.$$route.id == "home" )
+                || ( current.$$route.id == "home" && next.$$route.id == "login" )  )
             {
                 mainContainer.addClass("fade-view");
             }
@@ -24398,15 +24425,14 @@ amCompanion.run(["$rootScope", "$location",
             {
                 mainContainer.addClass("slide-left-view");
             }
-        }
 
-        if( sessionStorage.getItem("token") == undefined )
-        {
-            $location.path("/login");
-        }
+            if( sessionStorage.getItem("token") == undefined )
+            {
+                $location.path("/login");
+            }
 
-    });
-}]);
+        });
+    }]);
 
 
 'use strict';
@@ -24445,6 +24471,7 @@ amCompanion.factory("EmployeesService", [ "$http","$q", function( $http, $q )
 
     };
 
+    //Accessor of employees
     this.getEmployees = function()
     {
         return data.employees;
@@ -24486,6 +24513,7 @@ amCompanion.factory('AuthService', ["$http", "Session" , "$location","$q", "urls
 
                 var defer = $q.defer();
                 var data = {Email:credentials.email,Password:credentials.password};
+
                 $http.post(
                     urls.AuthApi,
                     JSON.stringify(data),
