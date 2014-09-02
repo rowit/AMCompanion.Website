@@ -24404,8 +24404,9 @@ amCompanion.run(["$rootScope", "$location",
     function ($rootScope, $location ) {
         $rootScope.$on('$routeChangeStart', function (event, next, current) {
 
-            var mainContainer = angular.element(document.getElementById("am-companion"))
+            //var mainContainer = angular.element(document.getElementById("am-companion"))
 
+            /*
             mainContainer.removeClass("slide-right-view");
             mainContainer.removeClass("slide-left-view");
             mainContainer.removeClass("fade-view");
@@ -24425,7 +24426,7 @@ amCompanion.run(["$rootScope", "$location",
             {
                 mainContainer.addClass("slide-left-view");
             }
-
+            */
             if( sessionStorage.getItem("token") == undefined )
             {
                 $location.path("/login");
