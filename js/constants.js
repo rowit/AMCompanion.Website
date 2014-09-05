@@ -1,4 +1,5 @@
 amCompanion.constant("urls", {
-        AuthApi: "https://amcompanion.azurewebsites.net/amcAuth"
+        login: "https://amcnode.azurewebsites.net/login",
+        employes: "http://amcnode.azurewebsites.net/api/employees"
     }
 );
