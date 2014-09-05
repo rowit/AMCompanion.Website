@@ -24318,7 +24318,7 @@ amCompanion.controller('LinkHeaderController', [ "$scope","$location", "Employee
 
 amCompanion.constant("urls", {
         login: "https://amcnode.azurewebsites.net/login",
-        employes: "http://amcnode.azurewebsites.net/api/employees"
+        employes: "https://amcnode.azurewebsites.net/api/employees"
     }
 );
 
@@ -24465,7 +24465,6 @@ amCompanion.factory("EmployeesService", [ "$http","$q","urls",
                 ).success(
                     function (res, status, headers ) {
 
-                        console.log(res);
                         data.employees.push.apply(data.employees , res);
                         data.isInit = true;
                         defer.resolve();
