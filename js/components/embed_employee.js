@@ -1,9 +1,9 @@
 'use strict';
-amCompanion.directive('employee', function() {
+amCompanion.directive('embedEmployee', function() {
     return {
         restrict: 'E',
-        templateUrl: './partials/employee_preview.html',
-        controller:"EmployeePreviewController",
+        templateUrl: './partials/embed/employee.html',
+        controller:"EmbedEmployeeController",
         scope:
         {
             employee:"="
@@ -13,9 +13,9 @@ amCompanion.directive('employee', function() {
 
 
 /* Controllers */
-amCompanion.controller('EmployeePreviewController',
-    [ "$scope", "$filter","$location","EmployeesService",
-        function($scope, $filter, $location, EmployeesService){
+amCompanion.controller('EmbedEmployeeController',
+    [ "$scope", "$filter","RoutesService","AmcContextService",
+        function($scope, $filter, RoutesService, AmcContextService){
 
             var lastLink = $filter("limitTo")($filter("orderBy")($scope.employee.Links, "date", "reverse"), 1);
             if( lastLink.length > 0 )
@@ -25,8 +25,7 @@ amCompanion.controller('EmployeePreviewController',
 
             $scope.openEmployeeView = function()
             {
-                EmployeesService.unsetSelectedEmployee();
-                $location.path("/employee/" + $scope.employee.Id)
+                RoutesService.loadEmployeeView($scope.employee);
             }
 
             if( $scope.employee.CurrentObjectives == undefined || $scope.employee.CurrentObjectives.length == 0 )

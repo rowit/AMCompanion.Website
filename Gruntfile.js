@@ -18,6 +18,7 @@ module.exports = function(grunt) {
                     "js/app.js",
                     "js/controllers/*.js",
                     "js/components/*.js",
+                    "js/services/*.js",
                     "js/*.js",
                     "!js/combined.js"
                 ],

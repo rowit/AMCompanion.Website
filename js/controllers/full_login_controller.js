@@ -1,4 +1,4 @@
-amCompanion.controller('LoginController',
+amCompanion.controller('FullLoginController',
     [ "$scope","$timeout","$location","AuthService",
         function($scope,$timeout,$location ,AuthService)
         {

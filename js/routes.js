@@ -4,26 +4,26 @@
 amCompanion.config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/', {
         id:"home",
-        templateUrl: 'partials/home.html',
-        controller: 'HomeController'
+        templateUrl: 'partials/full/home.html',
+        controller: 'FullHomeController'
     });
 
     $routeProvider.when('/employee/:id', {
         id:"employee",
-        templateUrl: 'partials/employee_full.html',
-        controller: 'EmployeeController'
+        templateUrl: 'partials/full/employee.html',
+        controller: 'FullEmployeeController'
     });
 
     $routeProvider.when('/link/:id/:timestamp', {
         id:"link",
-        templateUrl: 'partials/link_full.html',
-        controller: 'LinkController'
+        templateUrl: 'partials/full/link.html',
+        controller: 'FullLinkController'
     });
 
     $routeProvider.when('/login', {
         id:"login",
-        templateUrl: 'partials/login.html',
-        controller: 'LoginController'
+        templateUrl: 'partials/full/login.html',
+        controller: 'FullLoginController'
     });
 
     $routeProvider.otherwise({redirectTo: '/'});

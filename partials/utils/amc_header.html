@@ -1,0 +1,26 @@
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+
+    <div ng-if="homeDisplay">
+        <div class="navbar-header">
+            <img src="/img/logo-icon.png" id="nav-logo">
+            <span class="right-menu-icon glyphicon glyphicon-off" ng-click="disconnect()"></span>
+        </div>
+    </div>
+
+    <div ng-if="!homeDisplay" class="navbar-header">
+        <div class="row">
+            <div class="columns small-2">
+                <span ng-if="!editMode" class="left-menu-icon glyphicon glyphicon-chevron-left" ng-click="goBack()"></span>
+                <span ng-if="editMode" class="left-menu-icon glyphicon glyphicon-ban-circle" ng-click="cancelEditMode()"></span>
+            </div>
+            <div class="columns small-8 menu-title">
+                <span ng-bind="libelle"></span>
+            </div>
+            <div class="columns small-2">
+                <span ng-if="!editMode" class="right-menu-icon glyphicon glyphicon-edit" ng-click="toggleEditMode()"></span>
+                <span ng-if="editMode" class="right-menu-icon glyphicon glyphicon-ok" ng-click="validateEditMode()"></span>
+            </div>
+        </div>
+
+    </div>
+</nav>

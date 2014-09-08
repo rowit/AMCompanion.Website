@@ -10,6 +10,21 @@ body
     font-size: 13px;
 }
 
+
+.navbar-fixed-top
+{
+    position: fixed;
+    width: 100%;
+    height: 60px;
+    z-index: 400;
+}
+
+.content
+{
+    padding-top: 60px;
+}
+
+
 /** NG view fade **/
 .fade-view .view,
 .slide-left-view .view,

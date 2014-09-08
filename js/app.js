@@ -2,5 +2,5 @@
 
 // Declare app level module which depends on filters, and services
 var amCompanion = angular.module('amCompanion', [
-  'ngRoute','ngAnimate',"ngTouch", 'igTruncate',"matchMedia","angular-progress-arc"
+    'ngRoute','ngAnimate',"ngTouch", 'igTruncate',"angular-progress-arc"
 ]);

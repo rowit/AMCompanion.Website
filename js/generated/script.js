@@ -23515,24 +23515,6 @@ c,d,e){var g=f(d,"-remove")+" "+f(c,"-add"),h=a("setClass",b,g,function(a){var e
 c,d){return b("addClass",a,f(c,"-add"),d)},beforeRemoveClass:function(b,c,d){var e=a("removeClass",b,f(c,"-remove"),function(a){var d=b.attr("class");b.removeClass(c);a=a();b.attr("class",d);return a});if(e)return E(b,function(){N(b,c);O(b);d()}),e;d()},removeClass:function(a,c,d){return b("removeClass",a,f(c,"-remove"),d)}}}])}])})(window,window.angular);
 //# sourceMappingURL=angular-animate.min.js.map
 
-/*
- AngularJS v1.2.17
- (c) 2010-2014 Google, Inc. http://angularjs.org
- License: MIT
- */
-(function(p,f,n){'use strict';f.module("ngCookies",["ng"]).factory("$cookies",["$rootScope","$browser",function(e,b){var c={},g={},h,k=!1,l=f.copy,m=f.isUndefined;b.addPollFn(function(){var a=b.cookies();h!=a&&(h=a,l(a,g),l(a,c),k&&e.$apply())})();k=!0;e.$watch(function(){var a,d,e;for(a in g)m(c[a])&&b.cookies(a,n);for(a in c)d=c[a],f.isString(d)||(d=""+d,c[a]=d),d!==g[a]&&(b.cookies(a,d),e=!0);if(e)for(a in d=b.cookies(),c)c[a]!==d[a]&&(m(d[a])?delete c[a]:c[a]=d[a])});return c}]).factory("$cookieStore",
-    ["$cookies",function(e){return{get:function(b){return(b=e[b])?f.fromJson(b):b},put:function(b,c){e[b]=f.toJson(c)},remove:function(b){delete e[b]}}}])})(window,window.angular);
-//# sourceMappingURL=angular-cookies.min.js.map
-/*
- AngularJS v1.2.16
- (c) 2010-2014 Google, Inc. http://angularjs.org
- License: MIT
-*/
-(function(){'use strict';function d(a){return function(){var c=arguments[0],b,c="["+(a?a+":":"")+c+"] http://errors.angularjs.org/1.2.16/"+(a?a+"/":"")+c;for(b=1;b<arguments.length;b++)c=c+(1==b?"?":"&")+"p"+(b-1)+"="+encodeURIComponent("function"==typeof arguments[b]?arguments[b].toString().replace(/ \{[\s\S]*$/,""):"undefined"==typeof arguments[b]?"undefined":"string"!=typeof arguments[b]?JSON.stringify(arguments[b]):arguments[b]);return Error(c)}}(function(a){var c=d("$injector"),b=d("ng");a=a.angular||
-(a.angular={});a.$$minErr=a.$$minErr||d;return a.module||(a.module=function(){var a={};return function(e,d,f){if("hasOwnProperty"===e)throw b("badname","module");d&&a.hasOwnProperty(e)&&(a[e]=null);return a[e]||(a[e]=function(){function a(c,d,e){return function(){b[e||"push"]([c,d,arguments]);return g}}if(!d)throw c("nomod",e);var b=[],h=[],k=a("$injector","invoke"),g={_invokeQueue:b,_runBlocks:h,requires:d,name:e,provider:a("$provide","provider"),factory:a("$provide","factory"),service:a("$provide",
-"service"),value:a("$provide","value"),constant:a("$provide","constant","unshift"),animation:a("$animateProvider","register"),filter:a("$filterProvider","register"),controller:a("$controllerProvider","register"),directive:a("$compileProvider","directive"),config:k,run:function(a){h.push(a);return this}};f&&k(f);return g}())}}())})(window)})(window);
-//# sourceMappingURL=angular-loader.min.js.map
-
 'use strict';
 angular.module("ngLocale", [], ["$provide", function($provide) {
     var PLURAL_CATEGORY = {ZERO: "zero", ONE: "one", TWO: "two", FEW: "few", MANY: "many", OTHER: "other"};
@@ -23766,147 +23748,55 @@ angular.module('igTruncate', []).filter('truncate', function (){
   };
 });
 
-/*
- * Angular matchMedia Module
- * Version 0.2.0
- * Uses Bootstrap 3 breakpoint sizes
- * Exposes service "screenSize" which returns true if breakpoint(s) matches.
- * Includes matchMedia polyfill for backward compatibility.
- * Copyright © 2013-2014 Jack Tarantino.
- **/
-
-angular.module('matchMedia', [])
-
-
-    .run(function () {
-        /*! matchMedia() polyfill - Test a CSS media type/query in JS.
-         * Authors & copyright (c) 2012: Scott Jehl, Paul Irish, Nicholas Zakas, David Knight.
-         * Dual MIT/BSD license
-         **/
-
-        window.matchMedia || (window.matchMedia = function() {
-            "use strict";
-
-            // For browsers that support matchMedium api such as IE 9 and webkit
-            var styleMedia = (window.styleMedia || window.media);
-
-            // For those that don't support matchMedium
-            if (!styleMedia) {
-                var style       = document.createElement('style'),
-                    script      = document.getElementsByTagName('script')[0],
-                    info        = null;
-
-                style.type  = 'text/css';
-                style.id    = 'matchmediajs-test';
-
-                script.parentNode.insertBefore(style, script);
-
-                // 'style.currentStyle' is used by IE <= 8
-                // 'window.getComputedStyle' for all other browsers
-                info = ('getComputedStyle' in window)
-                    && window.getComputedStyle(style, null)
-                    || style.currentStyle;
-
-                styleMedia = {
-                    matchMedium: function(media) {
-                        var text = '@media ' + media + '{ #matchmediajs-test { width: 1px; } }';
-
-                        // 'style.styleSheet' is used by IE <= 8
-                        // 'style.textContent' for all other browsers
-                        if (style.styleSheet) {
-                            style.styleSheet.cssText = text;
-                        } else {
-                            style.textContent = text;
-                        }
-
-                        // Test if media query is true or false
-                        return info.width === '1px';
-                    }
-                };
-            }
-
-            return function(media) {
-                return {
-                    matches: styleMedia.matchMedium(media || 'all'),
-                    media: media || 'all'
-                };
-            };
-        }());
-    })
-
-
-// takes a comma-separated list of screen sizes to match.
-// returns true if any of them match.
-    .service('screenSize', function () {
-        'use strict';
-
-        var defaultRules = {
-            lg : '(min-width: 1200px)',
-            md : '(min-width: 992px) and (max-width: 1199px)',
-            sm : '(min-width: 768px) and (max-width: 991px)',
-            xs : '(max-width: 767px)'
-        };
-
-        this.is = function (list) {
-            var rules = this.rules || defaultRules;
-
-            // validate that we're getting a string or array.
-            if (typeof list !== 'string' && typeof list !== 'array') {
-                throw new Error('screenSize requires array or comma-separated list');
-            }
-
-            // if it's a string, convert to array.
-            if (typeof list === 'string') {
-                list = list.split(/\s*,\s*/);
-            }
-
-            return list.some(function (size, index, arr) {
-                if ( window.matchMedia(rules[size]).matches ) {
-                    return true;
-                }
-            });
-        };
-    });
-
-/**
- * StyleFix 1.0.3 & PrefixFree 1.0.7
- * @author Lea Verou
- * MIT license
- */(function(){function t(e,t){return[].slice.call((t||document).querySelectorAll(e))}if(!window.addEventListener)return;var e=window.StyleFix={link:function(t){try{if(t.rel!=="stylesheet"||t.hasAttribute("data-noprefix"))return}catch(n){return}var r=t.href||t.getAttribute("data-href"),i=r.replace(/[^\/]+$/,""),s=t.parentNode,o=new XMLHttpRequest,u;o.onreadystatechange=function(){o.readyState===4&&u()};u=function(){var n=o.responseText;if(n&&t.parentNode&&(!o.status||o.status<400||o.status>600)){n=e.fix(n,!0,t);if(i){n=n.replace(/url\(\s*?((?:"|')?)(.+?)\1\s*?\)/gi,function(e,t,n){return/^([a-z]{3,10}:|\/|#)/i.test(n)?e:'url("'+i+n+'")'});var r=i.replace(/([\\\^\$*+[\]?{}.=!:(|)])/g,"\\$1");n=n.replace(RegExp("\\b(behavior:\\s*?url\\('?\"?)"+r,"gi"),"$1")}var u=document.createElement("style");u.textContent=n;u.media=t.media;u.disabled=t.disabled;u.setAttribute("data-href",t.getAttribute("href"));s.insertBefore(u,t);s.removeChild(t);u.media=t.media}};try{o.open("GET",r);o.send(null)}catch(n){if(typeof XDomainRequest!="undefined"){o=new XDomainRequest;o.onerror=o.onprogress=function(){};o.onload=u;o.open("GET",r);o.send(null)}}t.setAttribute("data-inprogress","")},styleElement:function(t){if(t.hasAttribute("data-noprefix"))return;var n=t.disabled;t.textContent=e.fix(t.textContent,!0,t);t.disabled=n},styleAttribute:function(t){var n=t.getAttribute("style");n=e.fix(n,!1,t);t.setAttribute("style",n)},process:function(){t('link[rel="stylesheet"]:not([data-inprogress])').forEach(StyleFix.link);t("style").forEach(StyleFix.styleElement);t("[style]").forEach(StyleFix.styleAttribute)},register:function(t,n){(e.fixers=e.fixers||[]).splice(n===undefined?e.fixers.length:n,0,t)},fix:function(t,n,r){for(var i=0;i<e.fixers.length;i++)t=e.fixers[i](t,n,r)||t;return t},camelCase:function(e){return e.replace(/-([a-z])/g,function(e,t){return t.toUpperCase()}).replace("-","")},deCamelCase:function(e){return e.replace(/[A-Z]/g,function(e){return"-"+e.toLowerCase()})}};(function(){setTimeout(function(){t('link[rel="stylesheet"]').forEach(StyleFix.link)},10);document.addEventListener("DOMContentLoaded",StyleFix.process,!1)})()})();(function(e){function t(e,t,r,i,s){e=n[e];if(e.length){var o=RegExp(t+"("+e.join("|")+")"+r,"gi");s=s.replace(o,i)}return s}if(!window.StyleFix||!window.getComputedStyle)return;var n=window.PrefixFree={prefixCSS:function(e,r,i){var s=n.prefix;n.functions.indexOf("linear-gradient")>-1&&(e=e.replace(/(\s|:|,)(repeating-)?linear-gradient\(\s*(-?\d*\.?\d*)deg/ig,function(e,t,n,r){return t+(n||"")+"linear-gradient("+(90-r)+"deg"}));e=t("functions","(\\s|:|,)","\\s*\\(","$1"+s+"$2(",e);e=t("keywords","(\\s|:)","(\\s|;|\\}|$)","$1"+s+"$2$3",e);e=t("properties","(^|\\{|\\s|;)","\\s*:","$1"+s+"$2:",e);if(n.properties.length){var o=RegExp("\\b("+n.properties.join("|")+")(?!:)","gi");e=t("valueProperties","\\b",":(.+?);",function(e){return e.replace(o,s+"$1")},e)}if(r){e=t("selectors","","\\b",n.prefixSelector,e);e=t("atrules","@","\\b","@"+s+"$1",e)}e=e.replace(RegExp("-"+s,"g"),"-");e=e.replace(/-\*-(?=[a-z]+)/gi,n.prefix);return e},property:function(e){return(n.properties.indexOf(e)?n.prefix:"")+e},value:function(e,r){e=t("functions","(^|\\s|,)","\\s*\\(","$1"+n.prefix+"$2(",e);e=t("keywords","(^|\\s)","(\\s|$)","$1"+n.prefix+"$2$3",e);return e},prefixSelector:function(e){return e.replace(/^:{1,2}/,function(e){return e+n.prefix})},prefixProperty:function(e,t){var r=n.prefix+e;return t?StyleFix.camelCase(r):r}};(function(){var e={},t=[],r={},i=getComputedStyle(document.documentElement,null),s=document.createElement("div").style,o=function(n){if(n.charAt(0)==="-"){t.push(n);var r=n.split("-"),i=r[1];e[i]=++e[i]||1;while(r.length>3){r.pop();var s=r.join("-");u(s)&&t.indexOf(s)===-1&&t.push(s)}}},u=function(e){return StyleFix.camelCase(e)in s};if(i.length>0)for(var a=0;a<i.length;a++)o(i[a]);else for(var f in i)o(StyleFix.deCamelCase(f));var l={uses:0};for(var c in e){var h=e[c];l.uses<h&&(l={prefix:c,uses:h})}n.prefix="-"+l.prefix+"-";n.Prefix=StyleFix.camelCase(n.prefix);n.properties=[];for(var a=0;a<t.length;a++){var f=t[a];if(f.indexOf(n.prefix)===0){var p=f.slice(n.prefix.length);u(p)||n.properties.push(p)}}n.Prefix=="Ms"&&!("transform"in s)&&!("MsTransform"in s)&&"msTransform"in s&&n.properties.push("transform","transform-origin");n.properties.sort()})();(function(){function i(e,t){r[t]="";r[t]=e;return!!r[t]}var e={"linear-gradient":{property:"backgroundImage",params:"red, teal"},calc:{property:"width",params:"1px + 5%"},element:{property:"backgroundImage",params:"#foo"},"cross-fade":{property:"backgroundImage",params:"url(a.png), url(b.png), 50%"}};e["repeating-linear-gradient"]=e["repeating-radial-gradient"]=e["radial-gradient"]=e["linear-gradient"];var t={initial:"color","zoom-in":"cursor","zoom-out":"cursor",box:"display",flexbox:"display","inline-flexbox":"display",flex:"display","inline-flex":"display"};n.functions=[];n.keywords=[];var r=document.createElement("div").style;for(var s in e){var o=e[s],u=o.property,a=s+"("+o.params+")";!i(a,u)&&i(n.prefix+a,u)&&n.functions.push(s)}for(var f in t){var u=t[f];!i(f,u)&&i(n.prefix+f,u)&&n.keywords.push(f)}})();(function(){function s(e){i.textContent=e+"{}";return!!i.sheet.cssRules.length}var t={":read-only":null,":read-write":null,":any-link":null,"::selection":null},r={keyframes:"name",viewport:null,document:'regexp(".")'};n.selectors=[];n.atrules=[];var i=e.appendChild(document.createElement("style"));for(var o in t){var u=o+(t[o]?"("+t[o]+")":"");!s(u)&&s(n.prefixSelector(u))&&n.selectors.push(o)}for(var a in r){var u=a+" "+(r[a]||"");!s("@"+u)&&s("@"+n.prefix+u)&&n.atrules.push(a)}e.removeChild(i)})();n.valueProperties=["transition","transition-property"];e.className+=" "+n.prefix;StyleFix.register(n.prefixCSS)})(document.documentElement);
-
 'use strict';
 
 // Declare app level module which depends on filters, and services
 var amCompanion = angular.module('amCompanion', [
-  'ngRoute','ngAnimate',"ngTouch", 'igTruncate',"matchMedia","angular-progress-arc"
+    'ngRoute','ngAnimate',"ngTouch", 'igTruncate',"angular-progress-arc"
 ]);
 'use strict';
 
 /* Controllers */
-amCompanion.controller('EmployeeController',[
-    "$scope","$routeParams","$location","$anchorScroll","EmployeesService", function(
-        $scope,$routeParams,$location, $anchorScroll ,EmployeesService){
+amCompanion.controller('FullEmployeeController',[
+    "$scope","$routeParams","$anchorScroll","AmcContextService","RoutesService", function(
+        $scope,$routeParams, $anchorScroll ,AmcContextService, RoutesService){
 
         $scope.progressColors = [];
         $scope.editMode = false;
         $scope.selectedEmployeeEdited = undefined;
+        $scope.nomPrenom = "";
 
         $anchorScroll();
 
-        var promise = EmployeesService.initEmployees();
+        var promise = AmcContextService.initEmployees();
         promise.then(function(){
-            EmployeesService.setSelectedEmployeeFromId($routeParams.id);
-            $scope.selectedEmployee = EmployeesService.getSelectedEmployee();
-
+            AmcContextService.setSelectedEmployeeFromId($routeParams.id);
+            $scope.selectedEmployee = AmcContextService.getSelectedEmployee();
+            $scope.nomPrenom = $scope.getName();
             for ( var i = 0 ; i < $scope.selectedEmployee.CurrentObjectives.length ; i++ )
             {
                 $scope.progressColors[i] = getColorForPercentage($scope.selectedEmployee.CurrentObjectives[i].progressionPercent/100);
             }
         });
 
+        $scope.getName = function()
+        {
+            var str = "";
+            if( $scope.selectedEmployee != undefined )
+            {
+                str = $scope.selectedEmployee.FirstName + " " + $scope.selectedEmployee.LastName;
+            }
+            return str;
+        }
+
+        $scope.goBack = function()
+        {
+            RoutesService.loadHomeView();
+        }
+
         $scope.showFullLink = function( link )
         {
-            $location.path("/link/"+$scope.selectedEmployee.Id+"/"+link.date);
+            RoutesService.loadLinkView( $scope.selectedEmployee, link );
         }
 
         $scope.$on( "startEdit" , function()
@@ -23930,15 +23820,13 @@ amCompanion.controller('EmployeeController',[
 'use strict';
 
 /* Controllers */
-amCompanion.controller('HomeController',[ "$scope","AuthService","EmployeesService", function(
-                                                            $scope,
-                                                            AuthService,
-                                                            EmployeesService
-                                                            ){
+amCompanion.controller('FullHomeController',[
+    "$scope","AuthService","AmcContextService",
+    function( $scope, AuthService,AmcContextService ){
 
 
-    EmployeesService.initEmployees();
-    $scope.employees = EmployeesService.getEmployees();
+    AmcContextService.initEmployees();
+    $scope.employees = AmcContextService.getEmployees();
 
 
 }]);
@@ -23946,15 +23834,36 @@ amCompanion.controller('HomeController',[ "$scope","AuthService","EmployeesServi
 'use strict';
 
 /* Controllers */
-amCompanion.controller('LinkController',[
-    "$scope","$routeParams","$location","EmployeesService", function(
-        $scope,$routeParams,$location,EmployeesService){
+amCompanion.controller('FullLinkController',[
+    "$scope","$routeParams","$anchorScroll","AmcContextService", "RoutesService", function(
+        $scope,$routeParams,$anchorScroll ,AmcContextService, RoutesService){
 
-        var promise = EmployeesService.initEmployees();
+        $anchorScroll();
+
+        /**
+         * This methods is passed in parameter to header, it allow to go back to employee view
+         */
+        $scope.goBack = function()
+        {
+            RoutesService.loadEmployeeView($scope.selectedEmployee);
+        }
+
+        $scope.getName = function()
+        {
+            var employee = AmcContextService.getSelectedEmployee();
+            var str = "";
+            if( employee != undefined )
+            {
+                str = employee.FirstName + " " + employee.LastName;
+            }
+            return str;
+        }
+
+        var promise = AmcContextService.initEmployees();
         promise.then(function(){
-            EmployeesService.setSelectedEmployeeFromId($routeParams.id);
-            $scope.selectedEmployee = EmployeesService.getSelectedEmployee();
-
+            AmcContextService.setSelectedEmployeeFromId($routeParams.id);
+            $scope.selectedEmployee = AmcContextService.getSelectedEmployee();
+            $scope.nomPrenom = $scope.getName();
             var currentLink = undefined;
             for( var i = 0 ; i < $scope.selectedEmployee.Links.length ; i++ )
             {
@@ -23967,14 +23876,14 @@ amCompanion.controller('LinkController',[
 
             if( $scope.selectedLink == undefined )
             {
-                $location.path("/employee/" + $scope.selectedEmployee.Id)
+                RoutesService.loadEmployeeView($scope.selectedEmployee);
             }
 
         })
 
     }]);
 
-amCompanion.controller('LoginController',
+amCompanion.controller('FullLoginController',
     [ "$scope","$timeout","$location","AuthService",
         function($scope,$timeout,$location ,AuthService)
         {
@@ -24025,6 +23934,54 @@ amCompanion.controller('LoginController',
             };
 
         }]);
+amCompanion.directive('amcHeader', function() {
+    return {
+        restrict: 'E',
+        controller:"AmcHeaderController",
+        templateUrl: './partials/utils/amc_header.html',
+        scope:
+        {
+            homeDisplay:"=",
+            libelle:"=",
+            goBackHandler:"&",
+            editMode:"="
+        }
+    }
+});
+
+/* Controllers */
+amCompanion.controller('AmcHeaderController', [ "$scope","RoutesService" , function($scope, RoutesService){
+
+    /**
+     * Cette fonction déconnecte l'utilisateur
+     */
+    $scope.disconnect = function()
+    {
+        RoutesService.disconnect();
+    }
+
+    $scope.goBack = function()
+    {
+        $scope.goBackHandler();
+    }
+
+    $scope.toggleEditMode = function()
+    {
+        $scope.$emit("startEdit");
+    }
+
+    $scope.validateEditMode = function()
+    {
+        $scope.$emit("validateEdit");
+    }
+
+    $scope.cancelEditMode = function()
+    {
+        $scope.$emit("cancelEdit");
+    }
+
+}]);
+
 amCompanion.directive('angRoundProgress', [function () {
 
   var compilationFunction = function (templateElement, templateAttributes, transclude) {
@@ -24111,61 +24068,11 @@ amCompanion.directive('angRoundProgress', [function () {
 }]);
 
 'use strict';
-amCompanion.directive('employeeHeader', function() {
+amCompanion.directive('embedEmployee', function() {
     return {
         restrict: 'E',
-        controller:"EmployeeHeaderController",
-        templateUrl: './partials/employee_header.html',
-        scope:
-        {
-            editMode:"="
-        }
-    }
-});
-
-/* Controllers */
-amCompanion.controller('EmployeeHeaderController', [ "$scope","$location","EmployeesService" , function($scope, $location, EmployeesService){
-
-    $scope.goBack = function()
-    {
-        $location.path("/");
-        EmployeesService.unsetSelectedEmployee();
-    }
-
-    $scope.getNomPrenom = function()
-    {
-        var employee = EmployeesService.getSelectedEmployee();
-        var str = "";
-        if( employee != undefined )
-        {
-            str = employee.FirstName + " " + employee.LastName;
-        }
-        return str;
-    }
-
-    $scope.toggleEditMode = function()
-    {
-        $scope.$emit("startEdit");
-    }
-
-    $scope.validateEditMode = function()
-    {
-        $scope.$emit("validateEdit");
-    }
-
-    $scope.cancelEditMode = function()
-    {
-        $scope.$emit("cancelEdit");
-    }
-
-}]);
-
-'use strict';
-amCompanion.directive('employee', function() {
-    return {
-        restrict: 'E',
-        templateUrl: './partials/employee_preview.html',
-        controller:"EmployeePreviewController",
+        templateUrl: './partials/embed/employee.html',
+        controller:"EmbedEmployeeController",
         scope:
         {
             employee:"="
@@ -24175,9 +24082,9 @@ amCompanion.directive('employee', function() {
 
 
 /* Controllers */
-amCompanion.controller('EmployeePreviewController',
-    [ "$scope", "$filter","$location","EmployeesService",
-        function($scope, $filter, $location, EmployeesService){
+amCompanion.controller('EmbedEmployeeController',
+    [ "$scope", "$filter","RoutesService","AmcContextService",
+        function($scope, $filter, RoutesService, AmcContextService){
 
             var lastLink = $filter("limitTo")($filter("orderBy")($scope.employee.Links, "date", "reverse"), 1);
             if( lastLink.length > 0 )
@@ -24187,8 +24094,7 @@ amCompanion.controller('EmployeePreviewController',
 
             $scope.openEmployeeView = function()
             {
-                EmployeesService.unsetSelectedEmployee();
-                $location.path("/employee/" + $scope.employee.Id)
+                RoutesService.loadEmployeeView($scope.employee);
             }
 
             if( $scope.employee.CurrentObjectives == undefined || $scope.employee.CurrentObjectives.length == 0 )
@@ -24229,92 +24135,198 @@ amCompanion.controller('EmployeePreviewController',
 
         }]);
 
-'use strict';
-amCompanion.directive('amHeader', function() {
-    return {
-        restrict: 'E',
-        controller:"HeaderController",
-        templateUrl: './partials/header.html',
-        scope:
+amCompanion.factory("AmcContextService", [ "$http","$q","urls",
+    function( $http, $q, urls )
+    {
+        var data = {};
+        data.employees = [];
+        data.selectedEmployee = undefined;
+        data.isInit = false;
+
+        /**
+         * This method get the data from the stub
+         */
+        this.initEmployees = function ()
         {
-            mode:"@",
-            goBackAction:"&"
-        }
-    }
-});
+            var defer = $q.defer();
 
-/* Controllers */
-amCompanion.controller('HeaderController', [ "$scope","$location" , function($scope, $location){
+            if( data.isInit == false )
+            {
+                var defer = $q.defer();
+                data.employees = [];
 
-    /**
-     * Cette fonction déconnecte l'utilisateur
-     */
-    $scope.disconnect = function()
-    {
-        sessionStorage.removeItem("token");
-        $location.path("/login");
-    }
 
-    $scope.goBack = function()
-    {
-        console.log($scope.goBackAction);
-        $scope.goBackAction();
-    }
+                /*
+                $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.token;
+                $http.get(
+                        urls.employes + "/sro@test.com"
+                ).success(
+                    function (res, status, headers ) {
 
-}]);
+                        data.employees.push.apply(data.employees , res);
+                        data.isInit = true;
+                        defer.resolve();
 
-'use strict';
-amCompanion.directive('homeHeader', function() {
-    return {
-        restrict: 'E',
-        controller:"HomeHeaderController",
-        templateUrl: './partials/home_header.html'
-    }
-});
+                    }).error(function()
+                    {
+                        defer.reject();
+                    });
+                */
+                $http.get("/data/data.json").success(
+                function (res, status, headers ) {
+                    data.employees.push.apply(data.employees , res);
+                    data.isInit = true;
+                    defer.resolve();
+                }).error(function()
+                {
+                    alert("data not loaded");
+                });
 
-/* Controllers */
-amCompanion.controller('HomeHeaderController', [ "$scope","$location" , function($scope, $location){
 
-    /**
-     * Cette fonction déconnecte l'utilisateur
-     */
-    $scope.disconnect = function()
-    {
-        sessionStorage.removeItem("token");
-        $location.path("/login");
-    }
 
-}]);
+            }
+            else
+            {
+                defer.resolve();
+            }
 
-'use strict';
-amCompanion.directive('linkHeader', function() {
-    return {
-        restrict: 'E',
-        controller:"LinkHeaderController",
-        templateUrl: './partials/link_header.html'
-    }
-});
+            return defer.promise;
 
-/* Controllers */
-amCompanion.controller('LinkHeaderController', [ "$scope","$location", "EmployeesService" , function($scope, $location, EmployeesService){
+        };
 
-    $scope.goBack = function()
-    {
-        $location.path("/employee/" + $scope.selectedEmployee.Id)
-    }
-
-    $scope.getNomPrenom = function()
-    {
-        var employee = EmployeesService.getSelectedEmployee();
-        var str = "";
-        if( employee != undefined )
+        //Accessor of employees
+        this.getEmployees = function()
         {
-            str = employee.FirstName + " " + employee.LastName;
-        }
-        return str;
-    }
+            return data.employees;
+        };
 
-}]);
+        this.getSelectedEmployee = function()
+        {
+            return data.selectedEmployee;
+        }
+
+        this.setSelectedEmployee = function( employee )
+        {
+            data.selectedEmployee = employee;
+        }
+
+        this.setSelectedEmployeeFromId = function( id )
+        {
+            for( var i = 0 ; i < data.employees.length ; i ++ )
+            {
+                if ( data.employees[i]._id == id )
+                {
+                    this.setSelectedEmployee(data.employees[i]);
+                }
+            }
+        }
+
+        this.unsetSelectedEmployee = function()
+        {
+            data.selectedEmployee = undefined;
+        }
+
+        return this;
+    }]);
+amCompanion.factory('AuthService', ["$http", "Session" , "$location","$q", "urls",
+    function ($http, Session , $location, $q, urls) {
+        return {
+            login: function (credentials){
+
+                var defer = $q.defer();
+                var data = {Email:credentials.email,Password:credentials.password};
+
+                $http.post(
+                    urls.login, data
+                ).success(function (data, status, headers ) {
+                        Session.create(data.Id, data.FirstName + " " + data.LastName , data.Profile);
+                        sessionStorage.setItem("token", data.token);
+                        defer.resolve("Login correct");
+                    }).error(function()
+                    {
+/*
+                         Session.create("fakeID", "Fake Fake" , "User");
+                         sessionStorage.setItem("token", "thetokenbidon");
+                         defer.resolve("Login correct");
+*/
+                        //To decomment to have the normal way :)
+                        defer.reject("Login Incorrect");
+                    });
+
+                return defer.promise;
+            },
+            isAuthenticated: function () {
+                return !!Session.userId;
+            },
+            isAuthorized: function (authorizedRoles) {
+                if (!angular.isArray(authorizedRoles)) {
+                    authorizedRoles = [authorizedRoles];
+                }
+                return (this.isAuthenticated() &&
+                    authorizedRoles.indexOf(Session.userRole) !== -1);
+            }
+        };
+    }]);
+amCompanion.factory("RoutesService",
+    ["$location","AmcContextService",
+        function( $location, AmcContextService )
+        {
+            this.disconnect = function ()
+            {
+                sessionStorage.removeItem("token");
+                $location.path("/login");
+            };
+
+            this.loadHomeView = function()
+            {
+                $location.path("/");
+                AmcContextService.unsetSelectedEmployee();
+            }
+
+            this.loadEmployeeView = function( employee )
+            {
+                AmcContextService.unsetSelectedEmployee();
+                $location.path("/employee/" + employee._id);
+            }
+
+            this.loadLinkView = function( employee, link )
+            {
+                $location.path("/link/"+employee._id+"/"+link.date);
+            }
+
+            return this;
+        }
+    ]
+);
+amCompanion.service('Session',function () {
+
+    this.create = function (sessionId, userId, userRole) {
+        this.id = sessionId;
+        this.userId = userId;
+        this.userRole = userRole;
+    };
+    this.destroy = function () {
+        this.id = null;
+        this.userId = null;
+        this.userRole = null;
+    };
+    this.fromJson = function( jsonObject )
+    {
+        var session = angular.fromJson( jsonObject );
+        this.id = session.id;
+        this.userId = session.userId;
+        this.userRole = session.userRole;
+    };
+
+    return this;
+});
+/*
+amCompanion.constant("urls", {
+        login: "http://localhost:1337/login",
+        employes: "http://localhost:1337/api/employees"
+    }
+);
+*/
 
 amCompanion.constant("urls", {
         login: "https://amcnode.azurewebsites.net/login",
@@ -24322,9 +24334,6 @@ amCompanion.constant("urls", {
     }
 );
 
-'use strict';
-
-/* Filters */
 /**
  * This function set the percent of colors to make the gradient red to green
  * @type {{pct: number, color: {r: number, g: number, b: number}}[]}
@@ -24376,26 +24385,26 @@ function componentToHex(c) {
 amCompanion.config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/', {
         id:"home",
-        templateUrl: 'partials/home.html',
-        controller: 'HomeController'
+        templateUrl: 'partials/full/home.html',
+        controller: 'FullHomeController'
     });
 
     $routeProvider.when('/employee/:id', {
         id:"employee",
-        templateUrl: 'partials/employee_full.html',
-        controller: 'EmployeeController'
+        templateUrl: 'partials/full/employee.html',
+        controller: 'FullEmployeeController'
     });
 
     $routeProvider.when('/link/:id/:timestamp', {
         id:"link",
-        templateUrl: 'partials/link_full.html',
-        controller: 'LinkController'
+        templateUrl: 'partials/full/link.html',
+        controller: 'FullLinkController'
     });
 
     $routeProvider.when('/login', {
         id:"login",
-        templateUrl: 'partials/login.html',
-        controller: 'LoginController'
+        templateUrl: 'partials/full/login.html',
+        controller: 'FullLoginController'
     });
 
     $routeProvider.otherwise({redirectTo: '/'});
@@ -24436,147 +24445,3 @@ amCompanion.run(["$rootScope", "$location",
         });
     }]);
 
-
-'use strict';
-/* Services */
-amCompanion.factory("EmployeesService", [ "$http","$q","urls",
-    function( $http, $q, urls )
-    {
-        var data = {};
-        data.employees = [];
-        data.selectedEmployee = undefined;
-        data.isInit = false;
-
-        /**
-         * This method get the data from the stub
-         */
-        this.initEmployees = function ()
-        {
-            var defer = $q.defer();
-
-            if( data.isInit == false )
-            {
-                var defer = $q.defer();
-                data.employees = [];
-
-                $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.token;
-                $http.get(
-                        urls.employes + "/sro@test.com"
-                ).success(
-                    function (res, status, headers ) {
-
-                        data.employees.push.apply(data.employees , res);
-                        data.isInit = true;
-                        defer.resolve();
-
-                    }).error(function()
-                    {
-                        defer.reject();
-                    });
-            }
-            else
-            {
-                defer.resolve();
-            }
-
-            return defer.promise;
-
-        };
-
-        //Accessor of employees
-        this.getEmployees = function()
-        {
-            return data.employees;
-        };
-
-        this.getSelectedEmployee = function()
-        {
-            return data.selectedEmployee;
-        }
-
-        this.setSelectedEmployee = function( employee )
-        {
-            data.selectedEmployee = employee;
-        }
-
-        this.setSelectedEmployeeFromId = function( id )
-        {
-            for( var i = 0 ; i < data.employees.length ; i ++ )
-            {
-                if ( data.employees[i].Id == id )
-                {
-                    this.setSelectedEmployee(data.employees[i]);
-                }
-            }
-        }
-
-        this.unsetSelectedEmployee = function()
-        {
-            data.selectedEmployee = undefined;
-        }
-
-        return this;
-    }]);
-
-amCompanion.factory('AuthService', ["$http", "Session" , "$location","$q", "urls",
-    function ($http, Session , $location, $q, urls) {
-        return {
-            login: function (credentials){
-
-                var defer = $q.defer();
-                var data = {Email:credentials.email,Password:credentials.password};
-
-                $http.post(
-                    urls.login
-                ).success(function (data, status, headers ) {
-                        Session.create(data.Id, data.FirstName + " " + data.LastName , data.Profile);
-                        sessionStorage.setItem("token", data.token);
-                        defer.resolve("Login correct");
-                    }).error(function()
-                    {
-                        /*
-                         Session.create("fakeID", "Fake Fake" , "User");
-                         sessionStorage.setItem("token", "thetokenbidon");
-                         defer.resolve("Login correct");
-                         */
-                        //To decomment to have the normal way :)
-                        defer.reject("Login Incorrect");
-                    });
-
-                return defer.promise;
-            },
-            isAuthenticated: function () {
-                return !!Session.userId;
-            },
-            isAuthorized: function (authorizedRoles) {
-                if (!angular.isArray(authorizedRoles)) {
-                    authorizedRoles = [authorizedRoles];
-                }
-                return (this.isAuthenticated() &&
-                    authorizedRoles.indexOf(Session.userRole) !== -1);
-            }
-        };
-    }]);
-
-amCompanion.service('Session',function () {
-
-    this.create = function (sessionId, userId, userRole) {
-        this.id = sessionId;
-        this.userId = userId;
-        this.userRole = userRole;
-    };
-    this.destroy = function () {
-        this.id = null;
-        this.userId = null;
-        this.userRole = null;
-    };
-    this.fromJson = function( jsonObject )
-    {
-        var session = angular.fromJson( jsonObject );
-        this.id = session.id;
-        this.userId = session.userId;
-        this.userRole = session.userRole;
-    };
-
-    return this;
-});
