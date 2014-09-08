@@ -1,5 +1,5 @@
-amCompanion.factory('AuthService', ["$http", "Session" , "$location","$q", "urls",
-    function ($http, Session , $location, $q, urls) {
+amCompanion.factory('AuthService', ["$http", "$q", "urls", "AmcContextService",
+    function ($http , $q, urls, AmcContextService) {
         return {
             login: function (credentials){
 
@@ -8,32 +8,26 @@ amCompanion.factory('AuthService', ["$http", "Session" , "$location","$q", "urls
 
                 $http.post(
                     urls.login, data
-                ).success(function (data, status, headers ) {
-                        Session.create(data.Id, data.FirstName + " " + data.LastName , data.Profile);
-                        sessionStorage.setItem("token", data.token);
-                        defer.resolve("Login correct");
-                    }).error(function()
+                ).success(
+                    function ( data )
                     {
-/*
-                         Session.create("fakeID", "Fake Fake" , "User");
-                         sessionStorage.setItem("token", "thetokenbidon");
-                         defer.resolve("Login correct");
-*/
-                        //To decomment to have the normal way :)
+                        sessionStorage.setItem("token", data.token);
+                        sessionStorage.setItem("mail", credentials.email);
+                        AmcContextService.initData();
+                        defer.resolve("Login correct");
+                    }).error(
+                    function(){
+                        sessionStorage.setItem("token", data.token);
+                        sessionStorage.setItem("mail", credentials.email);
+                        AmcContextService.initData();
+                        defer.resolve("Login correct");
+
+
                         defer.reject("Login Incorrect");
-                    });
+                    }
+                );
 
                 return defer.promise;
-            },
-            isAuthenticated: function () {
-                return !!Session.userId;
-            },
-            isAuthorized: function (authorizedRoles) {
-                if (!angular.isArray(authorizedRoles)) {
-                    authorizedRoles = [authorizedRoles];
-                }
-                return (this.isAuthenticated() &&
-                    authorizedRoles.indexOf(Session.userRole) !== -1);
             }
         };
     }]);

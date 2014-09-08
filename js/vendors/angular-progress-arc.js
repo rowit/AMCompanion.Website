@@ -59,7 +59,7 @@
                 };
             },
             template:
-                '<svg ng-attr-width="{{size}}" ng-attr-height="{{size}}">' +
+                '<svg ng-attr-width="{{48}}" ng-attr-height="{{48}}">' +
                     '<circle fill="none" ' +
                         'ng-if="background" ' +
                         'ng-attr-cx="{{size/2}}" ' +

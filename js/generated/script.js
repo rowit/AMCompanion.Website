@@ -23675,7 +23675,7 @@ angular.module("ngLocale", [], ["$provide", function($provide) {
                 };
             },
             template:
-                '<svg ng-attr-width="{{size}}" ng-attr-height="{{size}}">' +
+                '<svg ng-attr-width="{{48}}" ng-attr-height="{{48}}">' +
                     '<circle fill="none" ' +
                         'ng-if="background" ' +
                         'ng-attr-cx="{{size/2}}" ' +
@@ -23768,17 +23768,28 @@ amCompanion.controller('FullEmployeeController',[
 
         $anchorScroll();
 
+        //init the page's context
         var promise = AmcContextService.initEmployees();
         promise.then(function(){
             AmcContextService.setSelectedEmployeeFromId($routeParams.id);
             $scope.selectedEmployee = AmcContextService.getSelectedEmployee();
             $scope.nomPrenom = $scope.getName();
+            initColors();
+        });
+
+        function initColors()
+        {
+            $scope.progressColors = [];
             for ( var i = 0 ; i < $scope.selectedEmployee.CurrentObjectives.length ; i++ )
             {
                 $scope.progressColors[i] = getColorForPercentage($scope.selectedEmployee.CurrentObjectives[i].progressionPercent/100);
             }
-        });
+        }
 
+        /**
+         * get the name of the employee clicked
+         * @returns {string}
+         */
         $scope.getName = function()
         {
             var str = "";
@@ -23789,11 +23800,18 @@ amCompanion.controller('FullEmployeeController',[
             return str;
         }
 
+        /**
+         * This function allow to return to the home page
+         */
         $scope.goBack = function()
         {
             RoutesService.loadHomeView();
         }
 
+        /**
+         * This is what happened when a link is clicked
+         * @param link
+         */
         $scope.showFullLink = function( link )
         {
             RoutesService.loadLinkView( $scope.selectedEmployee, link );
@@ -23812,6 +23830,8 @@ amCompanion.controller('FullEmployeeController',[
 
         $scope.$on("validateEdit",function()
         {
+            $scope.selectedEmployee = $scope.selectedEmployeeEdited;
+            initColors();
             $scope.editMode = false;
         });
 
@@ -24138,10 +24158,17 @@ amCompanion.controller('EmbedEmployeeController',
 amCompanion.factory("AmcContextService", [ "$http","$q","urls",
     function( $http, $q, urls )
     {
+
         var data = {};
-        data.employees = [];
-        data.selectedEmployee = undefined;
-        data.isInit = false;
+
+        this.initData = function()
+        {
+            data.employees = [];
+            data.selectedEmployee = undefined;
+            data.isInit = false;
+            data.userMail = sessionStorage.getItem("mail");
+        }
+        this.initData();
 
         /**
          * This method get the data from the stub
@@ -24155,12 +24182,14 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls",
                 var defer = $q.defer();
                 data.employees = [];
 
-
+                /*
                 $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.token;
                 $http.get(
-                        urls.employes + "/sro@test.com"
+                        urls.employes + "/" +data.userMail
                 ).success(
                     function (res, status, headers ) {
+
+                        sortEmployeesByDate(res);
 
                         data.employees.push.apply(data.employees , res);
                         data.isInit = true;
@@ -24171,9 +24200,10 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls",
                         defer.reject();
                 });
 
-                /*
+                */
                 $http.get("/data/data.json").success(
-                function (res, status, headers ) {
+                function ( res ) {
+                    sortEmployeesByDate(res);
                     data.employees.push.apply(data.employees , res);
                     data.isInit = true;
                     defer.resolve();
@@ -24181,18 +24211,41 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls",
                 {
                     alert("data not loaded");
                 });
-                */
-
 
             }
             else
             {
                 defer.resolve();
             }
-
             return defer.promise;
-
         };
+
+        function sortEmployeesByDate( employees )
+        {
+            var currentEmployee = undefined;
+            var currentMax = -1;
+
+            for( var i = 0 ; i < employees.length ; i ++ )
+            {
+                currentMax = -1;
+                currentEmployee = employees[i];
+                for( var j = 0 ; j < currentEmployee.Links.length ; j ++ )
+                {
+                    if( currentEmployee.Links[j].date > currentMax )
+                    {
+                        currentMax = currentEmployee.Links[j].date;
+                    }
+                }
+                currentEmployee.dateMax = currentMax;
+            }
+
+            employees.sort(sortEmployees);
+        }
+
+        function sortEmployees( a, b)
+        {
+            return a.dateMax > b.dateMax;
+        }
 
         //Accessor of employees
         this.getEmployees = function()
@@ -24228,8 +24281,8 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls",
 
         return this;
     }]);
-amCompanion.factory('AuthService', ["$http", "Session" , "$location","$q", "urls",
-    function ($http, Session , $location, $q, urls) {
+amCompanion.factory('AuthService', ["$http", "$q", "urls", "AmcContextService",
+    function ($http , $q, urls, AmcContextService) {
         return {
             login: function (credentials){
 
@@ -24238,32 +24291,26 @@ amCompanion.factory('AuthService', ["$http", "Session" , "$location","$q", "urls
 
                 $http.post(
                     urls.login, data
-                ).success(function (data, status, headers ) {
-                        Session.create(data.Id, data.FirstName + " " + data.LastName , data.Profile);
-                        sessionStorage.setItem("token", data.token);
-                        defer.resolve("Login correct");
-                    }).error(function()
+                ).success(
+                    function ( data )
                     {
-/*
-                         Session.create("fakeID", "Fake Fake" , "User");
-                         sessionStorage.setItem("token", "thetokenbidon");
-                         defer.resolve("Login correct");
-*/
-                        //To decomment to have the normal way :)
+                        sessionStorage.setItem("token", data.token);
+                        sessionStorage.setItem("mail", credentials.email);
+                        AmcContextService.initData();
+                        defer.resolve("Login correct");
+                    }).error(
+                    function(){
+                        sessionStorage.setItem("token", data.token);
+                        sessionStorage.setItem("mail", credentials.email);
+                        AmcContextService.initData();
+                        defer.resolve("Login correct");
+
+
                         defer.reject("Login Incorrect");
-                    });
+                    }
+                );
 
                 return defer.promise;
-            },
-            isAuthenticated: function () {
-                return !!Session.userId;
-            },
-            isAuthorized: function (authorizedRoles) {
-                if (!angular.isArray(authorizedRoles)) {
-                    authorizedRoles = [authorizedRoles];
-                }
-                return (this.isAuthenticated() &&
-                    authorizedRoles.indexOf(Session.userRole) !== -1);
             }
         };
     }]);
@@ -24298,28 +24345,6 @@ amCompanion.factory("RoutesService",
         }
     ]
 );
-amCompanion.service('Session',function () {
-
-    this.create = function (sessionId, userId, userRole) {
-        this.id = sessionId;
-        this.userId = userId;
-        this.userRole = userRole;
-    };
-    this.destroy = function () {
-        this.id = null;
-        this.userId = null;
-        this.userRole = null;
-    };
-    this.fromJson = function( jsonObject )
-    {
-        var session = angular.fromJson( jsonObject );
-        this.id = session.id;
-        this.userId = session.userId;
-        this.userRole = session.userRole;
-    };
-
-    return this;
-});
 /*
 amCompanion.constant("urls", {
         login: "http://localhost:1337/login",
