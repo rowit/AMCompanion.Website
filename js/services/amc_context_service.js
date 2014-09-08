@@ -25,7 +25,7 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls",
                 var defer = $q.defer();
                 data.employees = [];
 
-                /*
+
                 $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.token;
                 $http.get(
                         urls.employes + "/" +data.userMail
@@ -43,7 +43,7 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls",
                         defer.reject();
                 });
 
-                */
+                /*
                 $http.get("/data/data.json").success(
                 function ( res ) {
                     sortEmployeesByDate(res);
@@ -54,7 +54,7 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls",
                 {
                     alert("data not loaded");
                 });
-
+                */
             }
             else
             {

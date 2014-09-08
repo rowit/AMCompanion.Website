@@ -24182,7 +24182,7 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls",
                 var defer = $q.defer();
                 data.employees = [];
 
-                /*
+
                 $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.token;
                 $http.get(
                         urls.employes + "/" +data.userMail
@@ -24200,7 +24200,7 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls",
                         defer.reject();
                 });
 
-                */
+                /*
                 $http.get("/data/data.json").success(
                 function ( res ) {
                     sortEmployeesByDate(res);
@@ -24211,7 +24211,7 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls",
                 {
                     alert("data not loaded");
                 });
-
+                */
             }
             else
             {
@@ -24300,11 +24300,12 @@ amCompanion.factory('AuthService', ["$http", "$q", "urls", "AmcContextService",
                         defer.resolve("Login correct");
                     }).error(
                     function(){
+                        /*
                         sessionStorage.setItem("token", data.token);
                         sessionStorage.setItem("mail", credentials.email);
                         AmcContextService.initData();
                         defer.resolve("Login correct");
-
+                        */
 
                         defer.reject("Login Incorrect");
                     }
