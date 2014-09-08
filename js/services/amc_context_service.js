@@ -19,7 +19,6 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls",
                 data.employees = [];
 
 
-                /*
                 $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.token;
                 $http.get(
                         urls.employes + "/sro@test.com"
@@ -31,10 +30,11 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls",
                         defer.resolve();
 
                     }).error(function()
-                    {
+                {
                         defer.reject();
-                    });
-                */
+                });
+
+                /*
                 $http.get("/data/data.json").success(
                 function (res, status, headers ) {
                     data.employees.push.apply(data.employees , res);
@@ -44,7 +44,7 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls",
                 {
                     alert("data not loaded");
                 });
-
+                */
 
 
             }
