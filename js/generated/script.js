@@ -24407,7 +24407,7 @@ function componentToHex(c) {
 /**
  * Created by Sébastien on 18/05/2014.
  */
-amCompanion.config(['$routeProvider', function($routeProvider) {
+amCompanion.config(['$routeProvider','$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider.when('/', {
         id:"home",
         templateUrl: 'partials/full/home.html',
@@ -24432,6 +24432,7 @@ amCompanion.config(['$routeProvider', function($routeProvider) {
         controller: 'FullLoginController'
     });
 
+    $locationProvider.html5Mode(true);
     $routeProvider.otherwise({redirectTo: '/'});
 }]);
 
