@@ -13,7 +13,7 @@ module.exports = function(grunt) {
             },
             js : {
                 src : [
-                    "js/vendors/angular.min.js",
+                    "js/vendors/angular.js",
                     "js/vendors/*.js",
                     "js/app.js",
                     "js/controllers/*.js",

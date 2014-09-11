@@ -4,25 +4,25 @@
 amCompanion.config(['$routeProvider','$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider.when('/', {
         id:"home",
-        templateUrl: 'partials/full/home.html',
+        templateUrl: '/partials/full/home.html',
         controller: 'FullHomeController'
     });
 
     $routeProvider.when('/employee/:id', {
         id:"employee",
-        templateUrl: 'partials/full/employee.html',
+        templateUrl: '/partials/full/employee.html',
         controller: 'FullEmployeeController'
     });
 
     $routeProvider.when('/link/:id/:timestamp', {
         id:"link",
-        templateUrl: 'partials/full/link.html',
+        templateUrl: '/partials/full/link.html',
         controller: 'FullLinkController'
     });
 
     $routeProvider.when('/login', {
         id:"login",
-        templateUrl: 'partials/full/login.html',
+        templateUrl: '/partials/full/login.html',
         controller: 'FullLoginController'
     });
 
@@ -30,8 +30,8 @@ amCompanion.config(['$routeProvider','$locationProvider', function($routeProvide
     $routeProvider.otherwise({redirectTo: '/'});
 }]);
 
-amCompanion.run(["$rootScope", "$location",
-    function ($rootScope, $location ) {
+amCompanion.run(["$rootScope", "$location","RoutesService",
+    function ($rootScope, $location, RoutesService ) {
         $rootScope.$on('$routeChangeStart', function (event, next, current) {
 
             //var mainContainer = angular.element(document.getElementById("am-companion"))
@@ -59,7 +59,7 @@ amCompanion.run(["$rootScope", "$location",
             */
             if( sessionStorage.getItem("token") == undefined )
             {
-                $location.path("/login");
+                RoutesService.disconnect();
             }
 
         });
