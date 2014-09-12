@@ -7,7 +7,7 @@
             <div class="separator columns small-12">
                 <span class="text">Collaborateurs</span>
             </div>
-            <div ng-repeat="employee in employees track by employee._id" class="columns sm">
+            <div ng-repeat="employee in employees|orderBy:'dateMax' track by employee._id " class="columns sm">
                 <embed-employee employee="employee" last="$last"></embed-employee>
             </div>
         </div>

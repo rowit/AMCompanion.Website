@@ -25,14 +25,13 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls",
                 var defer = $q.defer();
                 data.employees = [];
 
-
                 $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.token;
                 $http.get(
                         urls.employes + "/" +data.userMail
                 ).success(
                     function (res, status, headers ) {
 
-                        sortEmployeesByDate(res);
+                        addEmployeeDate(res);
 
                         data.employees.push.apply(data.employees , res);
                         data.isInit = true;
@@ -42,11 +41,10 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls",
                 {
                         defer.reject();
                 });
-
                 /*
                 $http.get("/data/data.json").success(
                 function ( res ) {
-                    sortEmployeesByDate(res);
+                    addEmployeeDate(res);
                     data.employees.push.apply(data.employees , res);
                     data.isInit = true;
                     defer.resolve();
@@ -63,7 +61,7 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls",
             return defer.promise;
         };
 
-        function sortEmployeesByDate( employees )
+        function addEmployeeDate( employees )
         {
             var currentEmployee = undefined;
             var currentMax = -1;
@@ -81,8 +79,6 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls",
                 }
                 currentEmployee.dateMax = currentMax;
             }
-
-            employees.sort(sortEmployees);
         }
 
         function sortEmployees( a, b)
