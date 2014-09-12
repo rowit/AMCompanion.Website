@@ -21,7 +21,7 @@ app.use("/data", express.static(__dirname + "/data"));
 app.use("/partials", express.static(__dirname + "partials"));
 
 app.get('/*', function(req, res) {
-    res.sendfile('/index.html'); // load our public/views/index.html file
+    res.sendfile('./index.html'); // load our public/views/index.html file
 });
 
 // routes ==================================================
