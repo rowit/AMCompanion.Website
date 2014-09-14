@@ -1,9 +1,12 @@
-amCompanion.factory("AmcContextService", [ "$http","$q","urls",
-    function( $http, $q, urls )
+amCompanion.factory("AmcContextService", [ "$http","$q","urls","$cookies",
+    function( $http, $q, urls,$cookies )
     {
 
         var data = {};
 
+        /**
+         * This function is called to reset the service's data
+         */
         this.initData = function()
         {
             data.employees = [];
@@ -11,6 +14,7 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls",
             data.isInit = false;
             data.userMail = sessionStorage.getItem("mail");
         }
+        //Init the context at the first injection
         this.initData();
 
         /**
@@ -25,34 +29,40 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls",
                 var defer = $q.defer();
                 data.employees = [];
 
-                $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.token;
-                $http.get(
-                        urls.employes + "/" +data.userMail
-                ).success(
-                    function (res, status, headers ) {
 
-                        addEmployeeDate(res);
-
-                        data.employees.push.apply(data.employees , res);
-                        data.isInit = true;
-                        defer.resolve();
-
-                    }).error(function()
+                if( this.isDevVersion() )
                 {
-                        defer.reject();
-                });
-                /*
-                $http.get("/data/data.json").success(
-                function ( res ) {
-                    addEmployeeDate(res);
-                    data.employees.push.apply(data.employees , res);
-                    data.isInit = true;
-                    defer.resolve();
-                }).error(function()
+                    $http.get("/data/data.json").success(
+                        function ( res ) {
+                            addEmployeeDate(res);
+                            data.employees.push.apply(data.employees , res);
+                            data.isInit = true;
+                            defer.resolve();
+                        }).error(function()
+                        {
+                            alert("data not loaded");
+                        });
+                }
+                else
                 {
-                    alert("data not loaded");
-                });
-                */
+                    $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.token;
+                    $http.get(
+                            urls.employes + "/" +data.userMail
+                    ).success(
+                        function (res, status, headers ) {
+
+                            addEmployeeDate(res);
+
+                            data.employees.push.apply(data.employees , res);
+                            data.isInit = true;
+                            defer.resolve();
+
+                        }).error(function()
+                        {
+                            defer.reject();
+                        });
+                }
+
             }
             else
             {
@@ -61,6 +71,10 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls",
             return defer.promise;
         };
 
+        /**
+         * This function get the max date of the links and set it on the employee
+         * @param employees the employee's list from the server
+         */
         function addEmployeeDate( employees )
         {
             var currentEmployee = undefined;
@@ -81,9 +95,10 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls",
             }
         }
 
-        function sortEmployees( a, b)
+        this.isDevVersion = function()
         {
-            return a.dateMax > b.dateMax;
+            console.log($cookies);
+            return $cookies.env == "dev";
         }
 
         //Accessor of employees

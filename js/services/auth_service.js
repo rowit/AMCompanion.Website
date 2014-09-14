@@ -6,6 +6,8 @@ amCompanion.factory('AuthService', ["$http", "$q", "urls", "AmcContextService",
                 var defer = $q.defer();
                 var data = {Email:credentials.email,Password:credentials.password};
 
+
+
                 $http.post(
                     urls.login, data
                 ).success(
@@ -17,12 +19,14 @@ amCompanion.factory('AuthService', ["$http", "$q", "urls", "AmcContextService",
                         defer.resolve("Login correct");
                     }).error(
                     function(){
-                        /*
-                        sessionStorage.setItem("token", data.token);
-                        sessionStorage.setItem("mail", credentials.email);
-                        AmcContextService.initData();
-                        defer.resolve("Login correct");
-                        */
+
+                        if(AmcContextService.isDevVersion())
+                        {
+                            sessionStorage.setItem("token", data.token);
+                            sessionStorage.setItem("mail", credentials.email);
+                            AmcContextService.initData();
+                            defer.resolve("Login correct");
+                        }
 
                         defer.reject("Login Incorrect");
                     }

@@ -8,6 +8,11 @@
         <div class="row">
             <div class="separator columns small-12">
                 <span class="text">Objectifs</span>
+                <span class="action float-right">
+                    <button class="btn">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                </span>
             </div>
             <div ng-if="!editMode" class="item columns small-12" ng-repeat="objective in selectedEmployee.CurrentObjectives">
                 <progress-arc complete="objective.progressionPercent/100" stroke="progressColors[$index]"></progress-arc>
@@ -26,6 +31,11 @@
 
             <div class="separator columns small-12">
                 <span class="text">Entretiens</span>
+                <span class="action float-right">
+                    <button class="btn">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                </span>
             </div>
             <div class="item columns small-12"
                  ng-repeat="link in selectedEmployee.Links | orderBy:'date':'reverse'"
@@ -43,11 +53,6 @@
                         <span class="glyphicon glyphicon-chevron-right"></span>
                     </div>
                 </div>
-            </div>
-            <div class="item-gray columns small-12">
-                <button class="btn btn-success btn-lg btn-block small-10 small-centered columns btn-sm">
-                    Ajouter
-                </button>
             </div>
         </div>
     </div>
