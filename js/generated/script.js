@@ -26295,6 +26295,213 @@
 
 
 })(window, window.angular);
+/**
+ * @license AngularJS v1.3.0-rc.1
+ * (c) 2010-2014 Google, Inc. http://angularjs.org
+ * License: MIT
+ */
+(function(window, angular, undefined) {'use strict';
+
+    /**
+     * @ngdoc module
+     * @name ngCookies
+     * @description
+     *
+     * # ngCookies
+     *
+     * The `ngCookies` module provides a convenient wrapper for reading and writing browser cookies.
+     *
+     *
+     * <div doc-module-components="ngCookies"></div>
+     *
+     * See {@link ngCookies.$cookies `$cookies`} and
+     * {@link ngCookies.$cookieStore `$cookieStore`} for usage.
+     */
+
+
+    angular.module('ngCookies', ['ng']).
+    /**
+     * @ngdoc service
+     * @name $cookies
+     *
+     * @description
+     * Provides read/write access to browser's cookies.
+     *
+     * Only a simple Object is exposed and by adding or removing properties to/from this object, new
+     * cookies are created/deleted at the end of current $eval.
+     * The object's properties can only be strings.
+     *
+     * Requires the {@link ngCookies `ngCookies`} module to be installed.
+     *
+     * @example
+     *
+     * ```js
+     * angular.module('cookiesExample', ['ngCookies'])
+     *   .controller('ExampleController', ['$cookies', function($cookies) {
+   *     // Retrieving a cookie
+   *     var favoriteCookie = $cookies.myFavorite;
+   *     // Setting a cookie
+   *     $cookies.myFavorite = 'oatmeal';
+   *   }]);
+     * ```
+     */
+        factory('$cookies', ['$rootScope', '$browser', function ($rootScope, $browser) {
+            var cookies = {},
+                lastCookies = {},
+                lastBrowserCookies,
+                runEval = false,
+                copy = angular.copy,
+                isUndefined = angular.isUndefined;
+
+            //creates a poller fn that copies all cookies from the $browser to service & inits the service
+            $browser.addPollFn(function() {
+                var currentCookies = $browser.cookies();
+                if (lastBrowserCookies != currentCookies) { //relies on browser.cookies() impl
+                    lastBrowserCookies = currentCookies;
+                    copy(currentCookies, lastCookies);
+                    copy(currentCookies, cookies);
+                    if (runEval) $rootScope.$apply();
+                }
+            })();
+
+            runEval = true;
+
+            //at the end of each eval, push cookies
+            //TODO: this should happen before the "delayed" watches fire, because if some cookies are not
+            //      strings or browser refuses to store some cookies, we update the model in the push fn.
+            $rootScope.$watch(push);
+
+            return cookies;
+
+
+            /**
+             * Pushes all the cookies from the service to the browser and verifies if all cookies were
+             * stored.
+             */
+            function push() {
+                var name,
+                    value,
+                    browserCookies,
+                    updated;
+
+                //delete any cookies deleted in $cookies
+                for (name in lastCookies) {
+                    if (isUndefined(cookies[name])) {
+                        $browser.cookies(name, undefined);
+                    }
+                }
+
+                //update all cookies updated in $cookies
+                for(name in cookies) {
+                    value = cookies[name];
+                    if (!angular.isString(value)) {
+                        value = '' + value;
+                        cookies[name] = value;
+                    }
+                    if (value !== lastCookies[name]) {
+                        $browser.cookies(name, value);
+                        updated = true;
+                    }
+                }
+
+                //verify what was actually stored
+                if (updated){
+                    updated = false;
+                    browserCookies = $browser.cookies();
+
+                    for (name in cookies) {
+                        if (cookies[name] !== browserCookies[name]) {
+                            //delete or reset all cookies that the browser dropped from $cookies
+                            if (isUndefined(browserCookies[name])) {
+                                delete cookies[name];
+                            } else {
+                                cookies[name] = browserCookies[name];
+                            }
+                            updated = true;
+                        }
+                    }
+                }
+            }
+        }]).
+
+
+    /**
+     * @ngdoc service
+     * @name $cookieStore
+     * @requires $cookies
+     *
+     * @description
+     * Provides a key-value (string-object) storage, that is backed by session cookies.
+     * Objects put or retrieved from this storage are automatically serialized or
+     * deserialized by angular's toJson/fromJson.
+     *
+     * Requires the {@link ngCookies `ngCookies`} module to be installed.
+     *
+     * @example
+     *
+     * ```js
+     * angular.module('cookieStoreExample', ['ngCookies'])
+     *   .controller('ExampleController', ['$cookieStore', function($cookieStore) {
+   *     // Put cookie
+   *     $cookieStore.put('myFavorite','oatmeal');
+   *     // Get cookie
+   *     var favoriteCookie = $cookieStore.get('myFavorite');
+   *     // Removing a cookie
+   *     $cookieStore.remove('myFavorite');
+   *   }]);
+     * ```
+     */
+        factory('$cookieStore', ['$cookies', function($cookies) {
+
+            return {
+                /**
+                 * @ngdoc method
+                 * @name $cookieStore#get
+                 *
+                 * @description
+                 * Returns the value of given cookie key
+                 *
+                 * @param {string} key Id to use for lookup.
+                 * @returns {Object} Deserialized cookie value.
+                 */
+                get: function(key) {
+                    var value = $cookies[key];
+                    return value ? angular.fromJson(value) : value;
+                },
+
+                /**
+                 * @ngdoc method
+                 * @name $cookieStore#put
+                 *
+                 * @description
+                 * Sets a value for given cookie key
+                 *
+                 * @param {string} key Id for the `value`.
+                 * @param {Object} value Value to be stored.
+                 */
+                put: function(key, value) {
+                    $cookies[key] = angular.toJson(value);
+                },
+
+                /**
+                 * @ngdoc method
+                 * @name $cookieStore#remove
+                 *
+                 * @description
+                 * Remove given cookie
+                 *
+                 * @param {string} key Id of the key-value pair to delete.
+                 */
+                remove: function(key) {
+                    delete $cookies[key];
+                }
+            };
+
+        }]);
+
+
+})(window, window.angular);
+
 'use strict';
 angular.module("ngLocale", [], ["$provide", function($provide) {
     var PLURAL_CATEGORY = {ZERO: "zero", ONE: "one", TWO: "two", FEW: "few", MANY: "many", OTHER: "other"};
@@ -28078,12 +28285,12 @@ angular.module('igTruncate', []).filter('truncate', function (){
   };
 });
 
-'use strict';
+'ngCookies','use strict';
 
 // Declare app level module which depends on filters, and services
 var amCompanion = angular.module('amCompanion', [
-    'ngRoute','ngAnimate',"ngTouch", 'igTruncate',"angular-progress-arc"
-]);
+    'ngCookies','ngRoute','ngAnimate',"ngTouch", 'igTruncate',"angular-progress-arc"
+]);node
 'use strict';
 
 /* Controllers */
@@ -28144,26 +28351,47 @@ amCompanion.controller('FullEmployeeController',[
          */
         $scope.showFullLink = function( link )
         {
-            RoutesService.loadLinkView( $scope.selectedEmployee, link );
+            if( $scope.editMode == false)
+            {
+                RoutesService.loadLinkView( $scope.selectedEmployee, link );
+            }
+        }
+
+        $scope.showFullObjective = function( $index )
+        {
+            if( $scope.editMode == false) {
+                RoutesService.loadObjectiveView($scope.selectedEmployee, $index);
+            }
         }
 
         $scope.$on( "startEdit" , function()
         {
-            $scope.selectedEmployeeEdited = angular.copy($scope.selectedEmployee);
+            $scope.selectedEmployeeBackUp = angular.copy($scope.selectedEmployee);
             $scope.editMode = true;
         });
 
         $scope.$on("cancelEdit",function()
         {
+            $scope.selectedEmployee = $scope.selectedEmployeeBackUp;
             $scope.editMode = false;
         });
 
         $scope.$on("validateEdit",function()
         {
-            $scope.selectedEmployee = $scope.selectedEmployeeEdited;
-            initColors();
             $scope.editMode = false;
         });
+
+        $scope.deleteObjective = function($event, $index)
+        {
+            $scope.selectedEmployee.CurrentObjectives.splice($index, 1);
+            $event.stopPropagation();
+        }
+
+        $scope.deleteLink = function($event, $index)
+        {
+            $scope.selectedEmployee.Links.splice($index, 1);
+            $event.stopPropagation();
+        }
 
     }]);
 
@@ -28173,7 +28401,6 @@ amCompanion.controller('FullEmployeeController',[
 amCompanion.controller('FullHomeController',[
     "$scope","AuthService","AmcContextService",
     function( $scope, AuthService,AmcContextService ){
-
 
     AmcContextService.initEmployees();
     $scope.employees = AmcContextService.getEmployees();
@@ -28284,6 +28511,44 @@ amCompanion.controller('FullLoginController',
             };
 
         }]);
+'use strict';
+
+/* Controllers */
+amCompanion.controller('FullObjectiveController',[
+    "$scope","$routeParams","$anchorScroll","AmcContextService", "RoutesService", function(
+        $scope,$routeParams,$anchorScroll ,AmcContextService, RoutesService){
+
+        $anchorScroll();
+
+        /**
+         * This methods is passed in parameter to header, it allow to go back to employee view
+         */
+        $scope.goBack = function()
+        {
+            RoutesService.loadEmployeeView($scope.selectedEmployee);
+        }
+
+        $scope.getName = function()
+        {
+            var employee = AmcContextService.getSelectedEmployee();
+            var str = "";
+            if( employee != undefined )
+            {
+                str = employee.FirstName + " " + employee.LastName;
+            }
+            return str;
+        }
+
+        var promise = AmcContextService.initEmployees();
+        promise.then(function(){
+            AmcContextService.setSelectedEmployeeFromId($routeParams.id);
+            $scope.selectedEmployee = AmcContextService.getSelectedEmployee();
+            $scope.nomPrenom = $scope.getName();
+            $scope.selectedObjective = $scope.selectedEmployee.CurrentObjectives[$routeParams.index];
+        })
+
+    }]);
+
 amCompanion.directive('amcHeader', function() {
     return {
         restrict: 'E',
@@ -28485,12 +28750,15 @@ amCompanion.controller('EmbedEmployeeController',
 
         }]);
 
-amCompanion.factory("AmcContextService", [ "$http","$q","urls",
-    function( $http, $q, urls )
+amCompanion.factory("AmcContextService", [ "$http","$q","urls","$cookies",
+    function( $http, $q, urls,$cookies )
     {
 
         var data = {};
 
+        /**
+         * This function is called to reset the service's data
+         */
         this.initData = function()
         {
             data.employees = [];
@@ -28498,6 +28766,7 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls",
             data.isInit = false;
             data.userMail = sessionStorage.getItem("mail");
         }
+        //Init the context at the first injection
         this.initData();
 
         /**
@@ -28512,34 +28781,41 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls",
                 var defer = $q.defer();
                 data.employees = [];
 
-                $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.token;
-                $http.get(
-                        urls.employes + "/" +data.userMail
-                ).success(
-                    function (res, status, headers ) {
 
-                        addEmployeeDate(res);
-
-                        data.employees.push.apply(data.employees , res);
-                        data.isInit = true;
-                        defer.resolve();
-
-                    }).error(function()
+                if( this.isDevVersion() )
                 {
-                        defer.reject();
-                });
-                /*
-                $http.get("/data/data.json").success(
-                function ( res ) {
-                    addEmployeeDate(res);
-                    data.employees.push.apply(data.employees , res);
-                    data.isInit = true;
-                    defer.resolve();
-                }).error(function()
+                    $http.get("/data/data.json").success(
+                        function ( res ) {
+                            addEmployeeDate(res);
+                            data.employees.push.apply(data.employees , res);
+                            data.isInit = true;
+                            defer.resolve();
+                        }).error(function()
+                        {
+                            alert("data not loaded");
+                        });
+                }
+                else
                 {
-                    alert("data not loaded");
-                });
-                */
+                    $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.token;
+                    $http.get(
+                            urls.employes + "/" +data.userMail
+                    ).success(
+                        function (res, status, headers ) {
+
+                            addEmployeeDate(res);
+
+                            data.employees.push.apply(data.employees , res);
+                            data.isInit = true;
+                            defer.resolve();
+
+                        }).error(function()
+                        {
+                            //RoutesService.disconnect();
+                            defer.reject();
+                        });
+                }
+
             }
             else
             {
@@ -28548,6 +28824,10 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls",
             return defer.promise;
         };
 
+        /**
+         * This function get the max date of the links and set it on the employee
+         * @param employees the employee's list from the server
+         */
         function addEmployeeDate( employees )
         {
             var currentEmployee = undefined;
@@ -28568,9 +28848,9 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls",
             }
         }
 
-        function sortEmployees( a, b)
+        this.isDevVersion = function()
         {
-            return a.dateMax > b.dateMax;
+            return $cookies.env == "dev";
         }
 
         //Accessor of employees
@@ -28607,6 +28887,7 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls",
 
         return this;
     }]);
+
 amCompanion.factory('AuthService', ["$http", "$q", "urls", "AmcContextService",
     function ($http , $q, urls, AmcContextService) {
         return {
@@ -28614,6 +28895,8 @@ amCompanion.factory('AuthService', ["$http", "$q", "urls", "AmcContextService",
 
                 var defer = $q.defer();
                 var data = {Email:credentials.email,Password:credentials.password};
+
+
 
                 $http.post(
                     urls.login, data
@@ -28626,12 +28909,14 @@ amCompanion.factory('AuthService', ["$http", "$q", "urls", "AmcContextService",
                         defer.resolve("Login correct");
                     }).error(
                     function(){
-                        /*
-                        sessionStorage.setItem("token", data.token);
-                        sessionStorage.setItem("mail", credentials.email);
-                        AmcContextService.initData();
-                        defer.resolve("Login correct");
-                        */
+
+                        if(AmcContextService.isDevVersion())
+                        {
+                            sessionStorage.setItem("token", data.token);
+                            sessionStorage.setItem("mail", credentials.email);
+                            AmcContextService.initData();
+                            defer.resolve("Login correct");
+                        }
 
                         defer.reject("Login Incorrect");
                     }
@@ -28641,6 +28926,7 @@ amCompanion.factory('AuthService', ["$http", "$q", "urls", "AmcContextService",
             }
         };
     }]);
+
 amCompanion.factory("RoutesService",
     ["$location","AmcContextService",
         function( $location, AmcContextService )
@@ -28655,18 +28941,23 @@ amCompanion.factory("RoutesService",
             {
                 $location.path("/");
                 AmcContextService.unsetSelectedEmployee();
-            }
+            };
 
             this.loadEmployeeView = function( employee )
             {
                 AmcContextService.unsetSelectedEmployee();
                 $location.path("/employee/" + employee._id);
-            }
+            };
 
             this.loadLinkView = function( employee, link )
             {
                 $location.path("/link/"+employee._id+"/"+link.date);
-            }
+            };
+
+            this.loadObjectiveView = function( employee, index )
+            {
+                $location.path("/objective/"+employee._id+"/"+index);
+            };
 
             return this;
         }
@@ -28750,6 +29041,12 @@ amCompanion.config(['$routeProvider','$locationProvider', function($routeProvide
         id:"link",
         templateUrl: '/partials/full/link.html',
         controller: 'FullLinkController'
+    });
+
+    $routeProvider.when('/objective/:id/:index', {
+        id:"link",
+        templateUrl: '/partials/full/objective.html',
+        controller: 'FullObjectiveController'
     });
 
     $routeProvider.when('/login', {

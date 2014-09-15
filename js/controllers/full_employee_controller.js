@@ -58,12 +58,17 @@ amCompanion.controller('FullEmployeeController',[
          */
         $scope.showFullLink = function( link )
         {
-            RoutesService.loadLinkView( $scope.selectedEmployee, link );
+            if( $scope.editMode == false)
+            {
+                RoutesService.loadLinkView( $scope.selectedEmployee, link );
+            }
         }
 
         $scope.showFullObjective = function( $index )
         {
-            RoutesService.loadObjectiveView( $scope.selectedEmployee, $index);
+            if( $scope.editMode == false) {
+                RoutesService.loadObjectiveView($scope.selectedEmployee, $index);
+            }
         }
 
         $scope.$on( "startEdit" , function()
