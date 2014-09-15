@@ -32,7 +32,6 @@ amCompanion.controller('FullObjectiveController',[
             $scope.selectedEmployee = AmcContextService.getSelectedEmployee();
             $scope.nomPrenom = $scope.getName();
             $scope.selectedObjective = $scope.selectedEmployee.CurrentObjectives[$routeParams.index];
-            console.log( $scope.selectedObjective );
         })
 
     }]);
