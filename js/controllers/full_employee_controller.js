@@ -61,22 +61,38 @@ amCompanion.controller('FullEmployeeController',[
             RoutesService.loadLinkView( $scope.selectedEmployee, link );
         }
 
+        $scope.showFullObjective = function( $index )
+        {
+            RoutesService.loadObjectiveView( $scope.selectedEmployee, $index);
+        }
+
         $scope.$on( "startEdit" , function()
         {
-            $scope.selectedEmployeeEdited = angular.copy($scope.selectedEmployee);
+            $scope.selectedEmployeeBackUp = angular.copy($scope.selectedEmployee);
             $scope.editMode = true;
         });
 
         $scope.$on("cancelEdit",function()
         {
+            $scope.selectedEmployee = $scope.selectedEmployeeBackUp;
             $scope.editMode = false;
         });
 
         $scope.$on("validateEdit",function()
         {
-            $scope.selectedEmployee = $scope.selectedEmployeeEdited;
-            initColors();
             $scope.editMode = false;
         });
+
+        $scope.deleteObjective = function($event, $index)
+        {
+            $scope.selectedEmployee.CurrentObjectives.splice($index, 1);
+            $event.stopPropagation();
+        }
+
+        $scope.deleteLink = function($event, $index)
+        {
+            $scope.selectedEmployee.Links.splice($index, 1);
+            $event.stopPropagation();
+        }
 
     }]);

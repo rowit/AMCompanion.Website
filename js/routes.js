@@ -20,6 +20,12 @@ amCompanion.config(['$routeProvider','$locationProvider', function($routeProvide
         controller: 'FullLinkController'
     });
 
+    $routeProvider.when('/objective/:id/:index', {
+        id:"link",
+        templateUrl: '/partials/full/objective.html',
+        controller: 'FullObjectiveController'
+    });
+
     $routeProvider.when('/login', {
         id:"login",
         templateUrl: '/partials/full/login.html',

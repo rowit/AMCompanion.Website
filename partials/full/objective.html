@@ -1,0 +1,30 @@
+<div class="container" id="employee-view">
+    <amc-header go-back-handler="goBack()"
+                libelle="nomPrenom"
+                home-display="false"></amc-header>
+    <div class="content">
+        <div class="row">
+            <!-- Affichage du texte -->
+            <div class="separator columns small-12">
+                <span class="text">Intitulé</span>
+            </div>
+            <div class="item-fit columns small-12">
+                <div class="" ng-bind="selectedObjective.text"></div>
+            </div>
+            <!-- Affichage de l'endroit -->
+            <div class="separator columns small-12">
+                <span class="text">Pourcentage d'accomplissement</span>
+            </div>
+            <div class="item columns small-12">
+                <div class="item-text" ng-bind="selectedObjective.progressionPercent + '%'"></div>
+            </div>
+            <!-- Affichage de la date -->
+            <div class="separator columns small-12">
+                <span class="text">Pondération</span>
+            </div>
+            <div class="item columns small-12">
+                <div class="item-text" ng-bind="selectedObjective.ponderation + '%'"></div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -59,6 +59,7 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls","$cookies",
 
                         }).error(function()
                         {
+                            //RoutesService.disconnect();
                             defer.reject();
                         });
                 }
@@ -97,7 +98,6 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls","$cookies",
 
         this.isDevVersion = function()
         {
-            console.log($cookies);
             return $cookies.env == "dev";
         }
 

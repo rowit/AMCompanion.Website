@@ -3,13 +3,17 @@
   "title": "AMCompanion",
   "version": "0.0.1",
   "devDependencies": {
-    "express": "*",
     "grunt": "*",
     "grunt-contrib-concat": "*",
     "grunt-contrib-cssmin": "*",
     "grunt-contrib-watch": "*",
     "grunt-contrib-uglify": "*",
     "grunt-autoprefixer": "*",
+
+    "grunt-css-metrics":"*",
+
+
+    "express": "*",
     "body-parser": "~1.0.0"
   },
   "dependencies": {
