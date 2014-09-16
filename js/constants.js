@@ -6,7 +6,7 @@ amCompanion.constant("urls", {
 );
 */
 amCompanion.constant("urls", {
-        login: "https://amcnode.azurewebsites.net/login",
-        employes: "https://amcnode.azurewebsites.net/api/employees"
+        login: "http://amc-server.elasticbeanstalk.com/login",
+        employes: "http://amc-server.elasticbeanstalk.com/api/employees"
     }
 );
