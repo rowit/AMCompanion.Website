@@ -9,10 +9,6 @@
     "grunt-contrib-watch": "*",
     "grunt-contrib-uglify": "*",
     "grunt-autoprefixer": "*",
-
-    "grunt-css-metrics":"*",
-
-
     "express": "*",
     "body-parser": "~1.0.0"
   },
