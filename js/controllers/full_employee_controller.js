@@ -64,6 +64,13 @@ amCompanion.controller('FullEmployeeController',[
             }
         }
 
+        $scope.createNewObjective = function()
+        {
+            if( $scope.editMode == false) {
+                RoutesService.loadObjectiveView($scope.selectedEmployee, "new");
+            }
+        }
+
         $scope.showFullObjective = function( $index )
         {
             if( $scope.editMode == false) {

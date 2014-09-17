@@ -4,9 +4,9 @@
     <div class="row">
         <form class="columns large-4 large-centered small-10 small-centered center-block" ng-submit="login()" name="loginForm">
             <div class="row collapse">
-                    <div class="input-group input-group-lg">
-                        <span class="input-group-addon">@</span>
-                        <input type="email" name="email" class="form-control" placeholder="Adresse mail" ng-model="credentials.email" required>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon">@</span>
+                    <input type="email" name="email" class="form-control" placeholder="Adresse mail" ng-model="credentials.email" required>
                 </div>
             </div>
             <div class="row collapse">
@@ -19,8 +19,8 @@
             <div class="row collapse">
                 <button type="submit"
                         ng-class="{'btn-danger':failed,'btn-success':success}"
-                       class="btn btn-steria btn-lg btn-block small-10 small-centered columns large-12"
-                       ng-disabled="!loginForm.$valid || loading">
+                        class="btn btn-steria btn-lg btn-block small-10 small-centered columns large-12"
+                        ng-disabled="!loginForm.$valid || loading">
                     {{buttonLabel}}
                     <span ng-class="{'loading':loading}" class="glyphicon glyphicon-refresh"></span>
                 </button>

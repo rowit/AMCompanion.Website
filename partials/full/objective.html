@@ -1,29 +1,53 @@
 <div class="container" id="employee-view">
     <amc-header go-back-handler="goBack()"
                 libelle="nomPrenom"
-                home-display="false"></amc-header>
+                home-display="false"
+                edit-mode="editMode"></amc-header>
     <div class="content">
         <div class="row">
             <!-- Affichage du texte -->
             <div class="separator columns small-12">
                 <span class="text">Intitulé</span>
             </div>
-            <div class="item-fit columns small-12">
-                <div class="" ng-bind="selectedObjective.text"></div>
+            <div class="item columns small-12">
+                <div ng-if="!editMode">
+                    <div class="item-text" ng-bind="selectedObjective.text"></div>
+                </div>
+                <div ng-if="editMode">
+                    <div class="input-group input-group-lg columns small-12 small-centered" >
+                        <input type="text" min="0" max="100" class="form-control" placeholder="Titre" ng-model="selectedObjective.text" required>
+                    </div>
+                </div>
+
             </div>
             <!-- Affichage de l'endroit -->
             <div class="separator columns small-12">
                 <span class="text">Pourcentage d'accomplissement</span>
             </div>
             <div class="item columns small-12">
-                <div class="item-text" ng-bind="selectedObjective.progressionPercent + '%'"></div>
+
+                <div ng-if="!editMode">
+                    <div class="item-text" ng-bind="selectedObjective.progressionPercent + '%'"></div>
+                </div>
+                <div ng-if="editMode">
+                    <div class="input-group input-group-lg columns small-12 small-centered" >
+                        <input type="number" min="0" max="100" class="form-control" placeholder="Pourcentage de progression" ng-model="selectedObjective.progressionPercent" required>
+                    </div>
+                </div>
             </div>
             <!-- Affichage de la date -->
             <div class="separator columns small-12">
                 <span class="text">Pondération</span>
             </div>
             <div class="item columns small-12">
-                <div class="item-text" ng-bind="selectedObjective.ponderation + '%'"></div>
+                <div ng-if="!editMode">
+                    <div class="item-text" ng-bind="selectedObjective.ponderation + '%'"></div>
+                </div>
+                <div ng-if="editMode">
+                    <div class="input-group input-group-lg columns small-12 small-centered" >
+                        <input type="number" min="0" max="100" class="form-control" placeholder="Pondération" ng-model="selectedObjective.ponderation" required>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
