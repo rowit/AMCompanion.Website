@@ -6,7 +6,7 @@ amCompanion.constant("urls", {
 );
 */
 amCompanion.constant("urls", {
-        login: "http://amc-server.elasticbeanstalk.com/login",
-        employes: "http://amc-server.elasticbeanstalk.com/api/employees"
+        login: "http://amcserver.cloudapp.net/login",
+        employes: "http://amcserver.cloudapp.net/api/employees"
     }
 );
