@@ -17,6 +17,24 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls","$cookies",
         //Init the context at the first injection
         this.initData();
 
+        this.updateCurrentEmployee = function()
+        {
+            var defer = $q.defer();
+            $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.token;
+            $http.get(
+                    urls.employes + "/" +data.userMail
+            ).success(
+                function (res, status, headers ) {
+                    defer.resolve();
+
+                }).error(function()
+                {
+                    //RoutesService.disconnect();
+                    defer.reject();
+                });
+            return defer.promise;
+        }
+
         /**
          * This method get the data from the stub
          */

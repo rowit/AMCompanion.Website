@@ -406,6 +406,22 @@ progress-arc {
     top: 7px;
 }
 
+.rzslider span.pointer
+{
+    padding: 15px;
+}
+
+.rzslider span.pointer
+{
+    height: 8px;
+}
+
+.rzslider
+{
+    width: 90%;
+    margin-left: 5%;
+}
+
 .item-icon-left {
     color: #04315b;
     font-size: 24px;

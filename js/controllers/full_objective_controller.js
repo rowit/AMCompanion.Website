@@ -6,7 +6,7 @@ amCompanion.controller('FullObjectiveController',[
             $scope,$routeParams,$anchorScroll ,AmcContextService, RoutesService){
 
             $anchorScroll();
-            $scope.editMode = false;
+            $scope.editMode = true;
             $scope.newMode = false;
 
             /**
@@ -35,10 +35,12 @@ amCompanion.controller('FullObjectiveController',[
                     AmcContextService.setSelectedEmployeeFromId($routeParams.id);
                     $scope.selectedEmployee = AmcContextService.getSelectedEmployee();
                     $scope.nomPrenom = $scope.getName();
-                    console.log($routeParams.index);
                     if( $routeParams.index == "new" )
                     {
-                        $scope.selectedObjective = {};
+                        $scope.selectedObjective = {
+                            progressionPercent:0,
+                            ponderation:0
+                        };
                         $scope.newMode = true;
                         $scope.editMode = true;
                         $scope.nomPrenom = "Nouvel Objectif";
@@ -46,30 +48,50 @@ amCompanion.controller('FullObjectiveController',[
                     else
                     {
                         $scope.selectedObjective = $scope.selectedEmployee.CurrentObjectives[$routeParams.index];
+                        $scope.selectedObjectiveBack = angular.copy($scope.selectedObjective);
                     }
 
                 }
             )
 
-            $scope.$on( "startEdit" , function()
-            {
-                $scope.selectedObjectiveBack = angular.copy($scope.selectedObjective);
-                $scope.editMode = true;
-            });
-
             $scope.$on("cancelEdit",function()
             {
-                $scope.selectedObjective = $scope.selectedObjectiveBack;
-                $scope.editMode = false;
                 if( $scope.newMode )
                 {
                     $scope.goBack();
                 }
+                else
+                {
+                    $scope.selectedObjective.text = $scope.selectedObjectiveBack.text;
+                    $scope.selectedObjective.progressionPercent = $scope.selectedObjectiveBack.progressionPercent;
+                    $scope.selectedObjective.ponderation = $scope.selectedObjectiveBack.ponderation;
+                    $scope.goBack();
+                }
+
             });
 
-            $scope.$on("validateEdit",function()
-            {
-                $scope.editMode = false;
+            $scope.$on("validateEdit",function() {
+
+                if ($scope.selectedObjective.text == undefined) {
+                    alert("Un intitulé est requis.");
+                }
+                else {
+
+                    //If it's a new objective
+                    if ($scope.newMode) {
+                        $scope.selectedEmployee.CurrentObjectives.push($scope.selectedObjective);
+                        AmcContextService.updateCurrentEmployee();
+                    }
+                    //If the new validated objectif is not the same as the original
+                    else if( $scope.selectedObjective.text != $scope.selectedObjectiveBack.text ||
+                        $scope.selectedObjective.progressionPercent != $scope.selectedObjectiveBack.progressionPercent ||
+                        $scope.selectedObjective.ponderation != $scope.selectedObjectiveBack.ponderation )
+                    {
+                        AmcContextService.updateCurrentEmployee();
+                    }
+                    //Go back
+                    $scope.goBack();
+                }
             });
 
         }

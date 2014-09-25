@@ -93,6 +93,7 @@ amCompanion.controller('FullEmployeeController',[
         $scope.$on("validateEdit",function()
         {
             $scope.editMode = false;
+            AmcContextService.updateCurrentEmployee();
         });
 
         $scope.deleteObjective = function($event, $index)
