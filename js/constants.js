@@ -10,3 +10,12 @@ amCompanion.constant("urls", {
         employes: "http://amcserver.cloudapp.net/api/employees"
     }
 );
+
+amCompanion.constant("linkTypes",[
+    "Restaurant",
+    "Appel",
+    "Mail",
+    "Café",
+    "Entretien"
+])
+//types : ['Restaurant', 'Appel', 'Mail', 'Café', 'Entretien']

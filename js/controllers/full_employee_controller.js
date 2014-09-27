@@ -71,6 +71,13 @@ amCompanion.controller('FullEmployeeController',[
             }
         }
 
+        $scope.createNewLink = function()
+        {
+            if( $scope.editMode == false) {
+                RoutesService.loadLinkView($scope.selectedEmployee, {date:"new"});
+            }
+        }
+
         $scope.showFullObjective = function( $index )
         {
             if( $scope.editMode == false) {
