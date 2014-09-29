@@ -20,9 +20,13 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls","$cookies",
         this.updateCurrentEmployee = function()
         {
             var defer = $q.defer();
+
+            console.log(data.selectedEmployee);
+
             $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.token;
-            $http.get(
-                    urls.employes + "/" +data.userMail
+            $http.put(
+                    urls.employes + "/" +data.selectedEmployee._id,
+                    data.selectedEmployee
             ).success(
                 function (res, status, headers ) {
                     defer.resolve();
