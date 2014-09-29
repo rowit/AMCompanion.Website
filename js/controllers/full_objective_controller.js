@@ -38,7 +38,7 @@ amCompanion.controller('FullObjectiveController',[
                     if( $routeParams.index == "new" )
                     {
                         $scope.selectedObjective = {
-                            progressionPercent:0,
+                            ProgressionPercent:0,
                             ponderation:0
                         };
                         $scope.newMode = true;
@@ -62,8 +62,8 @@ amCompanion.controller('FullObjectiveController',[
                 }
                 else
                 {
-                    $scope.selectedObjective.text = $scope.selectedObjectiveBack.text;
-                    $scope.selectedObjective.progressionPercent = $scope.selectedObjectiveBack.progressionPercent;
+                    $scope.selectedObjective.Text = $scope.selectedObjectiveBack.Text;
+                    $scope.selectedObjective.ProgressionPercent = $scope.selectedObjectiveBack.ProgressionPercent;
                     $scope.selectedObjective.ponderation = $scope.selectedObjectiveBack.ponderation;
                     $scope.goBack();
                 }
@@ -72,7 +72,7 @@ amCompanion.controller('FullObjectiveController',[
 
             $scope.$on("validateEdit",function() {
 
-                if ($scope.selectedObjective.text == undefined) {
+                if ($scope.selectedObjective.Text == undefined) {
                     alert("Un intitulé est requis.");
                 }
                 else {
@@ -83,8 +83,8 @@ amCompanion.controller('FullObjectiveController',[
                         AmcContextService.updateCurrentEmployee();
                     }
                     //If the new validated objectif is not the same as the original
-                    else if( $scope.selectedObjective.text != $scope.selectedObjectiveBack.text ||
-                        $scope.selectedObjective.progressionPercent != $scope.selectedObjectiveBack.progressionPercent ||
+                    else if( $scope.selectedObjective.Text != $scope.selectedObjectiveBack.Text ||
+                        $scope.selectedObjective.ProgressionPercent != $scope.selectedObjectiveBack.ProgressionPercent ||
                         $scope.selectedObjective.ponderation != $scope.selectedObjectiveBack.ponderation )
                     {
                         AmcContextService.updateCurrentEmployee();

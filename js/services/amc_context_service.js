@@ -109,9 +109,9 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls","$cookies",
                 currentEmployee = employees[i];
                 for( var j = 0 ; j < currentEmployee.Links.length ; j ++ )
                 {
-                    if( currentEmployee.Links[j].date > currentMax )
+                    if( currentEmployee.Links[j].Date > currentMax )
                     {
-                        currentMax = currentEmployee.Links[j].date;
+                        currentMax = currentEmployee.Links[j].Date;
                     }
                 }
                 currentEmployee.dateMax = currentMax;

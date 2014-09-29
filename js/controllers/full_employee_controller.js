@@ -26,7 +26,7 @@ amCompanion.controller('FullEmployeeController',[
             $scope.progressColors = [];
             for ( var i = 0 ; i < $scope.selectedEmployee.CurrentObjectives.length ; i++ )
             {
-                $scope.progressColors[i] = getColorForPercentage($scope.selectedEmployee.CurrentObjectives[i].progressionPercent/100);
+                $scope.progressColors[i] = getColorForPercentage($scope.selectedEmployee.CurrentObjectives[i].ProgressionPercent/100);
             }
         }
 
@@ -74,7 +74,7 @@ amCompanion.controller('FullEmployeeController',[
         $scope.createNewLink = function()
         {
             if( $scope.editMode == false) {
-                RoutesService.loadLinkView($scope.selectedEmployee, {date:"new"});
+                RoutesService.loadLinkView($scope.selectedEmployee, {Date:"new"});
             }
         }
 

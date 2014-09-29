@@ -1678,7 +1678,7 @@ amCompanion.controller('FullEmployeeController',[
             $scope.progressColors = [];
             for ( var i = 0 ; i < $scope.selectedEmployee.CurrentObjectives.length ; i++ )
             {
-                $scope.progressColors[i] = getColorForPercentage($scope.selectedEmployee.CurrentObjectives[i].progressionPercent/100);
+                $scope.progressColors[i] = getColorForPercentage($scope.selectedEmployee.CurrentObjectives[i].ProgressionPercent/100);
             }
         }
 
@@ -1726,7 +1726,7 @@ amCompanion.controller('FullEmployeeController',[
         $scope.createNewLink = function()
         {
             if( $scope.editMode == false) {
-                RoutesService.loadLinkView($scope.selectedEmployee, {date:"new"});
+                RoutesService.loadLinkView($scope.selectedEmployee, {Date:"new"});
             }
         }
 
@@ -1809,7 +1809,7 @@ amCompanion.controller('FullLinkController',[
             {
                 if( !!$scope.selectedDate )
                 {
-                    $scope.selectedLink.date = $scope.selectedDate.getTime();
+                    $scope.selectedLink.Date = $scope.selectedDate.getTime();
                 }
 
             }
@@ -1837,9 +1837,9 @@ amCompanion.controller('FullLinkController',[
                         var date = new Date();
 
                         $scope.selectedLink = {
-                            type:undefined,
-                            date: date.getTime(),
-                            comment:""
+                            Type:undefined,
+                            Date: date.getTime(),
+                            Comment:""
                         };
                         $scope.newMode = true;
                         $scope.editMode = true;
@@ -1852,11 +1852,11 @@ amCompanion.controller('FullLinkController',[
                         for( var i = 0 ; i < $scope.selectedEmployee.Links.length ; i++ )
                         {
                             currentLink = $scope.selectedEmployee.Links[i];
-                            if( currentLink.date == $routeParams.timestamp )
+                            if( currentLink.Date == $routeParams.timestamp )
                             {
                                 $scope.selectedLink = currentLink;
                                 $scope.selectedLinkBackUp = angular.copy($scope.selectedLink);
-                                $scope.selectedDate = new Date($scope.selectedLink.date);
+                                $scope.selectedDate = new Date($scope.selectedLink.Date);
                             }
                         }
 
@@ -1877,8 +1877,8 @@ amCompanion.controller('FullLinkController',[
                 }
                 else
                 {
-                    $scope.selectedLink.type = $scope.selectedLinkBackUp.type;
-                    $scope.selectedLink.date = $scope.selectedLinkBackUp.date;
+                    $scope.selectedLink.Type = $scope.selectedLinkBackUp.Type;
+                    $scope.selectedLink.Date = $scope.selectedLinkBackUp.Date;
                     $scope.selectedLink.Comment = $scope.selectedLinkBackUp.Comment;
                     $scope.goBack();
                 }
@@ -1887,7 +1887,7 @@ amCompanion.controller('FullLinkController',[
 
             $scope.$on("validateEdit",function() {
 
-                if( $scope.selectedLink.date == undefined) {
+                if( $scope.selectedLink.Date == undefined) {
                     alert("Une date valide est requise");
                 }
                 else {
@@ -1898,8 +1898,8 @@ amCompanion.controller('FullLinkController',[
                         AmcContextService.updateCurrentEmployee();
                     }
                     //If the new validated objectif is not the same as the original
-                    else if( $scope.selectedLink.type != $scope.selectedLinkBackUp.type ||
-                        $scope.selectedLink.date != $scope.selectedLinkBackUp.date ||
+                    else if( $scope.selectedLink.Type != $scope.selectedLinkBackUp.Type ||
+                        $scope.selectedLink.Date != $scope.selectedLinkBackUp.Date ||
                         $scope.selectedLink.Comment != $scope.selectedLinkBackUp.Comment )
                     {
                         AmcContextService.updateCurrentEmployee();
@@ -2005,7 +2005,7 @@ amCompanion.controller('FullObjectiveController',[
                     if( $routeParams.index == "new" )
                     {
                         $scope.selectedObjective = {
-                            progressionPercent:0,
+                            ProgressionPercent:0,
                             ponderation:0
                         };
                         $scope.newMode = true;
@@ -2029,8 +2029,8 @@ amCompanion.controller('FullObjectiveController',[
                 }
                 else
                 {
-                    $scope.selectedObjective.text = $scope.selectedObjectiveBack.text;
-                    $scope.selectedObjective.progressionPercent = $scope.selectedObjectiveBack.progressionPercent;
+                    $scope.selectedObjective.Text = $scope.selectedObjectiveBack.Text;
+                    $scope.selectedObjective.ProgressionPercent = $scope.selectedObjectiveBack.ProgressionPercent;
                     $scope.selectedObjective.ponderation = $scope.selectedObjectiveBack.ponderation;
                     $scope.goBack();
                 }
@@ -2039,7 +2039,7 @@ amCompanion.controller('FullObjectiveController',[
 
             $scope.$on("validateEdit",function() {
 
-                if ($scope.selectedObjective.text == undefined) {
+                if ($scope.selectedObjective.Text == undefined) {
                     alert("Un intitulé est requis.");
                 }
                 else {
@@ -2050,8 +2050,8 @@ amCompanion.controller('FullObjectiveController',[
                         AmcContextService.updateCurrentEmployee();
                     }
                     //If the new validated objectif is not the same as the original
-                    else if( $scope.selectedObjective.text != $scope.selectedObjectiveBack.text ||
-                        $scope.selectedObjective.progressionPercent != $scope.selectedObjectiveBack.progressionPercent ||
+                    else if( $scope.selectedObjective.Text != $scope.selectedObjectiveBack.Text ||
+                        $scope.selectedObjective.ProgressionPercent != $scope.selectedObjectiveBack.ProgressionPercent ||
                         $scope.selectedObjective.ponderation != $scope.selectedObjectiveBack.ponderation )
                     {
                         AmcContextService.updateCurrentEmployee();
@@ -2377,9 +2377,9 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls","$cookies",
                 currentEmployee = employees[i];
                 for( var j = 0 ; j < currentEmployee.Links.length ; j ++ )
                 {
-                    if( currentEmployee.Links[j].date > currentMax )
+                    if( currentEmployee.Links[j].Date > currentMax )
                     {
-                        currentMax = currentEmployee.Links[j].date;
+                        currentMax = currentEmployee.Links[j].Date;
                     }
                 }
                 currentEmployee.dateMax = currentMax;
@@ -2489,7 +2489,7 @@ amCompanion.factory("RoutesService",
 
             this.loadLinkView = function( employee, link )
             {
-                $location.path("/link/"+employee._id+"/"+link.date);
+                $location.path("/link/"+employee._id+"/"+link.Date);
             };
 
             this.loadObjectiveView = function( employee, index )

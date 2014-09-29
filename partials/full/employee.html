@@ -17,9 +17,9 @@
             <div class="item columns small-12" ng-repeat="objective in selectedEmployee.CurrentObjectives"
                  ng-click="showFullObjective( $index )">
                 <div class="columns small-11">
-                    <progress-arc complete="objective.progressionPercent/100" stroke="progressColors[$index]"></progress-arc>
-                    <div class="percent" ng-class="{'cent':objective.progressionPercent == 100}">{{objective.progressionPercent}}%</div>
-                    <div class="text">{{objective.text}} </div>
+                    <progress-arc complete="objective.ProgressionPercent/100" stroke="progressColors[$index]"></progress-arc>
+                    <div class="percent" ng-class="{'cent':objective.ProgressionPercent == 100}">{{objective.ProgressionPercent}}%</div>
+                    <div class="text">{{objective.Text}} </div>
                 </div>
                 <div ng-if="!editMode" class="next columns small-1">
                     <span class="glyphicon glyphicon-chevron-right"></span>
@@ -46,8 +46,8 @@
                         <span class="glyphicon glyphicon-calendar item-icon-left"></span>
                     </div>
                     <div class="small-9 columns">
-                        <div>{{link.type}}</div>
-                        <div>{{link.date|date:'d MMMM yyyy'}}</div>
+                        <div>{{link.Type}}</div>
+                        <div>{{link.Date|date:'d MMMM yyyy'}}</div>
                     </div>
                     <div ng-if="!editMode" class="next columns small-1">
                         <span class="glyphicon glyphicon-chevron-right"></span>

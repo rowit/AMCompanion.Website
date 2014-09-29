@@ -22,7 +22,7 @@ amCompanion.factory("RoutesService",
 
             this.loadLinkView = function( employee, link )
             {
-                $location.path("/link/"+employee._id+"/"+link.date);
+                $location.path("/link/"+employee._id+"/"+link.Date);
             };
 
             this.loadObjectiveView = function( employee, index )

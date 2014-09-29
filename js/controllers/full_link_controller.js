@@ -25,7 +25,7 @@ amCompanion.controller('FullLinkController',[
             {
                 if( !!$scope.selectedDate )
                 {
-                    $scope.selectedLink.date = $scope.selectedDate.getTime();
+                    $scope.selectedLink.Date = $scope.selectedDate.getTime();
                 }
 
             }
@@ -53,9 +53,9 @@ amCompanion.controller('FullLinkController',[
                         var date = new Date();
 
                         $scope.selectedLink = {
-                            type:undefined,
-                            date: date.getTime(),
-                            comment:""
+                            Type:undefined,
+                            Date: date.getTime(),
+                            Comment:""
                         };
                         $scope.newMode = true;
                         $scope.editMode = true;
@@ -68,11 +68,11 @@ amCompanion.controller('FullLinkController',[
                         for( var i = 0 ; i < $scope.selectedEmployee.Links.length ; i++ )
                         {
                             currentLink = $scope.selectedEmployee.Links[i];
-                            if( currentLink.date == $routeParams.timestamp )
+                            if( currentLink.Date == $routeParams.timestamp )
                             {
                                 $scope.selectedLink = currentLink;
                                 $scope.selectedLinkBackUp = angular.copy($scope.selectedLink);
-                                $scope.selectedDate = new Date($scope.selectedLink.date);
+                                $scope.selectedDate = new Date($scope.selectedLink.Date);
                             }
                         }
 
@@ -93,8 +93,8 @@ amCompanion.controller('FullLinkController',[
                 }
                 else
                 {
-                    $scope.selectedLink.type = $scope.selectedLinkBackUp.type;
-                    $scope.selectedLink.date = $scope.selectedLinkBackUp.date;
+                    $scope.selectedLink.Type = $scope.selectedLinkBackUp.Type;
+                    $scope.selectedLink.Date = $scope.selectedLinkBackUp.Date;
                     $scope.selectedLink.Comment = $scope.selectedLinkBackUp.Comment;
                     $scope.goBack();
                 }
@@ -103,7 +103,7 @@ amCompanion.controller('FullLinkController',[
 
             $scope.$on("validateEdit",function() {
 
-                if( $scope.selectedLink.date == undefined) {
+                if( $scope.selectedLink.Date == undefined) {
                     alert("Une date valide est requise");
                 }
                 else {
@@ -114,8 +114,8 @@ amCompanion.controller('FullLinkController',[
                         AmcContextService.updateCurrentEmployee();
                     }
                     //If the new validated objectif is not the same as the original
-                    else if( $scope.selectedLink.type != $scope.selectedLinkBackUp.type ||
-                        $scope.selectedLink.date != $scope.selectedLinkBackUp.date ||
+                    else if( $scope.selectedLink.Type != $scope.selectedLinkBackUp.Type ||
+                        $scope.selectedLink.Date != $scope.selectedLinkBackUp.Date ||
                         $scope.selectedLink.Comment != $scope.selectedLinkBackUp.Comment )
                     {
                         AmcContextService.updateCurrentEmployee();
