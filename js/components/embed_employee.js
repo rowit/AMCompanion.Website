@@ -17,7 +17,7 @@ amCompanion.controller('EmbedEmployeeController',
     [ "$scope", "$filter","RoutesService","AmcContextService",
         function($scope, $filter, RoutesService, AmcContextService){
 
-            var lastLink = $filter("limitTo")($filter("orderBy")($scope.employee.Links, "date", "reverse"), 1);
+            var lastLink = $filter("limitTo")($filter("orderBy")($scope.employee.Links, "Date", "reverse"), 1);
             if( lastLink.length > 0 )
             {
                 $scope.lastLink = lastLink[0];
