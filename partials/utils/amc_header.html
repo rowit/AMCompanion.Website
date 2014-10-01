@@ -9,16 +9,23 @@
 
     <div ng-if="!homeDisplay" class="navbar-header">
         <div class="row">
-            <div class="columns small-2">
-                <span ng-if="!editMode" class="left-menu-icon glyphicon glyphicon-chevron-left" ng-click="goBack()"></span>
-                <span ng-if="editMode" class="left-menu-icon glyphicon glyphicon-ban-circle" ng-click="cancelEditMode()"></span>
+            <div class="columns small-2" ng-if="editMode" ng-click="cancelEditMode()">
+                <span class="left-menu-icon glyphicon glyphicon-ban-circle" style="color:{{cancelColor}}"></span>
             </div>
+            <div class="columns small-2" ng-if="!editMode" ng-click="goBack()">
+                <span class="left-menu-icon glyphicon glyphicon-chevron-left" style="color:{{backColor}}"></span>
+            </div>
+
             <div class="columns small-8 menu-title">
                 <span ng-bind="libelle"></span>
             </div>
-            <div class="columns small-2">
-                <span ng-if="!editMode" class="right-menu-icon glyphicon glyphicon-edit" ng-click="toggleEditMode()"></span>
-                <span ng-if="editMode" class="right-menu-icon glyphicon glyphicon-ok" ng-click="validateEditMode()"></span>
+
+
+            <div class="columns small-2" ng-if="!editMode" ng-click="toggleEditMode()">
+                <span class="right-menu-icon glyphicon glyphicon-edit" style="color:{{editColor}}"></span>
+            </div>
+            <div class="columns small-2" ng-if="editMode" ng-click="validateEditMode()">
+                <span class="right-menu-icon glyphicon glyphicon-ok" style="color:{{validateColor}}"></span>
             </div>
         </div>
 

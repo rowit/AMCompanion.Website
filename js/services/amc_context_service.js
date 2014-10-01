@@ -124,7 +124,7 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls","$cookies",
         this.isDevVersion = function()
         {
             return $cookies.env == "dev";
-        }
+        };
 
         //Accessor of employees
         this.getEmployees = function()
@@ -135,12 +135,12 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls","$cookies",
         this.getSelectedEmployee = function()
         {
             return data.selectedEmployee;
-        }
+        };
 
         this.setSelectedEmployee = function( employee )
         {
             data.selectedEmployee = employee;
-        }
+        };
 
         this.setSelectedEmployeeFromId = function( id )
         {
@@ -151,12 +151,12 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls","$cookies",
                     this.setSelectedEmployee(data.employees[i]);
                 }
             }
-        }
+        };
 
         this.unsetSelectedEmployee = function()
         {
             data.selectedEmployee = undefined;
-        }
+        };
 
         return this;
     }]);

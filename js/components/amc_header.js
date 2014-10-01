@@ -14,7 +14,14 @@ amCompanion.directive('amcHeader', function() {
 });
 
 /* Controllers */
-amCompanion.controller('AmcHeaderController', [ "$scope","RoutesService" , function($scope, RoutesService){
+amCompanion.controller('AmcHeaderController',
+    [ "$scope","$timeout","RoutesService" ,
+        function($scope,$timeout, RoutesService){
+
+    $scope.cancelColor = "#FFFFFF";
+    $scope.backColor = "#FFFFFF";
+    $scope.editColor = "#FFFFFF";
+    $scope.validateColor = "#FFFFFF";
 
     /**
      * Cette fonction déconnecte l'utilisateur
@@ -27,21 +34,25 @@ amCompanion.controller('AmcHeaderController', [ "$scope","RoutesService" , funct
     $scope.goBack = function()
     {
         $scope.goBackHandler();
+        $scope.backColor = "#2980b9";
     }
 
     $scope.toggleEditMode = function()
     {
         $scope.$emit("startEdit");
+        $scope.editColor = "#2980b9";
     }
 
     $scope.validateEditMode = function()
     {
         $scope.$emit("validateEdit");
+        $scope.validateColor = "#2980b9";
     }
 
     $scope.cancelEditMode = function()
     {
         $scope.$emit("cancelEdit");
+        $scope.cancelColor = "#2980b9";
     }
 
 }]);

@@ -35,6 +35,17 @@ body {
     z-index: 400;
 }
 
+.navbar-header > div,
+.navbar-header > div > div
+{
+    height: 100%;
+}
+
+.navbar-header .glyphicon:active
+{
+    transition: color 100ms linear;
+}
+
 .content {
     padding-top: 60px;
 }
@@ -290,7 +301,7 @@ NavBAR
 
 .menu-title {
     font-size: 20px;
-    margin-top: 15px;
+    padding-top: 15px;
 }
 
 /*** employee preview ****/
