@@ -3,6 +3,7 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls","$cookies",
     {
 
         var data = {};
+        var attents = 0;
 
         /**
          * This function is called to reset the service's data
@@ -20,8 +21,6 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls","$cookies",
         this.updateCurrentEmployee = function()
         {
             var defer = $q.defer();
-
-            console.log(data.selectedEmployee);
 
             $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.token;
             $http.put(
