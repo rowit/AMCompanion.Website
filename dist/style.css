@@ -76,11 +76,11 @@ slider span.bubble.limit {
 
 @font-face {
     font-family: 'latolight';
-    src: url('../fonts/lato-light-webfont.eot');
-    src: url('../fonts/lato-light-webfont.eot?#iefix') format('embedded-opentype'),
-    url('../fonts/lato-light-webfont.woff') format('woff'),
-    url('../fonts/lato-light-webfont.ttf') format('truetype'),
-    url('../fonts/lato-light-webfont.svg#latolight') format('svg');
+    src: url('http://amcompanion-website.azurewebsites.net/css/fonts/lato-light-webfont.eot');
+    src: url('http://amcompanion-website.azurewebsites.net/css/fonts/lato-light-webfont.eot?#iefix') format('embedded-opentype'),
+    url('http://amcompanion-website.azurewebsites.net/css/fonts/lato-light-webfont.woff') format('woff'),
+    url('http://amcompanion-website.azurewebsites.net/css/fonts/lato-light-webfont.ttf') format('truetype'),
+    url('http://amcompanion-website.azurewebsites.net/css/fonts/lato-light-webfont.svg#latolight') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -780,11 +780,11 @@ th {
 }
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url('../css/fonts/glyphicons-halflings-regular.eot');
-  src: url('../css/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),
-        url('../css/fonts/glyphicons-halflings-regular.woff') format('woff'),
-        url('../css/fonts/glyphicons-halflings-regular.ttf') format('truetype'),
-        url('../css/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+  src: url('http://amcompanion-website.azurewebsites.net/css/fonts/glyphicons-halflings-regular.eot');
+  src: url('http://amcompanion-website.azurewebsites.net/css/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),
+        url('http://amcompanion-website.azurewebsites.net/css/fonts/glyphicons-halflings-regular.woff') format('woff'),
+        url('http://amcompanion-website.azurewebsites.net/css/fonts/glyphicons-halflings-regular.ttf') format('truetype'),
+        url('http://amcompanion-website.azurewebsites.net/css/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
 .glyphicon {
   position: relative;
