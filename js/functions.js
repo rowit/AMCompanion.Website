@@ -1,3 +1,5 @@
+var totoo;
+
 /**
  * This function set the percent of colors to make the gradient red to green
  * @type {{pct: number, color: {r: number, g: number, b: number}}[]}

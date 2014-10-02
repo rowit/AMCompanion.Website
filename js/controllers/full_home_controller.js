@@ -7,6 +7,4 @@ amCompanion.controller('FullHomeController',[
 
     AmcContextService.initEmployees();
     $scope.employees = AmcContextService.getEmployees();
-
-
 }]);

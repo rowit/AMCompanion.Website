@@ -2574,8 +2574,6 @@ amCompanion.controller('FullHomeController',[
 
     AmcContextService.initEmployees();
     $scope.employees = AmcContextService.getEmployees();
-
-
 }]);
 
 'use strict';
@@ -3333,8 +3331,10 @@ amCompanion.constant("linkTypes",[
     "Mail",
     "Café",
     "Entretien"
-])
+]);
 //types : ['Restaurant', 'Appel', 'Mail', 'Café', 'Entretien']
+
+var totoo;
 
 /**
  * This function set the percent of colors to make the gradient red to green

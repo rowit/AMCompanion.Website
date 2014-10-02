@@ -17,5 +17,5 @@ amCompanion.constant("linkTypes",[
     "Mail",
     "Café",
     "Entretien"
-])
+]);
 //types : ['Restaurant', 'Appel', 'Mail', 'Café', 'Entretien']
