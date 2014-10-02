@@ -324,6 +324,13 @@ input.ng-dirty.ng-invalid {
     background-color: #e5e5e5;
 }
 
+.item .text
+{
+    overflow: hidden;
+    white-space: nowrap; /* Don't forget this one */
+    text-overflow: ellipsis;
+}
+
 .separator span.text {
     background-color: #e5e5e5;
     padding-left: 10px;
