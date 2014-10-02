@@ -7,9 +7,8 @@ module.exports = function(grunt) {
             css: {
                 src: [
                     'css/*.css',
-                    '!css/style.min.css'
                 ],
-                dest: 'css/generated/style.css'
+                dest: 'dist/style.css'
             },
             js : {
                 src : [
@@ -22,37 +21,37 @@ module.exports = function(grunt) {
                     "js/*.js",
                     "!js/combined.js"
                 ],
-                dest : 'js/generated/script.js'
+                dest : 'dist/script.js'
             }
         },
         autoprefixer: {
             single_file: {
-                src: 'css/generated/style.css',
-                dest: 'css/generated/style.css'
+                src: 'dist/style.css',
+                dest: 'dist/style.css'
             }
         },
         cssmin: {
             css: {
-                src: 'css/generated/style.css',
-                dest: 'css/generated/style.min.css'
+                src: 'dist/style.css',
+                dest: 'dist/style.min.css'
             }
         },
         uglify : {
             js: {
                 files: {
-                    'js/generated/script.min.js' : [ 'js/generated/script.js' ]
+                    'dist/script.min.js' : [ 'dist/script.js' ]
                 }
             }
         },
         watch: {
             css:
             {
-                files: ['css/*',"!**/generated/**.css"],
+                files: ['css/*'],
                 tasks: ['concat:css','autoprefixer', 'cssmin']
             },
             js:
             {
-                files: ['js/**/*.js',"!**/generated/**.js"],
+                files: ['js/*'],
                 tasks: ['concat:js', 'uglify']
             }
         }
