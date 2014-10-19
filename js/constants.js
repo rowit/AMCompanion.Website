@@ -18,4 +18,12 @@ amCompanion.constant("linkTypes",[
     "Café",
     "Entretien"
 ]);
+
+amCompanion.constant("linkTypesIcons",[
+    {label:"Restaurant",icon:"glyphicon-cutlery"},
+    {label:"Appel",icon:"glyphicon-earphone"},
+    {label:"Mail",icon:"glyphicon-envelope"},
+    {label:"Café",icon:""},
+    {label:"Entretien",icon:""}
+]);
 //types : ['Restaurant', 'Appel', 'Mail', 'Café', 'Entretien']

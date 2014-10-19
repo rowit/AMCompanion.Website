@@ -1,10 +1,10 @@
-'use strict';
 
 /* Controllers */
 amCompanion.controller('FullHomeController',[
-    "$scope","AuthService","AmcContextService",
-    function( $scope, AuthService,AmcContextService ){
+    "$scope","AmcContextService",
+    function( $scope,AmcContextService ){
+        'use strict';
 
-    AmcContextService.initEmployees();
-    $scope.employees = AmcContextService.getEmployees();
+        AmcContextService.initEmployees();
+        $scope.employees = AmcContextService.getEmployees();
 }]);

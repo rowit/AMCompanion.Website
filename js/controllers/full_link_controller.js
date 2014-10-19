@@ -1,9 +1,8 @@
-'use strict';
-
 /* Controllers */
 amCompanion.controller('FullLinkController',[
-        "$scope","$routeParams","$anchorScroll","AmcContextService", "RoutesService", "linkTypes", function(
-            $scope,$routeParams,$anchorScroll ,AmcContextService, RoutesService, linkTypes){
+        "$scope","$routeParams","$anchorScroll","AmcContextService", "RoutesService", "linkTypes","SweetAlert", function(
+            $scope,$routeParams,$anchorScroll ,AmcContextService, RoutesService, linkTypes, SweetAlert){
+            'use strict';
 
             $anchorScroll();
             $scope.editMode = true;
@@ -19,7 +18,7 @@ amCompanion.controller('FullLinkController',[
             $scope.goBack = function()
             {
                 RoutesService.loadEmployeeView($scope.selectedEmployee);
-            }
+            };
 
             $scope.changeSelectedDate = function()
             {
@@ -28,27 +27,27 @@ amCompanion.controller('FullLinkController',[
                     $scope.selectedLink.Date = $scope.selectedDate.getTime();
                 }
 
-            }
+            };
 
             $scope.getName = function()
             {
                 var employee = AmcContextService.getSelectedEmployee();
                 var str = "";
-                if( employee != undefined )
+                if( employee !== undefined )
                 {
                     str = employee.FirstName + " " + employee.LastName;
                 }
                 return str;
-            }
+            };
 
             var promise = AmcContextService.initEmployees();
             promise.then(function(){
                     AmcContextService.setSelectedEmployeeFromId($routeParams.id);
                     $scope.selectedEmployee = AmcContextService.getSelectedEmployee();
                     $scope.nomPrenom = $scope.getName();
-                    var currentLink = undefined;
+                    var currentLink;
 
-                    if( $routeParams.timestamp == "new" )
+                    if( $routeParams.timestamp === "new" )
                     {
                         var date = new Date();
 
@@ -68,7 +67,7 @@ amCompanion.controller('FullLinkController',[
                         for( var i = 0 ; i < $scope.selectedEmployee.Links.length ; i++ )
                         {
                             currentLink = $scope.selectedEmployee.Links[i];
-                            if( currentLink.Date == $routeParams.timestamp )
+                            if( currentLink.Date === $routeParams.timestamp )
                             {
                                 $scope.selectedLink = currentLink;
                                 $scope.selectedLinkBackUp = angular.copy($scope.selectedLink);
@@ -76,14 +75,14 @@ amCompanion.controller('FullLinkController',[
                             }
                         }
 
-                        if( $scope.selectedLink == undefined )
+                        if( $scope.selectedLink === undefined )
                         {
                             RoutesService.loadEmployeeView($scope.selectedEmployee);
                         }
 
                     }
                 }
-            )
+            );
 
             $scope.$on("cancelEdit",function()
             {
@@ -103,8 +102,12 @@ amCompanion.controller('FullLinkController',[
 
             $scope.$on("validateEdit",function() {
 
-                if( $scope.selectedLink.Date == undefined) {
-                    alert("Une date valide est requise");
+                if( $scope.selectedLink.Date === undefined) {
+                    SweetAlert.error("","Une date valide est requise");
+                }
+                else if( $scope.selectedLink.Type === undefined )
+                {
+                    SweetAlert.error("","Un lieu est requis");
                 }
                 else {
 
@@ -114,9 +117,9 @@ amCompanion.controller('FullLinkController',[
                         AmcContextService.updateCurrentEmployee();
                     }
                     //If the new validated objectif is not the same as the original
-                    else if( $scope.selectedLink.Type != $scope.selectedLinkBackUp.Type ||
-                        $scope.selectedLink.Date != $scope.selectedLinkBackUp.Date ||
-                        $scope.selectedLink.Comment != $scope.selectedLinkBackUp.Comment )
+                    else if( $scope.selectedLink.Type !== $scope.selectedLinkBackUp.Type ||
+                        $scope.selectedLink.Date !== $scope.selectedLinkBackUp.Date ||
+                        $scope.selectedLink.Comment !== $scope.selectedLinkBackUp.Comment )
                     {
                         AmcContextService.updateCurrentEmployee();
                     }

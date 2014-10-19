@@ -51,7 +51,7 @@ module.exports = function(grunt) {
             },
             js:
             {
-                files: ['js/*'],
+                files: ['js/*','js/**/*.js'],
                 tasks: ['concat:js', 'uglify']
             }
         }
@@ -59,7 +59,6 @@ module.exports = function(grunt) {
     });
 
     grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-ngmin');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-cssmin');

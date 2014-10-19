@@ -2,6 +2,8 @@ amCompanion.controller('FullLoginController',
     [ "$scope","$timeout","$location","AuthService",
         function($scope,$timeout,$location ,AuthService)
         {
+            'use strict';
+
             /**
              * Cette méthode permet d'initialiser le bouton de connexion
              */
@@ -48,4 +50,6 @@ amCompanion.controller('FullLoginController',
 
             };
 
-        }]);
+        }
+    ]
+);

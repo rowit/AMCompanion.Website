@@ -2,6 +2,8 @@ amCompanion.factory("RoutesService",
     ["$location","AmcContextService",
         function( $location, AmcContextService )
         {
+            'use strict';
+
             this.disconnect = function ()
             {
                 sessionStorage.removeItem("token");

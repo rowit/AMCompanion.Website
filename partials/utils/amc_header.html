@@ -2,18 +2,25 @@
 
     <div ng-if="homeDisplay">
         <div class="navbar-header">
-            <img src="/img/logo-icon.png" id="nav-logo">
-            <span class="right-menu-icon glyphicon glyphicon-off" ng-click="disconnect()"></span>
+
+            <div class="columns small-2">
+            </div>
+            <div class="columns small-8 menu-title">
+                <img src="/img/logo-icon.png" id="nav-logo">
+            </div>
+            <div class="columns small-2" ng-click="disconnect()">
+                <span class="right-menu-icon fa fa-power-off hv-center"></span>
+            </div>
         </div>
     </div>
 
     <div ng-if="!homeDisplay" class="navbar-header">
         <div class="row">
             <div class="columns small-2" ng-if="editMode" ng-click="cancelEditMode()">
-                <span class="left-menu-icon glyphicon glyphicon-ban-circle" style="color:{{cancelColor}}"></span>
+                <span class="left-menu-icon fa-ban fa hv-center" style="color:{{cancelColor}}"></span>
             </div>
             <div class="columns small-2" ng-if="!editMode" ng-click="goBack()">
-                <span class="left-menu-icon glyphicon glyphicon-chevron-left" style="color:{{backColor}}"></span>
+                <span class="left-menu-icon fa fa-arrow-left hv-center" style="color:{{backColor}}"></span>
             </div>
 
             <div class="columns small-8 menu-title">
@@ -22,10 +29,10 @@
 
 
             <div class="columns small-2" ng-if="!editMode" ng-click="toggleEditMode()">
-                <span class="right-menu-icon glyphicon glyphicon-edit" style="color:{{editColor}}"></span>
+                <span class="right-menu-icon fa-pencil-square-o fa hv-center" style="color:{{editColor}}"></span>
             </div>
             <div class="columns small-2" ng-if="editMode" ng-click="validateEditMode()">
-                <span class="right-menu-icon glyphicon glyphicon-ok" style="color:{{validateColor}}"></span>
+                <span class="right-menu-icon fa-check fa hv-center" style="color:{{validateColor}}"></span>
             </div>
         </div>
 

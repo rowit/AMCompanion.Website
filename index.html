@@ -14,8 +14,12 @@
         <link rel="stylesheet prefetch" href="/dist/style.min.css"/>
 
     </head>
-    <body id="am-companion" class="fade-view">
+    <body id="am-companion" class="fade-view" ng-controller="RootController">
         <div id="main-container" ng-view class="view"></div>
-        <script src="/dist/script.min.js"></script>
+        <div class="notif-update" ng-if="updateStatus != 0">
+            <div ng-if="updateStatus == 1">Mise à jour en cours <i class="fa fa-circle-o-notch fa-spin"></i> </div>
+
+        </div>
+        <script src="/dist/script.js"></script>
     </body>
 </html>

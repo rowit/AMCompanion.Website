@@ -3,7 +3,7 @@ meta.foundation-version {
 
 meta.foundation-mq-small {
     font-family: "/only screen/";
-    width: 0em; }
+    width: 0; }
 
 meta.foundation-mq-medium {
     font-family: "/only screen and (min-width:40.063em)/";
@@ -151,12 +151,12 @@ select {
 @media only screen {
     .small-push-0 {
         position: relative;
-        left: 0%;
+        left: 0;
         right: auto; }
 
     .small-pull-0 {
         position: relative;
-        right: 0%;
+        right: 0;
         left: auto; }
 
     .small-push-1 {

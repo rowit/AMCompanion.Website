@@ -2,6 +2,7 @@
  * Created by Sébastien on 18/05/2014.
  */
 amCompanion.config(['$routeProvider','$locationProvider', function($routeProvider, $locationProvider) {
+    'use strict';
     $routeProvider.when('/', {
         id:"home",
         templateUrl: '/partials/full/home.html',
@@ -37,37 +38,39 @@ amCompanion.config(['$routeProvider','$locationProvider', function($routeProvide
 }]);
 
 amCompanion.run(["$rootScope", "$location","RoutesService",
-    function ($rootScope, $location, RoutesService ) {
-        $rootScope.$on('$routeChangeStart', function (event, next, current) {
+        function ($rootScope, $location, RoutesService ) {
+            'use strict';
+            $rootScope.$on('$routeChangeStart', function (event, next, current) {
 
-            //var mainContainer = angular.element(document.getElementById("am-companion"))
+                var mainContainer = angular.element(document.getElementById("am-companion"));
 
-            /*
-            mainContainer.removeClass("slide-right-view");
-            mainContainer.removeClass("slide-left-view");
-            mainContainer.removeClass("fade-view");
+                mainContainer.removeClass("slide-right-view");
+                mainContainer.removeClass("slide-left-view");
+                mainContainer.removeClass("fade-view");
 
-            if( ( current == undefined
-                ||  current.$$route.id == "login" && next.$$route.id == "home" )
-                || ( current.$$route.id == "home" && next.$$route.id == "login" )  )
-            {
-                mainContainer.addClass("fade-view");
-            }
-            else if( ( current.$$route.id == "home" && next.$$route.id == "employee" ) ||
-                ( current.$$route.id == "employee" && next.$$route.id == "link" ) )
-            {
-                mainContainer.addClass("slide-right-view");
-            }
-            else
-            {
-                mainContainer.addClass("slide-left-view");
-            }
-            */
-            if( sessionStorage.getItem("token") == undefined )
-            {
-                RoutesService.disconnect();
-            }
+                if( ( current === undefined ||
+                    current.$$route.id === "login" && next.$$route.id === "home" ) ||
+                    ( current.$$route.id === "home" && next.$$route.id === "login" )  )
+                {
+                    mainContainer.addClass("fade-view");
+                }
+                else if( ( current.$$route.id === "home" && next.$$route.id === "employee" ) ||
+                    ( current.$$route.id === "employee" && next.$$route.id === "link" ) )
+                {
+                    mainContainer.addClass("slide-right-view");
+                }
+                else
+                {
+                    mainContainer.addClass("slide-left-view");
+                }
 
-        });
-    }]);
+                if( sessionStorage.getItem("token") === undefined )
+                {
+                    RoutesService.disconnect();
+                }
+
+            });
+        }
+    ]
+);
 

@@ -1,8 +1,4 @@
 // Declare app level module which depends on filters, and services
 var amCompanion = angular.module('amCompanion', [
-    'ngCookies','ngRoute','ngAnimate', 'igTruncate','angular-progress-arc','rzModule','monospaced.elastic'
+    'ngCookies','ngRoute','ngAnimate','ngTouch', 'igTruncate','angular-progress-arc','rzModule',"oitozero.ngSweetAlert"
 ]);
-
-amCompanion.run(function() {
-    FastClick.attach(document.body);
-});

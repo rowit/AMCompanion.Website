@@ -32,7 +32,7 @@ slider span.bar {
   box-shadow: inset 2px 2px 5px;
 }
 slider span.bar.selection {
-  width: 0%;
+  width: 0;
   z-index: 1;
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #13b6ff), color-stop(1, #00a8f3));
   background: -webkit-linear-gradient(top, #13b6ff 0, #00a8f3 100%);

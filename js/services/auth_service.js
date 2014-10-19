@@ -1,5 +1,6 @@
 amCompanion.factory('AuthService', ["$http", "$q", "urls", "AmcContextService",
     function ($http , $q, urls, AmcContextService) {
+        'use strict';
         return {
             login: function (credentials){
 

@@ -1,5 +1,6 @@
-'use strict';
+
 amCompanion.directive('embedEmployee', function() {
+    'use strict';
     return {
         restrict: 'E',
         templateUrl: '/partials/embed/employee.html',
@@ -8,15 +9,15 @@ amCompanion.directive('embedEmployee', function() {
         {
             employee:"="
         }
-    }
+    };
 });
 
 
 /* Controllers */
 amCompanion.controller('EmbedEmployeeController',
-    [ "$scope", "$filter","RoutesService","AmcContextService",
-        function($scope, $filter, RoutesService, AmcContextService){
-
+    [ "$scope", "$filter","RoutesService",
+        function($scope, $filter, RoutesService){
+            'use strict';
             var lastLink = $filter("limitTo")($filter("orderBy")($scope.employee.Links, "Date", "reverse"), 1);
             if( lastLink.length > 0 )
             {
@@ -26,9 +27,9 @@ amCompanion.controller('EmbedEmployeeController',
             $scope.openEmployeeView = function()
             {
                 RoutesService.loadEmployeeView($scope.employee);
-            }
+            };
 
-            if( $scope.employee.CurrentObjectives == undefined || $scope.employee.CurrentObjectives.length == 0 )
+            if( $scope.employee.CurrentObjectives === undefined || $scope.employee.CurrentObjectives.length === 0 )
             {
                 $scope.percentObjectives = 0;
             }

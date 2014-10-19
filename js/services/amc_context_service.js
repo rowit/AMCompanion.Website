@@ -1,9 +1,9 @@
-amCompanion.factory("AmcContextService", [ "$http","$q","urls","$cookies",
-    function( $http, $q, urls,$cookies )
+amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$q","urls","$cookies",
+    function ($http, $rootScope, $q, urls, $cookies )
     {
+        'use strict';
 
         var data = {};
-        var attents = 0;
 
         /**
          * This function is called to reset the service's data
@@ -14,7 +14,8 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls","$cookies",
             data.selectedEmployee = undefined;
             data.isInit = false;
             data.userMail = sessionStorage.getItem("mail");
-        }
+            data.updateStatus = 0;
+        };
         //Init the context at the first injection
         this.initData();
 
@@ -22,21 +23,23 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls","$cookies",
         {
             var defer = $q.defer();
 
+            //data.updateStatus = 1;
+            //$rootScope.$emit("serverUpdateStarted");
+
             $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.token;
             $http.put(
                     urls.employes + "/" +data.selectedEmployee._id,
                     data.selectedEmployee
             ).success(
-                function (res, status, headers ) {
+                function () {
                     defer.resolve();
-
                 }).error(function()
                 {
                     //RoutesService.disconnect();
                     defer.reject();
                 });
             return defer.promise;
-        }
+        };
 
         /**
          * This method get the data from the stub
@@ -45,11 +48,10 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls","$cookies",
         {
             var defer = $q.defer();
 
-            if( data.isInit == false )
+            if( data.isInit === false )
             {
-                var defer = $q.defer();
+                defer = $q.defer();
                 data.employees = [];
-
 
                 if( this.isDevVersion() )
                 {
@@ -70,7 +72,7 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls","$cookies",
                     $http.get(
                             urls.employes + "/" +data.userMail
                     ).success(
-                        function (res, status, headers ) {
+                        function (res) {
 
                             addEmployeeDate(res);
 
@@ -99,8 +101,7 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls","$cookies",
          */
         function addEmployeeDate( employees )
         {
-            var currentEmployee = undefined;
-            var currentMax = -1;
+            var currentEmployee, currentMax = -1;
 
             for( var i = 0 ; i < employees.length ; i ++ )
             {
@@ -122,7 +123,7 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls","$cookies",
 
         this.isDevVersion = function()
         {
-            return $cookies.env == "dev";
+            return $cookies.env === "dev";
         };
 
         //Accessor of employees
@@ -145,7 +146,7 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls","$cookies",
         {
             for( var i = 0 ; i < data.employees.length ; i ++ )
             {
-                if ( data.employees[i]._id == id )
+                if ( data.employees[i]._id === id )
                 {
                     this.setSelectedEmployee(data.employees[i]);
                 }
@@ -156,6 +157,17 @@ amCompanion.factory("AmcContextService", [ "$http","$q","urls","$cookies",
         {
             data.selectedEmployee = undefined;
         };
+
+        this.setUpdateStatus = function( newStatus )
+        {
+            data.updateStatus = newStatus;
+        };
+
+        this.getUpdateStatus = function()
+        {
+            return data.updateStatus;
+        };
+
 
         return this;
     }]);
