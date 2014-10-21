@@ -91,16 +91,12 @@ body {
 .slide-left-view .view.ng-leave,
 .slide-right-view .view.ng-enter,
 .slide-right-view .view.ng-leave {
-    -webkit-transform: translate3d(0, 0, 0);
-    -moz-transform: translate3d(0, 0, 0);
-    -ms-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-    /* Other transform properties here */
-    transition: 200ms linear all;
-    -moz-transition: 200ms linear all;
-    -ms-transition: 200ms linear all;
-    -o-transition: 200ms linear all;
-    -webkit-transition: 200ms linear all;
+    -webkit-transition: -webkit-transform .4s ease-in-out;
+    -moz-transition: -moz-transform .4s ease-in-out;
+    -o-transition: -o-transform .4s ease-in-out;
+    transition: transform .4s ease-in-out;
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
 }
 
 .fade-view .view.ng-enter {
@@ -120,35 +116,47 @@ body {
 }
 
 .slide-left-view .view.ng-enter {
-    left: -100%;
+    -webkit-transform: translate3d(-100%,0,0);
+    transform: translate3d(-100%,0,0);
 }
 
 .slide-left-view .view.ng-enter-active {
-    left: 0;
+    position: absolute;
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
 }
 
 .slide-left-view .view.ng-leave {
-    left: 0;
+    position: absolute;
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
 }
 
 .slide-left-view .view.ng-leave-active {
-    left: 100%;
+    -webkit-transform: translate3d(100%,0,0);
+    transform: translate3d(100%,0,0);
 }
 
 .slide-right-view .view.ng-enter {
-    left: 100%;
+    -webkit-transform: translate3d(100%,0,0);
+    transform: translate3d(100%,0,0);
 }
 
 .slide-right-view .view.ng-enter-active {
-    left: 0;
+    position: absolute;
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
 }
 
 .slide-right-view .view.ng-leave {
-    left: 0;
+    position: absolute;
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
 }
 
 .slide-right-view .view.ng-leave-active {
-    left: -100%;
+    -webkit-transform: translate3d(-100%,0,0);
+    transform: translate3d(-100%,0,0);
 }
 
 /* app css stylesheet */
