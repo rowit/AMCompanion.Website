@@ -42,6 +42,7 @@ amCompanion.controller('FullLinkController',[
 
             var promise = AmcContextService.initEmployees();
             promise.then(function(){
+
                     AmcContextService.setSelectedEmployeeFromId($routeParams.id);
                     $scope.selectedEmployee = AmcContextService.getSelectedEmployee();
                     $scope.nomPrenom = $scope.getName();
@@ -67,7 +68,7 @@ amCompanion.controller('FullLinkController',[
                         for( var i = 0 ; i < $scope.selectedEmployee.Links.length ; i++ )
                         {
                             currentLink = $scope.selectedEmployee.Links[i];
-                            if( currentLink.Date === $routeParams.timestamp )
+                            if( currentLink.Date == $routeParams.timestamp )
                             {
                                 $scope.selectedLink = currentLink;
                                 $scope.selectedLinkBackUp = angular.copy($scope.selectedLink);
