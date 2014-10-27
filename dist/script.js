@@ -250,115 +250,6 @@
 var amCompanion = angular.module('amCompanion', [
     'ngCookies','ngRoute','ngAnimate','ngTouch', 'igTruncate','angular-progress-arc','rzModule',"oitozero.ngSweetAlert"
 ]);
-/*
-amCompanion.constant("urls", {
-        login: "http://localhost:1337/login",
-        employes: "http://localhost:1337/api/employees"
-    }
-);
-*/
-amCompanion.constant("urls", {
-        login: "http://amcserver.cloudapp.net/login",
-        employes: "http://amcserver.cloudapp.net/api/employees"
-    }
-);
-
-amCompanion.constant("linkTypes",[
-    "Restaurant",
-    "Appel",
-    "Mail",
-    "Café",
-    "Entretien"
-]);
-
-amCompanion.constant("linkTypesIcons",[
-    {label:"Restaurant",icon:"glyphicon-cutlery"},
-    {label:"Appel",icon:"glyphicon-earphone"},
-    {label:"Mail",icon:"glyphicon-envelope"},
-    {label:"Café",icon:""},
-    {label:"Entretien",icon:""}
-]);
-//types : ['Restaurant', 'Appel', 'Mail', 'Café', 'Entretien']
-
-
-
-/**
- * Created by Sébastien on 18/05/2014.
- */
-amCompanion.config(['$routeProvider','$locationProvider', function($routeProvider, $locationProvider) {
-    'use strict';
-    $routeProvider.when('/', {
-        id:"home",
-        templateUrl: '/partials/full/home.html',
-        controller: 'FullHomeController'
-    });
-
-    $routeProvider.when('/employee/:id', {
-        id:"employee",
-        templateUrl: '/partials/full/employee.html',
-        controller: 'FullEmployeeController'
-    });
-
-    $routeProvider.when('/link/:id/:timestamp', {
-        id:"link",
-        templateUrl: '/partials/full/link.html',
-        controller: 'FullLinkController'
-    });
-
-    $routeProvider.when('/objective/:id/:index', {
-        id:"link",
-        templateUrl: '/partials/full/objective.html',
-        controller: 'FullObjectiveController'
-    });
-
-    $routeProvider.when('/login', {
-        id:"login",
-        templateUrl: '/partials/full/login.html',
-        controller: 'FullLoginController'
-    });
-
-    $locationProvider.html5Mode(true);
-    $routeProvider.otherwise({redirectTo: '/'});
-}]);
-
-amCompanion.run(["$rootScope", "$location","RoutesService",
-        function ($rootScope, $location, RoutesService ) {
-            'use strict';
-            $rootScope.$on('$routeChangeStart', function (event, next, current) {
-
-                var mainContainer = angular.element(document.getElementById("am-companion"));
-
-                mainContainer.removeClass("slide-right-view");
-                mainContainer.removeClass("slide-left-view");
-                mainContainer.removeClass("fade-view");
-
-                if( ( current === undefined ||
-                    current.$$route.id === "login" && next.$$route.id === "home" ) ||
-                    ( current.$$route.id === "home" && next.$$route.id === "login" )  )
-                {
-                    mainContainer.addClass("fade-view");
-                }
-                else if( ( current.$$route.id === "home" && next.$$route.id === "employee" ) ||
-                    ( current.$$route.id === "employee" && next.$$route.id === "link" ) )
-                {
-                    mainContainer.addClass("slide-right-view");
-                }
-                else
-                {
-                    mainContainer.addClass("slide-left-view");
-                }
-
-                if( sessionStorage.getItem("token") === undefined )
-                {
-                    RoutesService.disconnect();
-                }
-
-            });
-        }
-    ]
-);
-
-
 amCompanion.directive('amcHeader', function() {
     'use strict';
     return {
@@ -574,6 +465,36 @@ amCompanion.controller('EmbedEmployeeController',
 
 
         }]);
+
+/*
+amCompanion.constant("urls", {
+        login: "http://localhost:1337/login",
+        employes: "http://localhost:1337/api/employees"
+    }
+);
+*/
+amCompanion.constant("urls", {
+        login: "http://amcserver.cloudapp.net/login",
+        employes: "http://amcserver.cloudapp.net/api/employees"
+    }
+);
+
+amCompanion.constant("linkTypes",[
+    "Restaurant",
+    "Appel",
+    "Mail",
+    "Café",
+    "Entretien"
+]);
+
+amCompanion.constant("linkTypesIcons",[
+    {label:"Restaurant",icon:"glyphicon-cutlery"},
+    {label:"Appel",icon:"glyphicon-earphone"},
+    {label:"Mail",icon:"glyphicon-envelope"},
+    {label:"Café",icon:""},
+    {label:"Entretien",icon:""}
+]);
+//types : ['Restaurant', 'Appel', 'Mail', 'Café', 'Entretien']
 
 /* Controllers */
 amCompanion.controller('FullEmployeeController',[
@@ -850,7 +771,7 @@ amCompanion.controller('FullLinkController',[
                         for( var i = 0 ; i < $scope.selectedEmployee.Links.length ; i++ )
                         {
                             currentLink = $scope.selectedEmployee.Links[i];
-                            if( currentLink.Date == $routeParams.timestamp )
+                            if( currentLink.Date === parseInt($routeParams.timestamp) )
                             {
                                 $scope.selectedLink = currentLink;
                                 $scope.selectedLinkBackUp = angular.copy($scope.selectedLink);
@@ -1087,6 +1008,85 @@ amCompanion.controller('RootController',[
 
 
     }]);
+
+
+
+/**
+ * Created by Sébastien on 18/05/2014.
+ */
+amCompanion.config(['$routeProvider','$locationProvider', function($routeProvider, $locationProvider) {
+    'use strict';
+    $routeProvider.when('/', {
+        id:"home",
+        templateUrl: '/partials/full/home.html',
+        controller: 'FullHomeController'
+    });
+
+    $routeProvider.when('/employee/:id', {
+        id:"employee",
+        templateUrl: '/partials/full/employee.html',
+        controller: 'FullEmployeeController'
+    });
+
+    $routeProvider.when('/link/:id/:timestamp', {
+        id:"link",
+        templateUrl: '/partials/full/link.html',
+        controller: 'FullLinkController'
+    });
+
+    $routeProvider.when('/objective/:id/:index', {
+        id:"link",
+        templateUrl: '/partials/full/objective.html',
+        controller: 'FullObjectiveController'
+    });
+
+    $routeProvider.when('/login', {
+        id:"login",
+        templateUrl: '/partials/full/login.html',
+        controller: 'FullLoginController'
+    });
+
+    $locationProvider.html5Mode(true);
+    $routeProvider.otherwise({redirectTo: '/'});
+}]);
+
+amCompanion.run(["$rootScope", "$location","RoutesService",
+        function ($rootScope, $location, RoutesService ) {
+            'use strict';
+            $rootScope.$on('$routeChangeStart', function (event, next, current) {
+
+                var mainContainer = angular.element(document.getElementById("am-companion"));
+
+                mainContainer.removeClass("slide-right-view");
+                mainContainer.removeClass("slide-left-view");
+                mainContainer.removeClass("fade-view");
+
+                if( ( current === undefined ||
+                    current.$$route.id === "login" && next.$$route.id === "home" ) ||
+                    ( current.$$route.id === "home" && next.$$route.id === "login" )  )
+                {
+                    mainContainer.addClass("fade-view");
+                }
+                else if( ( current.$$route.id === "home" && next.$$route.id === "employee" ) ||
+                    ( current.$$route.id === "employee" && next.$$route.id === "link" ) )
+                {
+                    mainContainer.addClass("slide-right-view");
+                }
+                else
+                {
+                    mainContainer.addClass("slide-left-view");
+                }
+
+                if( sessionStorage.getItem("token") === undefined )
+                {
+                    RoutesService.disconnect();
+                }
+
+            });
+        }
+    ]
+);
+
 
 amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$q","urls","$cookies",
     function ($http, $rootScope, $q, urls, $cookies )

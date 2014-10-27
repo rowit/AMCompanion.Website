@@ -3,6 +3,17 @@ module.exports = function(grunt) {
 
         pkg: grunt.file.readJSON('package.json'),
 
+        jshint: {
+            allFiles: [
+                'js/**/*.js',
+                '!js/vendors/*'
+            ],
+            options: {
+                jshintrc: true,
+                reporter: require('jshint-stylish')
+            }
+        },
+
         concat: {
             css: {
                 src: [
@@ -14,8 +25,7 @@ module.exports = function(grunt) {
                 src : [
                     "js/vendors/angular.min.js",
                     "js/app.js",
-                    "js/**/*.js",
-                    "js/*.js"
+                    "js/**/*.js"
                 ],
                 dest : 'dist/script.js'
             }
@@ -47,13 +57,13 @@ module.exports = function(grunt) {
             },
             js:
             {
-                files: ['js/*','js/**/*.js'],
-                tasks: ['concat:js', 'uglify']
+                files: ['js/**/*.js'],
+                tasks: ['concat:js', 'uglify',"jshint"]
             }
         }
-
     });
 
+    grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
