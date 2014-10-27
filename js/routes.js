@@ -64,7 +64,7 @@ amCompanion.run(["$rootScope", "$location","RoutesService",
                     mainContainer.addClass("slide-left-view");
                 }
 
-                if( sessionStorage.getItem("token") === null )
+                if( sessionStorage.getItem("token") === undefined )
                 {
                     RoutesService.disconnect();
                 }

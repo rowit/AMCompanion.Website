@@ -13,13 +13,9 @@ module.exports = function(grunt) {
             js : {
                 src : [
                     "js/vendors/angular.min.js",
-                    "js/vendors/*.js",
                     "js/app.js",
-                    "js/controllers/*.js",
-                    "js/components/*.js",
-                    "js/services/*.js",
-                    "js/*.js",
-                    "!js/combined.js"
+                    "js/**/*.js",
+                    "js/*.js"
                 ],
                 dest : 'dist/script.js'
             }

@@ -246,6 +246,1101 @@
         console.log("WARNING: Tried to load angular more than once."):(Id(),Kd(ta),D(X).ready(function(){Ed(X,rc)}))})(window,document);!window.angular.$$csp()&&window.angular.element(document).find("head").prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}</style>');
 //# sourceMappingURL=angular.min.js.map
 
+// Declare app level module which depends on filters, and services
+var amCompanion = angular.module('amCompanion', [
+    'ngCookies','ngRoute','ngAnimate','ngTouch', 'igTruncate','angular-progress-arc','rzModule',"oitozero.ngSweetAlert"
+]);
+/*
+amCompanion.constant("urls", {
+        login: "http://localhost:1337/login",
+        employes: "http://localhost:1337/api/employees"
+    }
+);
+*/
+amCompanion.constant("urls", {
+        login: "http://amcserver.cloudapp.net/login",
+        employes: "http://amcserver.cloudapp.net/api/employees"
+    }
+);
+
+amCompanion.constant("linkTypes",[
+    "Restaurant",
+    "Appel",
+    "Mail",
+    "Café",
+    "Entretien"
+]);
+
+amCompanion.constant("linkTypesIcons",[
+    {label:"Restaurant",icon:"glyphicon-cutlery"},
+    {label:"Appel",icon:"glyphicon-earphone"},
+    {label:"Mail",icon:"glyphicon-envelope"},
+    {label:"Café",icon:""},
+    {label:"Entretien",icon:""}
+]);
+//types : ['Restaurant', 'Appel', 'Mail', 'Café', 'Entretien']
+
+
+
+/**
+ * Created by Sébastien on 18/05/2014.
+ */
+amCompanion.config(['$routeProvider','$locationProvider', function($routeProvider, $locationProvider) {
+    'use strict';
+    $routeProvider.when('/', {
+        id:"home",
+        templateUrl: '/partials/full/home.html',
+        controller: 'FullHomeController'
+    });
+
+    $routeProvider.when('/employee/:id', {
+        id:"employee",
+        templateUrl: '/partials/full/employee.html',
+        controller: 'FullEmployeeController'
+    });
+
+    $routeProvider.when('/link/:id/:timestamp', {
+        id:"link",
+        templateUrl: '/partials/full/link.html',
+        controller: 'FullLinkController'
+    });
+
+    $routeProvider.when('/objective/:id/:index', {
+        id:"link",
+        templateUrl: '/partials/full/objective.html',
+        controller: 'FullObjectiveController'
+    });
+
+    $routeProvider.when('/login', {
+        id:"login",
+        templateUrl: '/partials/full/login.html',
+        controller: 'FullLoginController'
+    });
+
+    $locationProvider.html5Mode(true);
+    $routeProvider.otherwise({redirectTo: '/'});
+}]);
+
+amCompanion.run(["$rootScope", "$location","RoutesService",
+        function ($rootScope, $location, RoutesService ) {
+            'use strict';
+            $rootScope.$on('$routeChangeStart', function (event, next, current) {
+
+                var mainContainer = angular.element(document.getElementById("am-companion"));
+
+                mainContainer.removeClass("slide-right-view");
+                mainContainer.removeClass("slide-left-view");
+                mainContainer.removeClass("fade-view");
+
+                if( ( current === undefined ||
+                    current.$$route.id === "login" && next.$$route.id === "home" ) ||
+                    ( current.$$route.id === "home" && next.$$route.id === "login" )  )
+                {
+                    mainContainer.addClass("fade-view");
+                }
+                else if( ( current.$$route.id === "home" && next.$$route.id === "employee" ) ||
+                    ( current.$$route.id === "employee" && next.$$route.id === "link" ) )
+                {
+                    mainContainer.addClass("slide-right-view");
+                }
+                else
+                {
+                    mainContainer.addClass("slide-left-view");
+                }
+
+                if( sessionStorage.getItem("token") === undefined )
+                {
+                    RoutesService.disconnect();
+                }
+
+            });
+        }
+    ]
+);
+
+
+amCompanion.directive('amcHeader', function() {
+    'use strict';
+    return {
+        restrict: 'E',
+        controller:"AmcHeaderController",
+        templateUrl: '/partials/utils/amc_header.html',
+        scope:
+        {
+            homeDisplay:"=",
+            libelle:"=",
+            goBackHandler:"&",
+            editMode:"="
+        }
+    };
+});
+
+/* Controllers */
+amCompanion.controller('AmcHeaderController',
+    [ "$scope","$timeout","RoutesService" ,
+        function($scope,$timeout, RoutesService){
+
+            'use strict';
+            $scope.cancelColor = "#FFFFFF";
+            $scope.backColor = "#FFFFFF";
+            $scope.editColor = "#FFFFFF";
+            $scope.validateColor = "#FFFFFF";
+
+            /**
+             * Cette fonction déconnecte l'utilisateur
+             */
+            $scope.disconnect = function()
+            {
+                RoutesService.disconnect();
+            };
+
+            $scope.goBack = function()
+            {
+                $scope.goBackHandler();
+                $scope.backColor = "#2980b9";
+                $timeout(function(){$scope.backColor = "#FFFFFF";},100);
+            };
+
+            $scope.toggleEditMode = function()
+            {
+                $scope.$emit("startEdit");
+                $scope.editColor = "#2980b9";
+                $timeout(function(){$scope.editColor = "#FFFFFF";},100);
+            };
+
+            $scope.validateEditMode = function()
+            {
+                $scope.$emit("validateEdit");
+                $scope.validateColor = "#2980b9";
+                $timeout(function(){$scope.validateColor = "#FFFFFF";},100);
+            };
+
+            $scope.cancelEditMode = function()
+            {
+                $scope.$emit("cancelEdit");
+                $scope.cancelColor = "#2980b9";
+                $timeout(function(){$scope.cancelColor = "#FFFFFF";},100);
+            };
+
+        }]);
+
+amCompanion.directive('angRoundProgress', [function () {
+    'use strict';
+    var compilationFunction = function (templateElement) {
+        if (templateElement.length === 1) {
+            var node = templateElement[0],
+                width = node.getAttribute('round-progress-width') || '400',
+                height = node.getAttribute('round-progress-height') || '400',
+                canvas = document.createElement('canvas')
+                ;
+
+            canvas.setAttribute('width', width);
+            canvas.setAttribute('height', height);
+            canvas.setAttribute('round-progress-model', node.getAttribute('round-progress-model'));
+
+            node.parentNode.replaceChild(canvas, node);
+
+            var outerCircleWidth = node.getAttribute('round-progress-outer-circle-width') || '20';
+            var innerCircleWidth = node.getAttribute('round-progress-inner-circle-width') || '5';
+
+            var outerCircleBackgroundColor = node.getAttribute('round-progress-outer-circle-background-color') || '#505769';
+            var outerCircleForegroundColor = node.getAttribute('round-progress-outer-circle-foreground-color') || '#12eeb9';
+            var innerCircleColor = node.getAttribute('round-progress-inner-circle-color') || '#505769';
+            var labelColor = node.getAttribute('round-progress-label-color') || '#12eeb9';
+
+            var outerCircleRadius = node.getAttribute('round-progress-outer-circle-radius') || '100';
+            var innerCircleRadius = node.getAttribute('round-progress-inner-circle-radius') || '70';
+
+            var labelFont = node.getAttribute('round-progress-label-font') || '50pt Calibri';
+
+            return {
+                pre: function preLink(scope) {
+                    var expression = canvas.getAttribute('round-progress-model');
+                    scope.$watch(expression, function (newValue) {
+                        // Create the content of the canvas
+                        var ctx = canvas.getContext('2d'), x = width / 2, y = height / 2;
+                        ctx.clearRect(0, 0, width, height);
+
+                        // The "background" circle
+                        ctx.beginPath();
+                        ctx.arc(x, y, parseInt(outerCircleRadius), 0, Math.PI * 2, false);
+                        ctx.lineWidth = parseInt(outerCircleWidth);
+                        ctx.strokeStyle = outerCircleBackgroundColor;
+                        ctx.stroke();
+
+                        // The inner circle
+                        ctx.beginPath();
+                        ctx.arc(x, y, parseInt(innerCircleRadius), 0, Math.PI * 2, false);
+                        ctx.lineWidth = parseInt(innerCircleWidth);
+                        ctx.strokeStyle = innerCircleColor;
+                        ctx.stroke();
+
+                        // The inner number
+                        ctx.font = labelFont;
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillStyle = labelColor;
+                        ctx.fillText(newValue.label + "%", x, y);
+
+                        console.log(newValue.label);
+
+                        // The "foreground" circle
+                        var startAngle = - (Math.PI / 2);
+                        var endAngle = ((Math.PI * 2 ) * newValue.percentage) - (Math.PI / 2);
+                        var anticlockwise = false;
+                        ctx.beginPath();
+                        ctx.arc(x, y, parseInt(outerCircleRadius), startAngle, endAngle, anticlockwise);
+                        ctx.lineWidth = parseInt(outerCircleWidth);
+                        ctx.strokeStyle = outerCircleForegroundColor;
+                        ctx.stroke();
+                    }, true);
+                }
+            };
+        }
+    };
+
+    var roundProgress = {
+        compile: compilationFunction,
+        replace: true
+    };
+    return roundProgress;
+}]);
+
+
+amCompanion.directive('embedEmployee', function() {
+    'use strict';
+    return {
+        restrict: 'E',
+        templateUrl: '/partials/embed/employee.html',
+        controller:"EmbedEmployeeController",
+        scope:
+        {
+            employee:"="
+        }
+    };
+});
+
+
+/* Controllers */
+amCompanion.controller('EmbedEmployeeController',
+    [ "$scope", "$filter","RoutesService",
+        function($scope, $filter, RoutesService){
+            'use strict';
+            var lastLink = $filter("limitTo")($filter("orderBy")($scope.employee.Links, "Date", "reverse"), 1);
+            if( lastLink.length > 0 )
+            {
+                $scope.lastLink = lastLink[0];
+            }
+
+            $scope.openEmployeeView = function()
+            {
+                RoutesService.loadEmployeeView($scope.employee);
+            };
+
+            if( $scope.employee.CurrentObjectives === undefined || $scope.employee.CurrentObjectives.length === 0 )
+            {
+                $scope.percentObjectives = 0;
+            }
+            else
+            {
+                var sum = 0;
+
+                angular.forEach( $scope.employee.CurrentObjectives, function( objective )
+                {
+                    sum += (objective.progressionPercent/100) * (objective.ponderation);
+                });
+
+                //we round up the number to one decimal
+                $scope.percentObjectives = Math.round( sum * 10 ) / 10;
+
+                if( $scope.percentObjectives < 25 )
+                {
+                    $scope.objectiveColor = "danger";
+                }
+                else if( $scope.percentObjectives < 50 )
+                {
+                    $scope.objectiveColor = "warning";
+                }
+                else if( $scope.percentObjectives < 75 )
+                {
+                    $scope.objectiveColor = "success";
+                }
+                else
+                {
+                    $scope.objectiveColor = "info";
+                }
+
+            }
+
+
+        }]);
+
+/* Controllers */
+amCompanion.controller('FullEmployeeController',[
+    "$scope","$routeParams","$anchorScroll","AmcContextService","RoutesService", function(
+        $scope,$routeParams, $anchorScroll ,AmcContextService, RoutesService){
+
+        "use strict";
+
+        $scope.progressColors = [];
+        $scope.editMode = false;
+        $scope.selectedEmployeeEdited = undefined;
+        $scope.nomPrenom = "";
+
+        $anchorScroll();
+
+        /**
+         * This function set the percent of colors to make the gradient red to green
+         * @type {{pct: number, color: {r: number, g: number, b: number}}[]}
+         */
+        var percentColors = [
+            { pct: 0.0, color: { r: 0xff, g: 0x00, b: 0 } },
+            { pct: 0.5, color: { r: 0xff, g: 0xff, b: 0 } },
+            { pct: 1.0, color: { r: 0x00, g: 0xff, b: 0 } } ];
+
+        /**
+         * This function allow to get the color from red to green with a percentage
+         * @param pct the percentage
+         * @returns {string} the color #EXAEXA
+         */
+        function getColorForPercentage(pct) {
+            for (var i = 1; i < percentColors.length - 1; i++) {
+                if (pct < percentColors[i].pct) {
+                    break;
+                }
+            }
+            var lower = percentColors[i - 1];
+            var upper = percentColors[i];
+            var range = upper.pct - lower.pct;
+            var rangePct = (pct - lower.pct) / range;
+            var pctLower = 1 - rangePct;
+            var pctUpper = rangePct;
+            var color = {
+                r: Math.floor(lower.color.r * pctLower + upper.color.r * pctUpper),
+                g: Math.floor(lower.color.g * pctLower + upper.color.g * pctUpper),
+                b: Math.floor(lower.color.b * pctLower + upper.color.b * pctUpper)
+            };
+            //return 'rgb(' + [color.r, color.g, color.b].join(',') + ')';
+            return "#" + componentToHex(color.r) + componentToHex(color.g) + componentToHex(color.b);
+            // or output as hex if preferred
+        }
+
+        /**
+         * This function allow to get the exa code for a color.
+         * @param c
+         * @returns {string}
+         */
+        function componentToHex(c) {
+            var hex = c.toString(16);
+            return hex.length === 1 ? "0" + hex : hex;
+        }
+
+        function initColors()
+        {
+            var i;
+            $scope.progressColors = [];
+            for ( i = 0 ; i < $scope.selectedEmployee.CurrentObjectives.length ; i++ )
+            {
+                $scope.progressColors[i] = getColorForPercentage($scope.selectedEmployee.CurrentObjectives[i].ProgressionPercent/100);
+            }
+        }
+
+        //init the page's context
+        var promise = AmcContextService.initEmployees();
+        promise.then(function(){
+            AmcContextService.setSelectedEmployeeFromId($routeParams.id);
+            $scope.selectedEmployee = AmcContextService.getSelectedEmployee();
+            $scope.nomPrenom = $scope.getName();
+            initColors();
+        });
+
+        $scope.getIcon = function( type )
+        {
+            var icon;
+
+            if( type === "Mail" )
+            {
+                icon = "fa-envelope-o";
+            }
+            else if ( type === "Restaurant" )
+            {
+                icon = "fa-cutlery";
+            }
+            else if ( type === "Appel" )
+            {
+                icon = "fa-phone";
+            }
+            else if ( type === "Café" )
+            {
+                icon = "fa-coffee";
+            }
+            else if ( type === "Entretien" )
+            {
+                icon = "fa-calendar";
+            }
+
+
+            return icon;
+        };
+
+        /**
+         * get the name of the employee clicked
+         * @returns {string}
+         */
+        $scope.getName = function()
+        {
+            var str = "";
+            if( $scope.selectedEmployee !== undefined )
+            {
+                str = $scope.selectedEmployee.FirstName + " " + $scope.selectedEmployee.LastName;
+            }
+            return str;
+        };
+
+        /**
+         * This function allow to return to the home page
+         */
+        $scope.goBack = function()
+        {
+            RoutesService.loadHomeView();
+        };
+
+        /**
+         * This is what happened when a link is clicked
+         * @param link
+         */
+        $scope.showFullLink = function( link )
+        {
+            if( $scope.editMode === false)
+            {
+                RoutesService.loadLinkView( $scope.selectedEmployee, link );
+            }
+        };
+
+        $scope.createNewObjective = function()
+        {
+            if( $scope.editMode === false) {
+                RoutesService.loadObjectiveView($scope.selectedEmployee, "new");
+            }
+        };
+
+        $scope.createNewLink = function()
+        {
+            if( $scope.editMode === false) {
+                RoutesService.loadLinkView($scope.selectedEmployee, {Date:"new"});
+            }
+        };
+
+        $scope.showFullObjective = function( $index )
+        {
+            if( $scope.editMode === false) {
+                RoutesService.loadObjectiveView($scope.selectedEmployee, $index);
+            }
+        };
+
+        $scope.$on( "startEdit" , function()
+        {
+            $scope.selectedEmployeeBackUp = angular.copy($scope.selectedEmployee);
+            $scope.editMode = true;
+        });
+
+        $scope.$on("cancelEdit",function()
+        {
+            $scope.selectedEmployee = $scope.selectedEmployeeBackUp;
+            $scope.editMode = false;
+        });
+
+        $scope.$on("validateEdit",function()
+        {
+            $scope.editMode = false;
+            AmcContextService.updateCurrentEmployee();
+        });
+
+        $scope.deleteObjective = function($event, $index)
+        {
+            $scope.selectedEmployee.CurrentObjectives.splice($index, 1);
+            $event.stopPropagation();
+        };
+
+        $scope.deleteLink = function($event, $index)
+        {
+            $scope.selectedEmployee.Links.splice($index, 1);
+            $event.stopPropagation();
+        };
+
+    }]);
+
+
+/* Controllers */
+amCompanion.controller('FullHomeController',[
+    "$scope","AmcContextService",
+    function( $scope,AmcContextService ){
+        'use strict';
+        AmcContextService.initEmployees();
+        $scope.employees = AmcContextService.getEmployees();
+}]);
+
+/* Controllers */
+amCompanion.controller('FullLinkController',[
+        "$scope","$routeParams","$anchorScroll","AmcContextService", "RoutesService", "linkTypes","SweetAlert", function(
+            $scope,$routeParams,$anchorScroll ,AmcContextService, RoutesService, linkTypes, SweetAlert){
+            'use strict';
+
+            $anchorScroll();
+            $scope.editMode = true;
+            $scope.newMode = false;
+            $scope.selectedDate = undefined;
+            $scope.selectedLinkBackUp = undefined;
+
+            $scope.linkTypes = linkTypes;
+
+            /**
+             * This methods is passed in parameter to header, it allow to go back to employee view
+             */
+            $scope.goBack = function()
+            {
+                RoutesService.loadEmployeeView($scope.selectedEmployee);
+            };
+
+            $scope.changeSelectedDate = function()
+            {
+                if( !!$scope.selectedDate )
+                {
+                    $scope.selectedLink.Date = $scope.selectedDate.getTime();
+                }
+
+            };
+
+            $scope.getName = function()
+            {
+                var employee = AmcContextService.getSelectedEmployee();
+                var str = "";
+                if( employee !== undefined )
+                {
+                    str = employee.FirstName + " " + employee.LastName;
+                }
+                return str;
+            };
+
+            var promise = AmcContextService.initEmployees();
+            promise.then(function(){
+
+                    AmcContextService.setSelectedEmployeeFromId($routeParams.id);
+                    $scope.selectedEmployee = AmcContextService.getSelectedEmployee();
+                    $scope.nomPrenom = $scope.getName();
+                    var currentLink;
+
+                    if( $routeParams.timestamp === "new" )
+                    {
+                        var date = new Date();
+
+                        $scope.selectedLink = {
+                            Type:undefined,
+                            Date: date.getTime(),
+                            Comment:""
+                        };
+                        $scope.newMode = true;
+                        $scope.editMode = true;
+                        $scope.nomPrenom = "Nouveau rendez-vous";
+
+                        $scope.selectedDate = date;
+                    }
+                    else
+                    {
+                        for( var i = 0 ; i < $scope.selectedEmployee.Links.length ; i++ )
+                        {
+                            currentLink = $scope.selectedEmployee.Links[i];
+                            if( currentLink.Date == $routeParams.timestamp )
+                            {
+                                $scope.selectedLink = currentLink;
+                                $scope.selectedLinkBackUp = angular.copy($scope.selectedLink);
+                                $scope.selectedDate = new Date($scope.selectedLink.Date);
+                            }
+                        }
+
+                        if( $scope.selectedLink === undefined )
+                        {
+                            RoutesService.loadEmployeeView($scope.selectedEmployee);
+                        }
+
+                    }
+                }
+            );
+
+            $scope.$on("cancelEdit",function()
+            {
+                if( $scope.newMode )
+                {
+                    $scope.goBack();
+                }
+                else
+                {
+                    $scope.selectedLink.Type = $scope.selectedLinkBackUp.Type;
+                    $scope.selectedLink.Date = $scope.selectedLinkBackUp.Date;
+                    $scope.selectedLink.Comment = $scope.selectedLinkBackUp.Comment;
+                    $scope.goBack();
+                }
+
+            });
+
+            $scope.$on("validateEdit",function() {
+
+                if( $scope.selectedLink.Date === undefined) {
+                    SweetAlert.error("","Une date valide est requise");
+                }
+                else if( $scope.selectedLink.Type === undefined )
+                {
+                    SweetAlert.error("","Un lieu est requis");
+                }
+                else {
+
+                    //If it's a new objective
+                    if ($scope.newMode) {
+                        $scope.selectedEmployee.Links.push($scope.selectedLink);
+                        AmcContextService.updateCurrentEmployee();
+                    }
+                    //If the new validated objectif is not the same as the original
+                    else if( $scope.selectedLink.Type !== $scope.selectedLinkBackUp.Type ||
+                        $scope.selectedLink.Date !== $scope.selectedLinkBackUp.Date ||
+                        $scope.selectedLink.Comment !== $scope.selectedLinkBackUp.Comment )
+                    {
+                        AmcContextService.updateCurrentEmployee();
+                    }
+                    //Go back
+                    $scope.goBack();
+                }
+            });
+
+
+        }
+    ]
+);
+
+amCompanion.controller('FullLoginController',
+    [ "$scope","$timeout","$location","AuthService",
+        function($scope,$timeout,$location ,AuthService)
+        {
+            'use strict';
+
+            /**
+             * Cette méthode permet d'initialiser le bouton de connexion
+             */
+            $scope.resetButton = function()
+            {
+                $scope.buttonLabel = "Connexion";
+                $scope.failed = false;
+                $scope.success = false;
+            };
+
+            /**
+             * Cette méthode redirige vers la page principale de l'application une fois connecté
+             */
+            $scope.redirectToHome = function ()
+            {
+                $location.path("/");
+            };
+
+            $scope.resetButton();
+
+            /**
+             * Cette fonction permet de connecter l'utilisateur
+             */
+            $scope.login = function()
+            {
+                $scope.loading = true;
+                var promise = AuthService.login($scope.credentials);
+                promise.then(function()
+                {
+                    $scope.loading = false;
+                    $scope.success = true;
+                    $scope.buttonLabel = "Succès";
+
+                    $timeout($scope.redirectToHome, 1000);
+                },function()
+                {
+                    $scope.buttonLabel = "Echec de la connexion";
+                    $scope.failed = true;
+                    $scope.loading = false;
+
+                    $timeout($scope.resetButton, 2000);
+
+                });
+
+            };
+
+        }
+    ]
+);
+
+
+/* Controllers */
+amCompanion.controller('FullObjectiveController',[
+        "$scope","$routeParams","$anchorScroll","AmcContextService", "RoutesService","SweetAlert", function(
+            $scope,$routeParams,$anchorScroll ,AmcContextService, RoutesService, SweetAlert){
+
+            'use strict';
+            $anchorScroll();
+            $scope.editMode = true;
+            $scope.newMode = false;
+
+            /**
+             * This methods is passed in parameter to header, it allow to go back to employee view
+             */
+            $scope.goBack = function()
+            {
+                RoutesService.loadEmployeeView($scope.selectedEmployee);
+            };
+
+            $scope.getName = function()
+            {
+                var employee = AmcContextService.getSelectedEmployee();
+                var str = "";
+                if( employee !== undefined )
+                {
+                    str = employee.FirstName + " " + employee.LastName;
+                }
+                return str;
+            };
+
+            var promise = AmcContextService.initEmployees();
+            promise.then(
+                function()
+                {
+                    AmcContextService.setSelectedEmployeeFromId($routeParams.id);
+                    $scope.selectedEmployee = AmcContextService.getSelectedEmployee();
+                    $scope.nomPrenom = $scope.getName();
+                    if( $routeParams.index === "new" )
+                    {
+                        $scope.selectedObjective = {
+                            ProgressionPercent:0,
+                            ponderation:0
+                        };
+                        $scope.newMode = true;
+                        $scope.editMode = true;
+                        $scope.nomPrenom = "Nouvel Objectif";
+                    }
+                    else
+                    {
+                        $scope.selectedObjective = $scope.selectedEmployee.CurrentObjectives[$routeParams.index];
+                        $scope.selectedObjectiveBack = angular.copy($scope.selectedObjective);
+                    }
+
+                }
+            );
+
+            $scope.$on("cancelEdit",function()
+            {
+                if( $scope.newMode )
+                {
+                    $scope.goBack();
+                }
+                else
+                {
+                    $scope.selectedObjective.Text = $scope.selectedObjectiveBack.Text;
+                    $scope.selectedObjective.ProgressionPercent = $scope.selectedObjectiveBack.ProgressionPercent;
+                    $scope.selectedObjective.ponderation = $scope.selectedObjectiveBack.ponderation;
+                    $scope.goBack();
+                }
+
+            });
+
+            $scope.$on("validateEdit",function() {
+
+                if ($scope.selectedObjective.Text === undefined) {
+                    SweetAlert.error("","Un intitulé est requis.");
+                }
+                else {
+
+                    //If it's a new objective
+                    if ($scope.newMode) {
+                        $scope.selectedEmployee.CurrentObjectives.push($scope.selectedObjective);
+                        AmcContextService.updateCurrentEmployee();
+                    }
+                    //If the new validated objectif is not the same as the original
+                    else if( $scope.selectedObjective.Text !== $scope.selectedObjectiveBack.Text ||
+                        $scope.selectedObjective.ProgressionPercent !== $scope.selectedObjectiveBack.ProgressionPercent ||
+                        $scope.selectedObjective.ponderation !== $scope.selectedObjectiveBack.ponderation )
+                    {
+                        AmcContextService.updateCurrentEmployee();
+                    }
+                    //Go back
+                    $scope.goBack();
+                }
+            });
+
+        }
+    ]
+);
+
+
+/* Controllers */
+amCompanion.controller('RootController',[
+    "$scope","$rootScope", "AmcContextService", function(
+        $scope,$rootScope , AmcContextService){
+        'use strict';
+        $scope.updateStatus = AmcContextService.getUpdateStatus();
+
+        $rootScope.$on("serverUpdateStarted",function(){
+            $scope.updateStatus = AmcContextService.getUpdateStatus();
+        });
+
+
+
+    }]);
+
+amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$q","urls","$cookies",
+    function ($http, $rootScope, $q, urls, $cookies )
+    {
+        'use strict';
+
+        var data = {};
+
+        /**
+         * This function is called to reset the service's data
+         */
+        this.initData = function()
+        {
+            data.employees = [];
+            data.selectedEmployee = undefined;
+            data.isInit = false;
+            data.userMail = sessionStorage.getItem("mail");
+            data.updateStatus = 0;
+        };
+        //Init the context at the first injection
+        this.initData();
+
+        this.updateCurrentEmployee = function()
+        {
+            var defer = $q.defer();
+
+            //data.updateStatus = 1;
+            //$rootScope.$emit("serverUpdateStarted");
+
+            $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.token;
+            $http.put(
+                    urls.employes + "/" +data.selectedEmployee._id,
+                    data.selectedEmployee
+            ).success(
+                function () {
+                    defer.resolve();
+                }).error(function()
+                {
+                    //RoutesService.disconnect();
+                    defer.reject();
+                });
+            return defer.promise;
+        };
+
+        /**
+         * This method get the data from the stub
+         */
+        this.initEmployees = function ()
+        {
+            var defer = $q.defer();
+
+            if( data.isInit === false )
+            {
+                defer = $q.defer();
+                data.employees = [];
+
+                if( this.isDevVersion() )
+                {
+                    $http.get("/data/data.json").success(
+                        function ( res ) {
+                            addEmployeeDate(res);
+                            data.employees.push.apply(data.employees , res);
+                            data.isInit = true;
+                            defer.resolve();
+                        }).error(function()
+                        {
+                            alert("data not loaded");
+                        });
+                }
+                else
+                {
+                    $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.token;
+                    $http.get(
+                            urls.employes + "/" +data.userMail
+                    ).success(
+                        function (res) {
+
+                            addEmployeeDate(res);
+
+                            data.employees.push.apply(data.employees , res);
+                            data.isInit = true;
+                            defer.resolve();
+
+                        }).error(function()
+                        {
+                            //RoutesService.disconnect();
+                            defer.reject();
+                        });
+                }
+
+            }
+            else
+            {
+                defer.resolve();
+            }
+            return defer.promise;
+        };
+
+        /**
+         * This function get the max date of the links and set it on the employee
+         * @param employees the employee's list from the server
+         */
+        function addEmployeeDate( employees )
+        {
+            var currentEmployee, currentMax = -1;
+
+            for( var i = 0 ; i < employees.length ; i ++ )
+            {
+                currentMax = -1;
+                currentEmployee = employees[i];
+                for( var j = 0 ; j < currentEmployee.Links.length ; j ++ )
+                {
+
+                    currentEmployee.Links[j].Date = Date.parse(currentEmployee.Links[j].Date);
+
+                    if( currentEmployee.Links[j].Date > currentMax )
+                    {
+                        currentMax = currentEmployee.Links[j].Date;
+                    }
+                }
+                currentEmployee.dateMax = currentMax;
+            }
+        }
+
+        this.isDevVersion = function()
+        {
+            return $cookies.env === "dev";
+        };
+
+        //Accessor of employees
+        this.getEmployees = function()
+        {
+            return data.employees;
+        };
+
+        this.getSelectedEmployee = function()
+        {
+            return data.selectedEmployee;
+        };
+
+        this.setSelectedEmployee = function( employee )
+        {
+            data.selectedEmployee = employee;
+        };
+
+        this.setSelectedEmployeeFromId = function( id )
+        {
+            for( var i = 0 ; i < data.employees.length ; i ++ )
+            {
+                if ( data.employees[i]._id === id )
+                {
+                    this.setSelectedEmployee(data.employees[i]);
+                }
+            }
+        };
+
+        this.unsetSelectedEmployee = function()
+        {
+            data.selectedEmployee = undefined;
+        };
+
+        this.setUpdateStatus = function( newStatus )
+        {
+            data.updateStatus = newStatus;
+        };
+
+        this.getUpdateStatus = function()
+        {
+            return data.updateStatus;
+        };
+
+
+        return this;
+    }]);
+
+amCompanion.factory('AuthService', ["$http", "$q", "urls", "AmcContextService",
+    function ($http , $q, urls, AmcContextService) {
+        'use strict';
+        return {
+            login: function (credentials){
+
+                var defer = $q.defer();
+                var data = {Email:credentials.email,Password:credentials.password};
+
+
+
+                $http.post(
+                    urls.login, data
+                ).success(
+                    function ( data )
+                    {
+                        sessionStorage.setItem("token", data.token);
+                        sessionStorage.setItem("mail", credentials.email);
+                        AmcContextService.initData();
+                        defer.resolve("Login correct");
+                    }).error(
+                    function(){
+
+                        if(AmcContextService.isDevVersion())
+                        {
+                            sessionStorage.setItem("token", data.token);
+                            sessionStorage.setItem("mail", credentials.email);
+                            AmcContextService.initData();
+                            defer.resolve("Login correct");
+                        }
+
+                        defer.reject("Login Incorrect");
+                    }
+                );
+
+                return defer.promise;
+            }
+        };
+    }]);
+
+amCompanion.factory("RoutesService",
+    ["$location","AmcContextService",
+        function( $location, AmcContextService )
+        {
+            'use strict';
+
+            this.disconnect = function ()
+            {
+                sessionStorage.removeItem("token");
+                $location.path("/login");
+            };
+
+            this.loadHomeView = function()
+            {
+                $location.path("/");
+                AmcContextService.unsetSelectedEmployee();
+            };
+
+            this.loadEmployeeView = function( employee )
+            {
+                AmcContextService.unsetSelectedEmployee();
+                $location.path("/employee/" + employee._id);
+            };
+
+            this.loadLinkView = function( employee, link )
+            {
+                $location.path("/link/"+employee._id+"/"+link.Date);
+            };
+
+            this.loadObjectiveView = function( employee, index )
+            {
+                $location.path("/objective/"+employee._id+"/"+index);
+            };
+
+            return this;
+        }
+    ]
+);
+
 /*
  AngularJS v1.3.0
  (c) 2010-2014 Google, Inc. http://angularjs.org
@@ -1513,1100 +2608,3 @@ angular.module('oitozero.ngSweetAlert', [])
 
         return self;
     }]);
-
-// Declare app level module which depends on filters, and services
-var amCompanion = angular.module('amCompanion', [
-    'ngCookies','ngRoute','ngAnimate','ngTouch', 'igTruncate','angular-progress-arc','rzModule',"oitozero.ngSweetAlert"
-]);
-
-/* Controllers */
-amCompanion.controller('FullEmployeeController',[
-    "$scope","$routeParams","$anchorScroll","AmcContextService","RoutesService", function(
-        $scope,$routeParams, $anchorScroll ,AmcContextService, RoutesService){
-
-        "use strict";
-
-        $scope.progressColors = [];
-        $scope.editMode = false;
-        $scope.selectedEmployeeEdited = undefined;
-        $scope.nomPrenom = "";
-
-        $anchorScroll();
-
-        /**
-         * This function set the percent of colors to make the gradient red to green
-         * @type {{pct: number, color: {r: number, g: number, b: number}}[]}
-         */
-        var percentColors = [
-            { pct: 0.0, color: { r: 0xff, g: 0x00, b: 0 } },
-            { pct: 0.5, color: { r: 0xff, g: 0xff, b: 0 } },
-            { pct: 1.0, color: { r: 0x00, g: 0xff, b: 0 } } ];
-
-        /**
-         * This function allow to get the color from red to green with a percentage
-         * @param pct the percentage
-         * @returns {string} the color #EXAEXA
-         */
-        function getColorForPercentage(pct) {
-            for (var i = 1; i < percentColors.length - 1; i++) {
-                if (pct < percentColors[i].pct) {
-                    break;
-                }
-            }
-            var lower = percentColors[i - 1];
-            var upper = percentColors[i];
-            var range = upper.pct - lower.pct;
-            var rangePct = (pct - lower.pct) / range;
-            var pctLower = 1 - rangePct;
-            var pctUpper = rangePct;
-            var color = {
-                r: Math.floor(lower.color.r * pctLower + upper.color.r * pctUpper),
-                g: Math.floor(lower.color.g * pctLower + upper.color.g * pctUpper),
-                b: Math.floor(lower.color.b * pctLower + upper.color.b * pctUpper)
-            };
-            //return 'rgb(' + [color.r, color.g, color.b].join(',') + ')';
-            return "#" + componentToHex(color.r) + componentToHex(color.g) + componentToHex(color.b);
-            // or output as hex if preferred
-        }
-
-        /**
-         * This function allow to get the exa code for a color.
-         * @param c
-         * @returns {string}
-         */
-        function componentToHex(c) {
-            var hex = c.toString(16);
-            return hex.length === 1 ? "0" + hex : hex;
-        }
-
-        function initColors()
-        {
-            var i;
-            $scope.progressColors = [];
-            for ( i = 0 ; i < $scope.selectedEmployee.CurrentObjectives.length ; i++ )
-            {
-                $scope.progressColors[i] = getColorForPercentage($scope.selectedEmployee.CurrentObjectives[i].ProgressionPercent/100);
-            }
-        }
-
-        //init the page's context
-        var promise = AmcContextService.initEmployees();
-        promise.then(function(){
-            AmcContextService.setSelectedEmployeeFromId($routeParams.id);
-            $scope.selectedEmployee = AmcContextService.getSelectedEmployee();
-            $scope.nomPrenom = $scope.getName();
-            initColors();
-        });
-
-        $scope.getIcon = function( type )
-        {
-            var icon;
-
-            if( type === "Mail" )
-            {
-                icon = "fa-envelope-o";
-            }
-            else if ( type === "Restaurant" )
-            {
-                icon = "fa-cutlery";
-            }
-            else if ( type === "Appel" )
-            {
-                icon = "fa-phone";
-            }
-            else if ( type === "Café" )
-            {
-                icon = "fa-coffee";
-            }
-            else if ( type === "Entretien" )
-            {
-                icon = "fa-calendar";
-            }
-
-
-            return icon;
-        };
-
-        /**
-         * get the name of the employee clicked
-         * @returns {string}
-         */
-        $scope.getName = function()
-        {
-            var str = "";
-            if( $scope.selectedEmployee !== undefined )
-            {
-                str = $scope.selectedEmployee.FirstName + " " + $scope.selectedEmployee.LastName;
-            }
-            return str;
-        };
-
-        /**
-         * This function allow to return to the home page
-         */
-        $scope.goBack = function()
-        {
-            RoutesService.loadHomeView();
-        };
-
-        /**
-         * This is what happened when a link is clicked
-         * @param link
-         */
-        $scope.showFullLink = function( link )
-        {
-            if( $scope.editMode === false)
-            {
-                RoutesService.loadLinkView( $scope.selectedEmployee, link );
-            }
-        };
-
-        $scope.createNewObjective = function()
-        {
-            if( $scope.editMode === false) {
-                RoutesService.loadObjectiveView($scope.selectedEmployee, "new");
-            }
-        };
-
-        $scope.createNewLink = function()
-        {
-            if( $scope.editMode === false) {
-                RoutesService.loadLinkView($scope.selectedEmployee, {Date:"new"});
-            }
-        };
-
-        $scope.showFullObjective = function( $index )
-        {
-            if( $scope.editMode === false) {
-                RoutesService.loadObjectiveView($scope.selectedEmployee, $index);
-            }
-        };
-
-        $scope.$on( "startEdit" , function()
-        {
-            $scope.selectedEmployeeBackUp = angular.copy($scope.selectedEmployee);
-            $scope.editMode = true;
-        });
-
-        $scope.$on("cancelEdit",function()
-        {
-            $scope.selectedEmployee = $scope.selectedEmployeeBackUp;
-            $scope.editMode = false;
-        });
-
-        $scope.$on("validateEdit",function()
-        {
-            $scope.editMode = false;
-            AmcContextService.updateCurrentEmployee();
-        });
-
-        $scope.deleteObjective = function($event, $index)
-        {
-            $scope.selectedEmployee.CurrentObjectives.splice($index, 1);
-            $event.stopPropagation();
-        };
-
-        $scope.deleteLink = function($event, $index)
-        {
-            $scope.selectedEmployee.Links.splice($index, 1);
-            $event.stopPropagation();
-        };
-
-    }]);
-
-
-/* Controllers */
-amCompanion.controller('FullHomeController',[
-    "$scope","AmcContextService",
-    function( $scope,AmcContextService ){
-        'use strict';
-
-        AmcContextService.initEmployees();
-        $scope.employees = AmcContextService.getEmployees();
-}]);
-
-/* Controllers */
-amCompanion.controller('FullLinkController',[
-        "$scope","$routeParams","$anchorScroll","AmcContextService", "RoutesService", "linkTypes","SweetAlert", function(
-            $scope,$routeParams,$anchorScroll ,AmcContextService, RoutesService, linkTypes, SweetAlert){
-            'use strict';
-
-            $anchorScroll();
-            $scope.editMode = true;
-            $scope.newMode = false;
-            $scope.selectedDate = undefined;
-            $scope.selectedLinkBackUp = undefined;
-
-            $scope.linkTypes = linkTypes;
-
-            /**
-             * This methods is passed in parameter to header, it allow to go back to employee view
-             */
-            $scope.goBack = function()
-            {
-                RoutesService.loadEmployeeView($scope.selectedEmployee);
-            };
-
-            $scope.changeSelectedDate = function()
-            {
-                if( !!$scope.selectedDate )
-                {
-                    $scope.selectedLink.Date = $scope.selectedDate.getTime();
-                }
-
-            };
-
-            $scope.getName = function()
-            {
-                var employee = AmcContextService.getSelectedEmployee();
-                var str = "";
-                if( employee !== undefined )
-                {
-                    str = employee.FirstName + " " + employee.LastName;
-                }
-                return str;
-            };
-
-            var promise = AmcContextService.initEmployees();
-            promise.then(function(){
-
-                    AmcContextService.setSelectedEmployeeFromId($routeParams.id);
-                    $scope.selectedEmployee = AmcContextService.getSelectedEmployee();
-                    $scope.nomPrenom = $scope.getName();
-                    var currentLink;
-
-                    if( $routeParams.timestamp === "new" )
-                    {
-                        var date = new Date();
-
-                        $scope.selectedLink = {
-                            Type:undefined,
-                            Date: date.getTime(),
-                            Comment:""
-                        };
-                        $scope.newMode = true;
-                        $scope.editMode = true;
-                        $scope.nomPrenom = "Nouveau rendez-vous";
-
-                        $scope.selectedDate = date;
-                    }
-                    else
-                    {
-                        for( var i = 0 ; i < $scope.selectedEmployee.Links.length ; i++ )
-                        {
-                            currentLink = $scope.selectedEmployee.Links[i];
-                            if( currentLink.Date == $routeParams.timestamp )
-                            {
-                                $scope.selectedLink = currentLink;
-                                $scope.selectedLinkBackUp = angular.copy($scope.selectedLink);
-                                $scope.selectedDate = new Date($scope.selectedLink.Date);
-                            }
-                        }
-
-                        if( $scope.selectedLink === undefined )
-                        {
-                            RoutesService.loadEmployeeView($scope.selectedEmployee);
-                        }
-
-                    }
-                }
-            );
-
-            $scope.$on("cancelEdit",function()
-            {
-                if( $scope.newMode )
-                {
-                    $scope.goBack();
-                }
-                else
-                {
-                    $scope.selectedLink.Type = $scope.selectedLinkBackUp.Type;
-                    $scope.selectedLink.Date = $scope.selectedLinkBackUp.Date;
-                    $scope.selectedLink.Comment = $scope.selectedLinkBackUp.Comment;
-                    $scope.goBack();
-                }
-
-            });
-
-            $scope.$on("validateEdit",function() {
-
-                if( $scope.selectedLink.Date === undefined) {
-                    SweetAlert.error("","Une date valide est requise");
-                }
-                else if( $scope.selectedLink.Type === undefined )
-                {
-                    SweetAlert.error("","Un lieu est requis");
-                }
-                else {
-
-                    //If it's a new objective
-                    if ($scope.newMode) {
-                        $scope.selectedEmployee.Links.push($scope.selectedLink);
-                        AmcContextService.updateCurrentEmployee();
-                    }
-                    //If the new validated objectif is not the same as the original
-                    else if( $scope.selectedLink.Type !== $scope.selectedLinkBackUp.Type ||
-                        $scope.selectedLink.Date !== $scope.selectedLinkBackUp.Date ||
-                        $scope.selectedLink.Comment !== $scope.selectedLinkBackUp.Comment )
-                    {
-                        AmcContextService.updateCurrentEmployee();
-                    }
-                    //Go back
-                    $scope.goBack();
-                }
-            });
-
-
-        }
-    ]
-);
-
-amCompanion.controller('FullLoginController',
-    [ "$scope","$timeout","$location","AuthService",
-        function($scope,$timeout,$location ,AuthService)
-        {
-            'use strict';
-
-            /**
-             * Cette méthode permet d'initialiser le bouton de connexion
-             */
-            $scope.resetButton = function()
-            {
-                $scope.buttonLabel = "Connexion";
-                $scope.failed = false;
-                $scope.success = false;
-            };
-
-            /**
-             * Cette méthode redirige vers la page principale de l'application une fois connecté
-             */
-            $scope.redirectToHome = function ()
-            {
-                $location.path("/");
-            };
-
-            $scope.resetButton();
-
-            /**
-             * Cette fonction permet de connecter l'utilisateur
-             */
-            $scope.login = function()
-            {
-                $scope.loading = true;
-                var promise = AuthService.login($scope.credentials);
-                promise.then(function()
-                {
-                    $scope.loading = false;
-                    $scope.success = true;
-                    $scope.buttonLabel = "Succès";
-
-                    $timeout($scope.redirectToHome, 1000);
-                },function()
-                {
-                    $scope.buttonLabel = "Echec de la connexion";
-                    $scope.failed = true;
-                    $scope.loading = false;
-
-                    $timeout($scope.resetButton, 2000);
-
-                });
-
-            };
-
-        }
-    ]
-);
-
-
-/* Controllers */
-amCompanion.controller('FullObjectiveController',[
-        "$scope","$routeParams","$anchorScroll","AmcContextService", "RoutesService","SweetAlert", function(
-            $scope,$routeParams,$anchorScroll ,AmcContextService, RoutesService, SweetAlert){
-
-            'use strict';
-            $anchorScroll();
-            $scope.editMode = true;
-            $scope.newMode = false;
-
-            /**
-             * This methods is passed in parameter to header, it allow to go back to employee view
-             */
-            $scope.goBack = function()
-            {
-                RoutesService.loadEmployeeView($scope.selectedEmployee);
-            };
-
-            $scope.getName = function()
-            {
-                var employee = AmcContextService.getSelectedEmployee();
-                var str = "";
-                if( employee !== undefined )
-                {
-                    str = employee.FirstName + " " + employee.LastName;
-                }
-                return str;
-            };
-
-            var promise = AmcContextService.initEmployees();
-            promise.then(
-                function()
-                {
-                    AmcContextService.setSelectedEmployeeFromId($routeParams.id);
-                    $scope.selectedEmployee = AmcContextService.getSelectedEmployee();
-                    $scope.nomPrenom = $scope.getName();
-                    if( $routeParams.index === "new" )
-                    {
-                        $scope.selectedObjective = {
-                            ProgressionPercent:0,
-                            ponderation:0
-                        };
-                        $scope.newMode = true;
-                        $scope.editMode = true;
-                        $scope.nomPrenom = "Nouvel Objectif";
-                    }
-                    else
-                    {
-                        $scope.selectedObjective = $scope.selectedEmployee.CurrentObjectives[$routeParams.index];
-                        $scope.selectedObjectiveBack = angular.copy($scope.selectedObjective);
-                    }
-
-                }
-            );
-
-            $scope.$on("cancelEdit",function()
-            {
-                if( $scope.newMode )
-                {
-                    $scope.goBack();
-                }
-                else
-                {
-                    $scope.selectedObjective.Text = $scope.selectedObjectiveBack.Text;
-                    $scope.selectedObjective.ProgressionPercent = $scope.selectedObjectiveBack.ProgressionPercent;
-                    $scope.selectedObjective.ponderation = $scope.selectedObjectiveBack.ponderation;
-                    $scope.goBack();
-                }
-
-            });
-
-            $scope.$on("validateEdit",function() {
-
-                if ($scope.selectedObjective.Text === undefined) {
-                    SweetAlert.error("","Un intitulé est requis.");
-                }
-                else {
-
-                    //If it's a new objective
-                    if ($scope.newMode) {
-                        $scope.selectedEmployee.CurrentObjectives.push($scope.selectedObjective);
-                        AmcContextService.updateCurrentEmployee();
-                    }
-                    //If the new validated objectif is not the same as the original
-                    else if( $scope.selectedObjective.Text !== $scope.selectedObjectiveBack.Text ||
-                        $scope.selectedObjective.ProgressionPercent !== $scope.selectedObjectiveBack.ProgressionPercent ||
-                        $scope.selectedObjective.ponderation !== $scope.selectedObjectiveBack.ponderation )
-                    {
-                        AmcContextService.updateCurrentEmployee();
-                    }
-                    //Go back
-                    $scope.goBack();
-                }
-            });
-
-        }
-    ]
-);
-
-
-/* Controllers */
-amCompanion.controller('RootController',[
-    "$scope","$rootScope", "AmcContextService", function(
-        $scope,$rootScope , AmcContextService){
-        'use strict';
-        $scope.updateStatus = AmcContextService.getUpdateStatus();
-
-        $rootScope.$on("serverUpdateStarted",function(){
-            $scope.updateStatus = AmcContextService.getUpdateStatus();
-        });
-
-
-
-    }]);
-
-amCompanion.directive('amcHeader', function() {
-    'use strict';
-    return {
-        restrict: 'E',
-        controller:"AmcHeaderController",
-        templateUrl: '/partials/utils/amc_header.html',
-        scope:
-        {
-            homeDisplay:"=",
-            libelle:"=",
-            goBackHandler:"&",
-            editMode:"="
-        }
-    };
-});
-
-/* Controllers */
-amCompanion.controller('AmcHeaderController',
-    [ "$scope","$timeout","RoutesService" ,
-        function($scope,$timeout, RoutesService){
-
-            'use strict';
-            $scope.cancelColor = "#FFFFFF";
-            $scope.backColor = "#FFFFFF";
-            $scope.editColor = "#FFFFFF";
-            $scope.validateColor = "#FFFFFF";
-
-            /**
-             * Cette fonction déconnecte l'utilisateur
-             */
-            $scope.disconnect = function()
-            {
-                RoutesService.disconnect();
-            };
-
-            $scope.goBack = function()
-            {
-                $scope.goBackHandler();
-                $scope.backColor = "#2980b9";
-                $timeout(function(){$scope.backColor = "#FFFFFF";},100);
-            };
-
-            $scope.toggleEditMode = function()
-            {
-                $scope.$emit("startEdit");
-                $scope.editColor = "#2980b9";
-                $timeout(function(){$scope.editColor = "#FFFFFF";},100);
-            };
-
-            $scope.validateEditMode = function()
-            {
-                $scope.$emit("validateEdit");
-                $scope.validateColor = "#2980b9";
-                $timeout(function(){$scope.validateColor = "#FFFFFF";},100);
-            };
-
-            $scope.cancelEditMode = function()
-            {
-                $scope.$emit("cancelEdit");
-                $scope.cancelColor = "#2980b9";
-                $timeout(function(){$scope.cancelColor = "#FFFFFF";},100);
-            };
-
-        }]);
-
-amCompanion.directive('angRoundProgress', [function () {
-    'use strict';
-    var compilationFunction = function (templateElement) {
-        if (templateElement.length === 1) {
-            var node = templateElement[0],
-                width = node.getAttribute('round-progress-width') || '400',
-                height = node.getAttribute('round-progress-height') || '400',
-                canvas = document.createElement('canvas')
-                ;
-
-            canvas.setAttribute('width', width);
-            canvas.setAttribute('height', height);
-            canvas.setAttribute('round-progress-model', node.getAttribute('round-progress-model'));
-
-            node.parentNode.replaceChild(canvas, node);
-
-            var outerCircleWidth = node.getAttribute('round-progress-outer-circle-width') || '20';
-            var innerCircleWidth = node.getAttribute('round-progress-inner-circle-width') || '5';
-
-            var outerCircleBackgroundColor = node.getAttribute('round-progress-outer-circle-background-color') || '#505769';
-            var outerCircleForegroundColor = node.getAttribute('round-progress-outer-circle-foreground-color') || '#12eeb9';
-            var innerCircleColor = node.getAttribute('round-progress-inner-circle-color') || '#505769';
-            var labelColor = node.getAttribute('round-progress-label-color') || '#12eeb9';
-
-            var outerCircleRadius = node.getAttribute('round-progress-outer-circle-radius') || '100';
-            var innerCircleRadius = node.getAttribute('round-progress-inner-circle-radius') || '70';
-
-            var labelFont = node.getAttribute('round-progress-label-font') || '50pt Calibri';
-
-            return {
-                pre: function preLink(scope) {
-                    var expression = canvas.getAttribute('round-progress-model');
-                    scope.$watch(expression, function (newValue) {
-                        // Create the content of the canvas
-                        var ctx = canvas.getContext('2d'), x = width / 2, y = height / 2;
-                        ctx.clearRect(0, 0, width, height);
-
-                        // The "background" circle
-                        ctx.beginPath();
-                        ctx.arc(x, y, parseInt(outerCircleRadius), 0, Math.PI * 2, false);
-                        ctx.lineWidth = parseInt(outerCircleWidth);
-                        ctx.strokeStyle = outerCircleBackgroundColor;
-                        ctx.stroke();
-
-                        // The inner circle
-                        ctx.beginPath();
-                        ctx.arc(x, y, parseInt(innerCircleRadius), 0, Math.PI * 2, false);
-                        ctx.lineWidth = parseInt(innerCircleWidth);
-                        ctx.strokeStyle = innerCircleColor;
-                        ctx.stroke();
-
-                        // The inner number
-                        ctx.font = labelFont;
-                        ctx.textAlign = 'center';
-                        ctx.textBaseline = 'middle';
-                        ctx.fillStyle = labelColor;
-                        ctx.fillText(newValue.label + "%", x, y);
-
-                        console.log(newValue.label);
-
-                        // The "foreground" circle
-                        var startAngle = - (Math.PI / 2);
-                        var endAngle = ((Math.PI * 2 ) * newValue.percentage) - (Math.PI / 2);
-                        var anticlockwise = false;
-                        ctx.beginPath();
-                        ctx.arc(x, y, parseInt(outerCircleRadius), startAngle, endAngle, anticlockwise);
-                        ctx.lineWidth = parseInt(outerCircleWidth);
-                        ctx.strokeStyle = outerCircleForegroundColor;
-                        ctx.stroke();
-                    }, true);
-                }
-            };
-        }
-    };
-
-    var roundProgress = {
-        compile: compilationFunction,
-        replace: true
-    };
-    return roundProgress;
-}]);
-
-
-amCompanion.directive('embedEmployee', function() {
-    'use strict';
-    return {
-        restrict: 'E',
-        templateUrl: '/partials/embed/employee.html',
-        controller:"EmbedEmployeeController",
-        scope:
-        {
-            employee:"="
-        }
-    };
-});
-
-
-/* Controllers */
-amCompanion.controller('EmbedEmployeeController',
-    [ "$scope", "$filter","RoutesService",
-        function($scope, $filter, RoutesService){
-            'use strict';
-            var lastLink = $filter("limitTo")($filter("orderBy")($scope.employee.Links, "Date", "reverse"), 1);
-            if( lastLink.length > 0 )
-            {
-                $scope.lastLink = lastLink[0];
-            }
-
-            $scope.openEmployeeView = function()
-            {
-                RoutesService.loadEmployeeView($scope.employee);
-            };
-
-            if( $scope.employee.CurrentObjectives === undefined || $scope.employee.CurrentObjectives.length === 0 )
-            {
-                $scope.percentObjectives = 0;
-            }
-            else
-            {
-                var sum = 0;
-
-                angular.forEach( $scope.employee.CurrentObjectives, function( objective )
-                {
-                    sum += (objective.progressionPercent/100) * (objective.ponderation);
-                });
-
-                //we round up the number to one decimal
-                $scope.percentObjectives = Math.round( sum * 10 ) / 10;
-
-                if( $scope.percentObjectives < 25 )
-                {
-                    $scope.objectiveColor = "danger";
-                }
-                else if( $scope.percentObjectives < 50 )
-                {
-                    $scope.objectiveColor = "warning";
-                }
-                else if( $scope.percentObjectives < 75 )
-                {
-                    $scope.objectiveColor = "success";
-                }
-                else
-                {
-                    $scope.objectiveColor = "info";
-                }
-
-            }
-
-
-        }]);
-
-amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$q","urls","$cookies",
-    function ($http, $rootScope, $q, urls, $cookies )
-    {
-        'use strict';
-
-        var data = {};
-
-        /**
-         * This function is called to reset the service's data
-         */
-        this.initData = function()
-        {
-            data.employees = [];
-            data.selectedEmployee = undefined;
-            data.isInit = false;
-            data.userMail = sessionStorage.getItem("mail");
-            data.updateStatus = 0;
-        };
-        //Init the context at the first injection
-        this.initData();
-
-        this.updateCurrentEmployee = function()
-        {
-            var defer = $q.defer();
-
-            //data.updateStatus = 1;
-            //$rootScope.$emit("serverUpdateStarted");
-
-            $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.token;
-            $http.put(
-                    urls.employes + "/" +data.selectedEmployee._id,
-                    data.selectedEmployee
-            ).success(
-                function () {
-                    defer.resolve();
-                }).error(function()
-                {
-                    //RoutesService.disconnect();
-                    defer.reject();
-                });
-            return defer.promise;
-        };
-
-        /**
-         * This method get the data from the stub
-         */
-        this.initEmployees = function ()
-        {
-            var defer = $q.defer();
-
-            if( data.isInit === false )
-            {
-                defer = $q.defer();
-                data.employees = [];
-
-                if( this.isDevVersion() )
-                {
-                    $http.get("/data/data.json").success(
-                        function ( res ) {
-                            addEmployeeDate(res);
-                            data.employees.push.apply(data.employees , res);
-                            data.isInit = true;
-                            defer.resolve();
-                        }).error(function()
-                        {
-                            alert("data not loaded");
-                        });
-                }
-                else
-                {
-                    $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.token;
-                    $http.get(
-                            urls.employes + "/" +data.userMail
-                    ).success(
-                        function (res) {
-
-                            addEmployeeDate(res);
-
-                            data.employees.push.apply(data.employees , res);
-                            data.isInit = true;
-                            defer.resolve();
-
-                        }).error(function()
-                        {
-                            //RoutesService.disconnect();
-                            defer.reject();
-                        });
-                }
-
-            }
-            else
-            {
-                defer.resolve();
-            }
-            return defer.promise;
-        };
-
-        /**
-         * This function get the max date of the links and set it on the employee
-         * @param employees the employee's list from the server
-         */
-        function addEmployeeDate( employees )
-        {
-            var currentEmployee, currentMax = -1;
-
-            for( var i = 0 ; i < employees.length ; i ++ )
-            {
-                currentMax = -1;
-                currentEmployee = employees[i];
-                for( var j = 0 ; j < currentEmployee.Links.length ; j ++ )
-                {
-
-                    currentEmployee.Links[j].Date = Date.parse(currentEmployee.Links[j].Date);
-
-                    if( currentEmployee.Links[j].Date > currentMax )
-                    {
-                        currentMax = currentEmployee.Links[j].Date;
-                    }
-                }
-                currentEmployee.dateMax = currentMax;
-            }
-        }
-
-        this.isDevVersion = function()
-        {
-            return $cookies.env === "dev";
-        };
-
-        //Accessor of employees
-        this.getEmployees = function()
-        {
-            return data.employees;
-        };
-
-        this.getSelectedEmployee = function()
-        {
-            return data.selectedEmployee;
-        };
-
-        this.setSelectedEmployee = function( employee )
-        {
-            data.selectedEmployee = employee;
-        };
-
-        this.setSelectedEmployeeFromId = function( id )
-        {
-            for( var i = 0 ; i < data.employees.length ; i ++ )
-            {
-                if ( data.employees[i]._id === id )
-                {
-                    this.setSelectedEmployee(data.employees[i]);
-                }
-            }
-        };
-
-        this.unsetSelectedEmployee = function()
-        {
-            data.selectedEmployee = undefined;
-        };
-
-        this.setUpdateStatus = function( newStatus )
-        {
-            data.updateStatus = newStatus;
-        };
-
-        this.getUpdateStatus = function()
-        {
-            return data.updateStatus;
-        };
-
-
-        return this;
-    }]);
-
-amCompanion.factory('AuthService', ["$http", "$q", "urls", "AmcContextService",
-    function ($http , $q, urls, AmcContextService) {
-        'use strict';
-        return {
-            login: function (credentials){
-
-                var defer = $q.defer();
-                var data = {Email:credentials.email,Password:credentials.password};
-
-
-
-                $http.post(
-                    urls.login, data
-                ).success(
-                    function ( data )
-                    {
-                        sessionStorage.setItem("token", data.token);
-                        sessionStorage.setItem("mail", credentials.email);
-                        AmcContextService.initData();
-                        defer.resolve("Login correct");
-                    }).error(
-                    function(){
-
-                        if(AmcContextService.isDevVersion())
-                        {
-                            sessionStorage.setItem("token", data.token);
-                            sessionStorage.setItem("mail", credentials.email);
-                            AmcContextService.initData();
-                            defer.resolve("Login correct");
-                        }
-
-                        defer.reject("Login Incorrect");
-                    }
-                );
-
-                return defer.promise;
-            }
-        };
-    }]);
-
-amCompanion.factory("RoutesService",
-    ["$location","AmcContextService",
-        function( $location, AmcContextService )
-        {
-            'use strict';
-
-            this.disconnect = function ()
-            {
-                sessionStorage.removeItem("token");
-                $location.path("/login");
-            };
-
-            this.loadHomeView = function()
-            {
-                $location.path("/");
-                AmcContextService.unsetSelectedEmployee();
-            };
-
-            this.loadEmployeeView = function( employee )
-            {
-                AmcContextService.unsetSelectedEmployee();
-                $location.path("/employee/" + employee._id);
-            };
-
-            this.loadLinkView = function( employee, link )
-            {
-                $location.path("/link/"+employee._id+"/"+link.Date);
-            };
-
-            this.loadObjectiveView = function( employee, index )
-            {
-                $location.path("/objective/"+employee._id+"/"+index);
-            };
-
-            return this;
-        }
-    ]
-);
-
-/*
-amCompanion.constant("urls", {
-        login: "http://localhost:1337/login",
-        employes: "http://localhost:1337/api/employees"
-    }
-);
-*/
-amCompanion.constant("urls", {
-        login: "http://amcserver.cloudapp.net/login",
-        employes: "http://amcserver.cloudapp.net/api/employees"
-    }
-);
-
-amCompanion.constant("linkTypes",[
-    "Restaurant",
-    "Appel",
-    "Mail",
-    "Café",
-    "Entretien"
-]);
-
-amCompanion.constant("linkTypesIcons",[
-    {label:"Restaurant",icon:"glyphicon-cutlery"},
-    {label:"Appel",icon:"glyphicon-earphone"},
-    {label:"Mail",icon:"glyphicon-envelope"},
-    {label:"Café",icon:""},
-    {label:"Entretien",icon:""}
-]);
-//types : ['Restaurant', 'Appel', 'Mail', 'Café', 'Entretien']
-
-
-
-/**
- * Created by Sébastien on 18/05/2014.
- */
-amCompanion.config(['$routeProvider','$locationProvider', function($routeProvider, $locationProvider) {
-    'use strict';
-    $routeProvider.when('/', {
-        id:"home",
-        templateUrl: '/partials/full/home.html',
-        controller: 'FullHomeController'
-    });
-
-    $routeProvider.when('/employee/:id', {
-        id:"employee",
-        templateUrl: '/partials/full/employee.html',
-        controller: 'FullEmployeeController'
-    });
-
-    $routeProvider.when('/link/:id/:timestamp', {
-        id:"link",
-        templateUrl: '/partials/full/link.html',
-        controller: 'FullLinkController'
-    });
-
-    $routeProvider.when('/objective/:id/:index', {
-        id:"link",
-        templateUrl: '/partials/full/objective.html',
-        controller: 'FullObjectiveController'
-    });
-
-    $routeProvider.when('/login', {
-        id:"login",
-        templateUrl: '/partials/full/login.html',
-        controller: 'FullLoginController'
-    });
-
-    $locationProvider.html5Mode(true);
-    $routeProvider.otherwise({redirectTo: '/'});
-}]);
-
-amCompanion.run(["$rootScope", "$location","RoutesService",
-        function ($rootScope, $location, RoutesService ) {
-            'use strict';
-            $rootScope.$on('$routeChangeStart', function (event, next, current) {
-
-                var mainContainer = angular.element(document.getElementById("am-companion"));
-
-                mainContainer.removeClass("slide-right-view");
-                mainContainer.removeClass("slide-left-view");
-                mainContainer.removeClass("fade-view");
-
-                if( ( current === undefined ||
-                    current.$$route.id === "login" && next.$$route.id === "home" ) ||
-                    ( current.$$route.id === "home" && next.$$route.id === "login" )  )
-                {
-                    mainContainer.addClass("fade-view");
-                }
-                else if( ( current.$$route.id === "home" && next.$$route.id === "employee" ) ||
-                    ( current.$$route.id === "employee" && next.$$route.id === "link" ) )
-                {
-                    mainContainer.addClass("slide-right-view");
-                }
-                else
-                {
-                    mainContainer.addClass("slide-left-view");
-                }
-
-                if( sessionStorage.getItem("token") === null )
-                {
-                    RoutesService.disconnect();
-                }
-
-            });
-        }
-    ]
-);
-
