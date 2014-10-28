@@ -85,6 +85,11 @@ slider span.bubble.limit {
     font-style: normal;
 }
 
+.text-center
+{
+    text-align: center;
+}
+
 .hv-center
 {
     bottom: 0;
@@ -160,6 +165,29 @@ body {
     right: 0;
     top: 0;
     width: 100%;
+}
+
+*.ng-enter span.fa,
+*.ng-leave span.fa
+{
+    -webkit-transition: -webkit-transform .4s ease-in-out;
+    transition: transform .4s ease-in-out;
+}
+
+*.ng-enter span.fa{
+    opacity: 0;
+}
+
+*.ng-enter-active span.fa{
+    opacity: 1;
+}
+
+*.ng-leave span.fa {
+    opacity: 1;
+}
+
+*.ng-leave-active span.fa{
+    opacity: 0;
 }
 
 .fade-view .view.ng-enter,
@@ -350,6 +378,7 @@ input.ng-dirty.ng-invalid {
 .separator {
     padding-bottom: 10px;
     padding-top: 10px;
+
 }
 
 .separator span {

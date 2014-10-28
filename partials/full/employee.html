@@ -9,30 +9,32 @@
             <div class="separator columns small-12">
                 <span class="text">Objectifs</span>
                 <span class="action float-right" ng-click="createNewObjective()">
-                    <button class="btn add-new">
+                    <button class="btn add-new" ng-disabled="editMode">
                         <span class="fa fa-plus"></span>
                     </button>
                 </span>
             </div>
             <div class="item columns small-12" ng-repeat="objective in selectedEmployee.CurrentObjectives"
                  ng-click="showFullObjective( $index )">
-                <div class="columns small-11">
+                <div class="columns small-10">
                     <progress-arc complete="objective.ProgressionPercent/100" stroke="progressColors[$index]"></progress-arc>
                     <div class="percent" ng-class="{'cent':objective.ProgressionPercent == 100}">{{objective.ProgressionPercent}}%</div>
                     <div class="text">{{objective.Text}} </div>
                 </div>
                 <div ng-if="!editMode" class="next columns small-1">
-                    <span class="glyphicon glyphicon-chevron-right"></span>
                 </div>
-                <div ng-if="editMode" class="next columns small-1" ng-click="deleteObjective($event, $index)">
-                    <span class="glyphicon glyphicon glyphicon-trash red"></span>
+                <div ng-if="!editMode" class="next columns small-1">
+                    <i class="fa-angle-right fa"></i>
+                </div>
+                <div ng-if="editMode" class="text-center next columns small-2" ng-click="deleteObjective($event, $index)">
+                    <span class="fa fa-trash-o red"></span>
                 </div>
 
             </div>
             <div class="separator columns small-12">
                 <span class="text">Entretiens</span>
                 <span class="action float-right" ng-click="createNewLink()">
-                    <button class="btn add-new">
+                    <button class="btn add-new" ng-disabled="editMode">
                         <span class="fa fa-plus"></span>
                     </button>
                 </span>
@@ -54,7 +56,7 @@
                     <div ng-if="!editMode" class="next columns small-1">
                         <i class="fa-angle-right fa"></i>
                     </div>
-                    <div ng-if="editMode" class="next columns small-2" ng-click="deleteLink($event, $index)">
+                    <div ng-if="editMode" class="text-center next columns small-2" ng-click="deleteLink($event, $index)">
                         <span class="fa fa-trash-o red"></span>
                     </div>
                 </div>

@@ -416,8 +416,8 @@ amCompanion.constant("linkTypesIcons",[
 
 /* Controllers */
 amCompanion.controller('FullEmployeeController',[
-    "$scope","$routeParams","$anchorScroll","AmcContextService","RoutesService", function(
-        $scope,$routeParams, $anchorScroll ,AmcContextService, RoutesService){
+    "$scope","$routeParams","$anchorScroll","AmcContextService","RoutesService","SweetAlert", function(
+        $scope,$routeParams, $anchorScroll ,AmcContextService, RoutesService, SweetAlert){
 
         "use strict";
 
@@ -591,8 +591,27 @@ amCompanion.controller('FullEmployeeController',[
 
         $scope.$on("validateEdit",function()
         {
-            $scope.editMode = false;
-            AmcContextService.updateCurrentEmployee();
+            if( $scope.selectedEmployeeBackUp.CurrentObjectives.length !== $scope.selectedEmployee.CurrentObjectives.length ||
+                $scope.selectedEmployeeBackUp.Links.length !== $scope.selectedEmployee.Links.length)
+            {
+                SweetAlert.swal({
+                        title: "Êtes vous sûr ?",
+                        text: "Voulez vous supprimer ces données ?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",confirmButtonText: "Oui",
+                        cancelButtonText: "Annuler",
+                        closeOnConfirm: true,
+                        closeOnCancel: true},
+                    function(isConfirm){
+                        AmcContextService.updateCurrentEmployee();
+                        $scope.editMode = false;
+                    });
+            }
+            else
+            {
+                $scope.editMode = false;
+            }
         });
 
         $scope.deleteObjective = function($event, $index)
