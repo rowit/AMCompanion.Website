@@ -603,7 +603,7 @@ amCompanion.controller('FullEmployeeController',[
                         cancelButtonText: "Annuler",
                         closeOnConfirm: true,
                         closeOnCancel: true},
-                    function(isConfirm){
+                    function(){
                         AmcContextService.updateCurrentEmployee();
                         $scope.editMode = false;
                     });
@@ -1014,7 +1014,8 @@ amCompanion.run(["$rootScope", "$location","RoutesService",
                     mainContainer.addClass("slide-left-view");
                 }
 
-                if( sessionStorage.getItem("token") === undefined )
+
+                if( sessionStorage.getItem("token") === null )
                 {
                     RoutesService.disconnect();
                 }
@@ -1025,8 +1026,8 @@ amCompanion.run(["$rootScope", "$location","RoutesService",
 );
 
 
-amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$q","urls","$cookies",
-    function ($http, $rootScope, $q, urls, $cookies )
+amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$q","urls","$cookies","$location","SweetAlert",
+    function ($http, $rootScope, $q, urls, $cookies, $location, SweetAlert )
     {
         'use strict';
 
@@ -1055,8 +1056,8 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$q","urls","$c
 
             $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.token;
             $http.put(
-                    urls.employes + "/" +data.selectedEmployee._id,
-                    data.selectedEmployee
+                urls.employes + "/" +data.selectedEmployee._id,
+                data.selectedEmployee
             ).success(
                 function (employee) {
                     //Update the user version
@@ -1099,19 +1100,30 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$q","urls","$c
                 {
                     $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.token;
                     $http.get(
-                            urls.employes + "/" +data.userMail
+                        urls.employes + "/" +data.userMail
                     ).success(
                         function (res) {
-
                             addEmployeeDate(res);
-
                             data.employees.push.apply(data.employees , res);
                             data.isInit = true;
                             defer.resolve();
 
-                        }).error(function()
+                        }).error(function(error,errorCode)
                         {
-                            //RoutesService.disconnect();
+                            if( errorCode === 401)
+                            {
+                                SweetAlert.swal({
+                                        title: "Session expirée",
+                                        text: "Votre session a expirée, veuillez vous reconnecter.",
+                                        type: "error",
+                                        confirmButtonText: "Ok",
+                                        closeOnConfirm: true},
+                                    function(){
+                                        sessionStorage.removeItem("token");
+                                        $location.path("/login");
+                                        $rootScope.$apply();
+                                    });
+                            }
                             defer.reject();
                         });
                 }
