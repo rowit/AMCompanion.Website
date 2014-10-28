@@ -31,7 +31,9 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$q","urls","$c
                     urls.employes + "/" +data.selectedEmployee._id,
                     data.selectedEmployee
             ).success(
-                function () {
+                function (employee) {
+                    //Update the user version
+                    data.selectedEmployee.__v = employee.__v;
                     defer.resolve();
                 }).error(function()
                 {
@@ -63,7 +65,7 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$q","urls","$c
                             defer.resolve();
                         }).error(function()
                         {
-                            alert("data not loaded");
+                            //alert("data not loaded");
                         });
                 }
                 else
