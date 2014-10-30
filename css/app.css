@@ -200,9 +200,6 @@ html, body {
     clear: both;
 }
 
-input {
-}
-
 #main-container {
     height: 100%;
 }
@@ -214,9 +211,6 @@ input {
 
 #am-companion h1 {
     margin-top: 0;
-}
-
-#logo {
 }
 
 #loginModal .row.collapse {
@@ -281,7 +275,7 @@ input {
     }
 }
 
-input.ng-dirty.ng-invalid {
+.ng-dirty.ng-invalid {
     border: 1px solid #ff0000 !important;
 }
 
@@ -310,7 +304,7 @@ input.ng-dirty.ng-invalid {
     z-index: 10;
 }
 
-.separator span.ligne {
+.separator .ligne {
     border-top: 1px solid #000;
     display: block;
     height: 1px;
@@ -536,7 +530,6 @@ progress-arc {
 
 .item-icon-left {
     color: #04315b;
-    font-size: 24px;
     margin-left: 13px;
     margin-top: 14px;
     font-size: 24px !important;

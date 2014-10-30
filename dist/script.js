@@ -1112,17 +1112,20 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$q","urls","$c
                         {
                             if( errorCode === 401)
                             {
-                                SweetAlert.swal({
+                                SweetAlert.swal(
+                                    {
                                         title: "Session expirée",
                                         text: "Votre session a expirée, veuillez vous reconnecter.",
                                         type: "error",
                                         confirmButtonText: "Ok",
-                                        closeOnConfirm: true},
+                                        closeOnConfirm: true
+                                    },
                                     function(){
                                         sessionStorage.removeItem("token");
                                         $location.path("/login");
                                         $rootScope.$apply();
-                                    });
+                                    }
+                                );
                             }
                             defer.reject();
                         });

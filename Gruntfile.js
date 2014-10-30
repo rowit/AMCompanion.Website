@@ -13,7 +13,17 @@ module.exports = function(grunt) {
                 reporter: require('jshint-stylish')
             }
         },
-
+        csslint: {
+            options: {
+                csslintrc: '.csslintrc'
+            },
+            strict: {
+                options: {
+                    import: 2
+                },
+                src: ['css/app.css']
+            }
+        },
         concat: {
             css: {
                 src: [
@@ -53,7 +63,7 @@ module.exports = function(grunt) {
             css:
             {
                 files: ['css/*'],
-                tasks: ['concat:css','autoprefixer', 'cssmin']
+                tasks: ['concat:css','autoprefixer', 'cssmin',"csslint"]
             },
             js:
             {
@@ -63,11 +73,12 @@ module.exports = function(grunt) {
         }
     });
 
+    grunt.loadNpmTasks('grunt-contrib-csslint');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-autoprefixer');
-    grunt.registerTask('default', [ 'concat:css','autoprefixer','cssmin:css', 'concat:js' , 'uglify:js' ]);
+    grunt.registerTask('default', [ 'concat:css','autoprefixer','cssmin:css', 'concat:js' , 'uglify:js',"csslint" ]);
 };
