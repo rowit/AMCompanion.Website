@@ -126,7 +126,11 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$q","urls","$c
                 for( var j = 0 ; j < currentEmployee.Links.length ; j ++ )
                 {
 
-                    currentEmployee.Links[j].Date = Date.parse(currentEmployee.Links[j].Date);
+                    //Premier retour du serveur quand les dates sont sous forme textuelles.
+                    if(typeof currentEmployee.Links[j].Date === "string")
+                    {
+                        currentEmployee.Links[j].Date = Date.parse(currentEmployee.Links[j].Date);
+                    }
 
                     if( currentEmployee.Links[j].Date > currentMax )
                     {
@@ -145,6 +149,7 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$q","urls","$c
         //Accessor of employees
         this.getEmployees = function()
         {
+            addEmployeeDate(data.employees);
             return data.employees;
         };
 

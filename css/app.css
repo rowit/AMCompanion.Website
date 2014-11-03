@@ -436,6 +436,8 @@ NavBAR
     font-size: 30px;
     margin-top: 5px;
     text-align: center;
+    float: left;
+    text-shadow: 1px 1px 1px rgba(150, 150, 150, 1);
 }
 
 .employee .user-info {
@@ -460,24 +462,24 @@ NavBAR
     height: 43px;
 }
 
-.employee-status.status-1 {
-    background-image: url("/img/icon_user_red.png");
+.status-1 {
+    color:red;
 }
 
-.employee-status.status-2 {
-    background-image: url("/img/icon_user_orange.png");
+.status-2 {
+    color:orange;
 }
 
-.employee-status.status-3 {
-    background-image: url("/img/icon_user_green.png");
+.status-3 {
+    color:#ffff00;
 }
 
-.employee-status.status-4 {
-    background-image: url("/img/icon_user_blue.png");
+.status-4 {
+    color:lightgreen;
 }
 
-.employee-status.status-5 {
-    background-image: url("/img/icon_user_steria.png");
+.status-5 {
+    color:green;
 }
 
 .next {
