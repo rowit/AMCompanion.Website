@@ -28,12 +28,12 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$q","urls","$c
 
             $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.token;
             $http.put(
-                urls.employes + "/" +data.selectedEmployee._id,
+                urls.employes + "/" +data.selectedEmployee.id,
                 data.selectedEmployee
             ).success(
                 function (employee) {
                     //Update the user version
-                    data.selectedEmployee.__v = employee.__v;
+                    data.selectedEmployee.__etag = employee.__etag;
                     defer.resolve();
                 }).error(function()
                 {
@@ -167,7 +167,7 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$q","urls","$c
         {
             for( var i = 0 ; i < data.employees.length ; i ++ )
             {
-                if ( data.employees[i]._id === id )
+                if ( data.employees[i].id === id )
                 {
                     this.setSelectedEmployee(data.employees[i]);
                 }

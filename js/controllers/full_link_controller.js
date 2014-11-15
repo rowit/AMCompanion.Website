@@ -93,6 +93,7 @@ amCompanion.controller('FullLinkController',[
                 }
                 else
                 {
+
                     $scope.selectedLink.Type = $scope.selectedLinkBackUp.Type;
                     $scope.selectedLink.Date = $scope.selectedLinkBackUp.Date;
                     $scope.selectedLink.Comment = $scope.selectedLinkBackUp.Comment;

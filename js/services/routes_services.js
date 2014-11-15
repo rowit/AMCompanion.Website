@@ -19,17 +19,17 @@ amCompanion.factory("RoutesService",
             this.loadEmployeeView = function( employee )
             {
                 AmcContextService.unsetSelectedEmployee();
-                $location.path("/employee/" + employee._id);
+                $location.path("/employee/" + employee.id);
             };
 
             this.loadLinkView = function( employee, link )
             {
-                $location.path("/link/"+employee._id+"/"+link.Date);
+                $location.path("/link/"+employee.id+"/"+link.Date);
             };
 
             this.loadObjectiveView = function( employee, index )
             {
-                $location.path("/objective/"+employee._id+"/"+index);
+                $location.path("/objective/"+employee.id+"/"+index);
             };
 
             return this;

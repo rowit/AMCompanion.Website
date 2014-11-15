@@ -1056,12 +1056,12 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$q","urls","$c
 
             $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.token;
             $http.put(
-                urls.employes + "/" +data.selectedEmployee._id,
+                urls.employes + "/" +data.selectedEmployee.id,
                 data.selectedEmployee
             ).success(
                 function (employee) {
                     //Update the user version
-                    data.selectedEmployee.__v = employee.__v;
+                    data.selectedEmployee.__etag = employee.__etag;
                     defer.resolve();
                 }).error(function()
                 {
@@ -1195,7 +1195,7 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$q","urls","$c
         {
             for( var i = 0 ; i < data.employees.length ; i ++ )
             {
-                if ( data.employees[i]._id === id )
+                if ( data.employees[i].id === id )
                 {
                     this.setSelectedEmployee(data.employees[i]);
                 }
@@ -1282,17 +1282,17 @@ amCompanion.factory("RoutesService",
             this.loadEmployeeView = function( employee )
             {
                 AmcContextService.unsetSelectedEmployee();
-                $location.path("/employee/" + employee._id);
+                $location.path("/employee/" + employee.id);
             };
 
             this.loadLinkView = function( employee, link )
             {
-                $location.path("/link/"+employee._id+"/"+link.Date);
+                $location.path("/link/"+employee.id+"/"+link.Date);
             };
 
             this.loadObjectiveView = function( employee, index )
             {
-                $location.path("/objective/"+employee._id+"/"+index);
+                $location.path("/objective/"+employee.id+"/"+index);
             };
 
             return this;
