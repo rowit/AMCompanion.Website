@@ -632,6 +632,11 @@ amCompanion.controller('FullHomeController',[
         'use strict';
         AmcContextService.initEmployees();
         $scope.employees = AmcContextService.getEmployees();
+
+        $scope.goHome = function ()
+        {
+            $location.path("/");
+        };
 }]);
 
 /* Controllers */
