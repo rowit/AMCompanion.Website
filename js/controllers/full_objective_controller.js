@@ -47,7 +47,7 @@ amCompanion.controller('FullObjectiveController',[
                     }
                     else
                     {
-                        $scope.selectedObjective = $scope.selectedEmployee.CurrentObjectives[$routeParams.index];
+                        $scope.selectedObjective = $scope.selectedEmployee.Objectives[$routeParams.index];
                         $scope.selectedObjectiveBack = angular.copy($scope.selectedObjective);
                     }
 
@@ -79,7 +79,7 @@ amCompanion.controller('FullObjectiveController',[
 
                     //If it's a new objective
                     if ($scope.newMode) {
-                        $scope.selectedEmployee.CurrentObjectives.push($scope.selectedObjective);
+                        $scope.selectedEmployee.Objectives.push($scope.selectedObjective);
                         AmcContextService.updateCurrentEmployee();
                     }
                     //If the new validated objectif is not the same as the original

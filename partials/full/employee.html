@@ -14,7 +14,7 @@
                     </button>
                 </span>
             </div>
-            <div class="item columns small-12" ng-repeat="objective in selectedEmployee.CurrentObjectives"
+            <div class="item columns small-12" ng-repeat="objective in selectedEmployee.Objectives"
                  ng-click="showFullObjective( $index )">
                 <div class="columns small-10">
                     <progress-arc complete="objective.ProgressionPercent/100" stroke="progressColors[$index]"></progress-arc>

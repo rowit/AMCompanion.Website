@@ -29,7 +29,7 @@ amCompanion.controller('EmbedEmployeeController',
                 RoutesService.loadEmployeeView($scope.employee);
             };
 
-            if( $scope.employee.CurrentObjectives === undefined || $scope.employee.CurrentObjectives.length === 0 )
+            if( $scope.employee.Objectives === undefined || $scope.employee.Objectives.length === 0 )
             {
                 $scope.percentObjectives = 0;
             }
@@ -37,7 +37,7 @@ amCompanion.controller('EmbedEmployeeController',
             {
                 var sum = 0;
 
-                angular.forEach( $scope.employee.CurrentObjectives, function( objective )
+                angular.forEach( $scope.employee.Objectives, function( objective )
                 {
                     sum += (objective.progressionPercent/100) * (objective.ponderation);
                 });

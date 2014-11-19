@@ -62,9 +62,9 @@ amCompanion.controller('FullEmployeeController',[
         {
             var i;
             $scope.progressColors = [];
-            for ( i = 0 ; i < $scope.selectedEmployee.CurrentObjectives.length ; i++ )
+            for ( i = 0 ; i < $scope.selectedEmployee.Objectives.length ; i++ )
             {
-                $scope.progressColors[i] = getColorForPercentage($scope.selectedEmployee.CurrentObjectives[i].ProgressionPercent/100);
+                $scope.progressColors[i] = getColorForPercentage($scope.selectedEmployee.Objectives[i].ProgressionPercent/100);
             }
         }
 
@@ -175,7 +175,7 @@ amCompanion.controller('FullEmployeeController',[
 
         $scope.$on("validateEdit",function()
         {
-            if( $scope.selectedEmployeeBackUp.CurrentObjectives.length !== $scope.selectedEmployee.CurrentObjectives.length ||
+            if( $scope.selectedEmployeeBackUp.Objectives.length !== $scope.selectedEmployee.Objectives.length ||
                 $scope.selectedEmployeeBackUp.Links.length !== $scope.selectedEmployee.Links.length)
             {
                 SweetAlert.swal({
@@ -200,7 +200,7 @@ amCompanion.controller('FullEmployeeController',[
 
         $scope.deleteObjective = function($event, $index)
         {
-            $scope.selectedEmployee.CurrentObjectives.splice($index, 1);
+            $scope.selectedEmployee.Objectives.splice($index, 1);
             $event.stopPropagation();
         };
 
