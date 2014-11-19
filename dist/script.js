@@ -346,7 +346,7 @@ amCompanion.controller('EmbedEmployeeController',
                 RoutesService.loadEmployeeView($scope.employee);
             };
 
-            if( $scope.employee.CurrentObjectives === undefined || $scope.employee.CurrentObjectives.length === 0 )
+            if( $scope.employee.Objectives === undefined || $scope.employee.Objectives.length === 0 )
             {
                 $scope.percentObjectives = 0;
             }
@@ -354,7 +354,7 @@ amCompanion.controller('EmbedEmployeeController',
             {
                 var sum = 0;
 
-                angular.forEach( $scope.employee.CurrentObjectives, function( objective )
+                angular.forEach( $scope.employee.Objectives, function( objective )
                 {
                     sum += (objective.progressionPercent/100) * (objective.ponderation);
                 });
@@ -474,9 +474,9 @@ amCompanion.controller('FullEmployeeController',[
         {
             var i;
             $scope.progressColors = [];
-            for ( i = 0 ; i < $scope.selectedEmployee.CurrentObjectives.length ; i++ )
+            for ( i = 0 ; i < $scope.selectedEmployee.Objectives.length ; i++ )
             {
-                $scope.progressColors[i] = getColorForPercentage($scope.selectedEmployee.CurrentObjectives[i].ProgressionPercent/100);
+                $scope.progressColors[i] = getColorForPercentage($scope.selectedEmployee.Objectives[i].ProgressionPercent/100);
             }
         }
 
@@ -587,7 +587,7 @@ amCompanion.controller('FullEmployeeController',[
 
         $scope.$on("validateEdit",function()
         {
-            if( $scope.selectedEmployeeBackUp.CurrentObjectives.length !== $scope.selectedEmployee.CurrentObjectives.length ||
+            if( $scope.selectedEmployeeBackUp.Objectives.length !== $scope.selectedEmployee.Objectives.length ||
                 $scope.selectedEmployeeBackUp.Links.length !== $scope.selectedEmployee.Links.length)
             {
                 SweetAlert.swal({
@@ -612,7 +612,7 @@ amCompanion.controller('FullEmployeeController',[
 
         $scope.deleteObjective = function($event, $index)
         {
-            $scope.selectedEmployee.CurrentObjectives.splice($index, 1);
+            $scope.selectedEmployee.Objectives.splice($index, 1);
             $event.stopPropagation();
         };
 
@@ -876,7 +876,7 @@ amCompanion.controller('FullObjectiveController',[
                     }
                     else
                     {
-                        $scope.selectedObjective = $scope.selectedEmployee.CurrentObjectives[$routeParams.index];
+                        $scope.selectedObjective = $scope.selectedEmployee.Objectives[$routeParams.index];
                         $scope.selectedObjectiveBack = angular.copy($scope.selectedObjective);
                     }
 
@@ -908,7 +908,7 @@ amCompanion.controller('FullObjectiveController',[
 
                     //If it's a new objective
                     if ($scope.newMode) {
-                        $scope.selectedEmployee.CurrentObjectives.push($scope.selectedObjective);
+                        $scope.selectedEmployee.Objectives.push($scope.selectedObjective);
                         AmcContextService.updateCurrentEmployee();
                     }
                     //If the new validated objectif is not the same as the original
