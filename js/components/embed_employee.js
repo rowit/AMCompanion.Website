@@ -61,8 +61,5 @@ amCompanion.controller('EmbedEmployeeController',
                 {
                     $scope.objectiveColor = "info";
                 }
-
             }
-
-
         }]);

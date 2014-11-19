@@ -378,12 +378,8 @@ amCompanion.controller('EmbedEmployeeController',
                 {
                     $scope.objectiveColor = "info";
                 }
-
             }
-
-
         }]);
-
 /*
 amCompanion.constant("urls", {
         login: "http://localhost:1337/login",
@@ -733,6 +729,7 @@ amCompanion.controller('FullLinkController',[
                 }
                 else
                 {
+
                     $scope.selectedLink.Type = $scope.selectedLinkBackUp.Type;
                     $scope.selectedLink.Date = $scope.selectedLinkBackUp.Date;
                     $scope.selectedLink.Comment = $scope.selectedLinkBackUp.Comment;
@@ -1061,7 +1058,7 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$q","urls","$c
             ).success(
                 function (employee) {
                     //Update the user version
-                    data.selectedEmployee.__etag = employee.__etag;
+                    data.selectedEmployee._ts = employee._ts;
                     defer.resolve();
                 }).error(function()
                 {

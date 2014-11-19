@@ -33,7 +33,7 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$q","urls","$c
             ).success(
                 function (employee) {
                     //Update the user version
-                    data.selectedEmployee.__etag = employee.__etag;
+                    data.selectedEmployee._ts = employee._ts;
                     defer.resolve();
                 }).error(function()
                 {
