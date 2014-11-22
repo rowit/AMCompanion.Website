@@ -29,7 +29,7 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$q","urls","$c
             $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.token;
             $http.put(
                 urls.employes + "/" +data.selectedEmployee.id,
-                data.selectedEmployee
+                JSON.stringify(data.selectedEmployee)
             ).success(
                 function (employee) {
                     //Update the user version
