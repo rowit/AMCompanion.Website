@@ -150,7 +150,7 @@ amCompanion.controller('FullEmployeeController',[
         $scope.createNewLink = function()
         {
             if( $scope.editMode === false) {
-                RoutesService.loadLinkView($scope.selectedEmployee, {Date:"new"});
+                RoutesService.loadLinkView($scope.selectedEmployee, {DateTimestamp:"new"});
             }
         };
 

@@ -127,14 +127,15 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$q","urls","$c
                 {
 
                     //Premier retour du serveur quand les dates sont sous forme textuelles.
-                    if(typeof currentEmployee.Links[j].Date === "string")
+                    if(typeof currentEmployee.Links[j].DateTimestamp === undefined)
                     {
-                        currentEmployee.Links[j].Date = Date.parse(currentEmployee.Links[j].Date);
+                        currentEmployee.Links[j].DateTimestamp = Date.parse(currentEmployee.Links[j].Date);
+                        currentEmployee.Links[j].Date = JSON.stringify( Date.parse(currentEmployee.Links[j].Date) );
                     }
 
-                    if( currentEmployee.Links[j].Date > currentMax )
+                    if( currentEmployee.Links[j].DateTimestamp > currentMax )
                     {
-                        currentMax = currentEmployee.Links[j].Date;
+                        currentMax = currentEmployee.Links[j].DateTimestamp;
                     }
                 }
                 currentEmployee.dateMax = currentMax;

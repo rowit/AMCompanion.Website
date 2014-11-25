@@ -24,7 +24,7 @@ amCompanion.factory("RoutesService",
 
             this.loadLinkView = function( employee, link )
             {
-                $location.path("/link/"+employee.id+"/"+link.Date);
+                $location.path("/link/"+employee.id+"/"+link.DateTimestamp);
             };
 
             this.loadObjectiveView = function( employee, index )
