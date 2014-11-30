@@ -11,7 +11,7 @@
 
                 <div ng-if="lastLink != undefined" class="sub-info">
                     <i class="glyphicon glyphicon-map-marker"></i>
-                    <span ng-bind="lastLink.Date|date:'dd/MM/yyyy'"></span>,
+                    <span ng-bind="lastLink.DateTimestamp|date:'dd/MM/yyyy'"></span>,
                     <span ng-bind="lastLink.Type|truncate:20"></span>
                 </div>
                 <div ng-if="lastLink == undefined">
