@@ -1086,7 +1086,7 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$q","urls","$c
 
                 if( this.isDevVersion() )
                 {
-                    $http.get("/data/data.json").success(
+                    $http.get("/data/data2.json").success(
                         function ( res ) {
                             addEmployeeDate(res);
                             data.employees.push.apply(data.employees , res);
@@ -1146,7 +1146,7 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$q","urls","$c
          */
         function addEmployeeDate( employees )
         {
-            var currentEmployee, currentMax = -1;
+            var currentEmployee, currentMax, timestamp = -1;
 
             for( var i = 0 ; i < employees.length ; i ++ )
             {
@@ -1156,10 +1156,11 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$q","urls","$c
                 {
 
                     //Premier retour du serveur quand les dates sont sous forme textuelles.
-                    if(typeof currentEmployee.Links[j].DateTimestamp === undefined)
+                    if(typeof currentEmployee.Links[j].DateTimestamp === "undefined")
                     {
-                        currentEmployee.Links[j].DateTimestamp = Date.parse(currentEmployee.Links[j].Date);
-                        currentEmployee.Links[j].Date = JSON.stringify( Date.parse(currentEmployee.Links[j].Date) );
+                        timestamp = Date.parse(currentEmployee.Links[j].Date);
+                        currentEmployee.Links[j].DateTimestamp = timestamp > 0 ? timestamp : 0;
+                        currentEmployee.Links[j].Date = JSON.stringify( new Date ( timestamp ) );
                     }
 
                     if( currentEmployee.Links[j].DateTimestamp > currentMax )
