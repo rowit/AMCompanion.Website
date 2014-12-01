@@ -692,7 +692,7 @@ amCompanion.controller('FullLinkController',[
                         $scope.selectedLink = {
                             Type:undefined,
                             DateTimestamp: date.getTime(),
-                            Date:"",
+                            Date: JSON.stringify(date),
                             Comment:""
                         };
                         $scope.newMode = true;
