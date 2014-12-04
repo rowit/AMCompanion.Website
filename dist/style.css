@@ -309,6 +309,10 @@ html, body {
     margin-top: 10px;
 }
 
+.btn{
+    background: none;
+}
+
 .btn-steria {
     background: #04315b;
     color: white !important;
@@ -660,6 +664,33 @@ progress-arc {
     -o-box-shadow: 0 -1px 8px 0 #656565;
     box-shadow: 0 -1px 8px 0 #656565;
     filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=90, Strength=8);
+
+    transition: all 300ms linear;
+    -moz-transition: all 300ms linear;
+    -ms-transition: all 300ms linear;
+    -o-transition: all 300ms linear;
+    -webkit-transition: all 300ms linear;
+
+    opacity: 1;
+}
+
+.notif-update.ng-hide {
+    opacity: 0;
+}
+
+.fadein.ng-hide-remove {
+    opacity: 0;
+    display: block !important;
+}
+
+/* Will transition towards this state */
+.fadein.ng-hide-remove.ng-hide-remove-active {
+    opacity: 1;
+}
+
+.notif-update.tall
+{
+    height: 56px;
 }
 
 .notif-update i
@@ -667,6 +698,15 @@ progress-arc {
     margin-left: 5px;
 }
 
+.fa-green
+{
+    color:darkgreen;
+}
+
+.fa-red
+{
+    color:darkred;
+}
 /*!
  * Bootstrap v3.2.0 (http://getbootstrap.com)
  * Copyright 2011-2014 Twitter, Inc.

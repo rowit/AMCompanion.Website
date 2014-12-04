@@ -1,5 +1,5 @@
-amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$q","urls","$cookies","$location","SweetAlert",
-    function ($http, $rootScope, $q, urls, $cookies, $location, SweetAlert )
+amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$timeout","$q","urls","$cookies","$location","SweetAlert",
+    function ($http, $rootScope, $timeout, $q, urls, $cookies, $location, SweetAlert )
     {
         'use strict';
 
@@ -11,7 +11,8 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$q","urls","$c
         this.initData = function()
         {
             data.employees = [];
-            data.selectedEmployee = undefined;
+            data.selectedEmployee = null;
+            data.selectedEmployeeBackUp = null;
             data.isInit = false;
             data.userMail = sessionStorage.getItem("mail");
             data.updateStatus = 0;
@@ -23,8 +24,8 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$q","urls","$c
         {
             var defer = $q.defer();
 
-            //data.updateStatus = 1;
-            //$rootScope.$emit("serverUpdateStarted");
+            data.updateStatus = 1;
+            $rootScope.$emit("serverUpdateStarted");
 
             $http.defaults.headers.common.Authorization = 'Bearer ' + sessionStorage.token;
             $http.put(
@@ -35,9 +36,18 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$q","urls","$c
                     //Update the user version
                     data.selectedEmployee._ts = employee._ts;
                     defer.resolve();
+                    data.updateStatus = 2;
+                    $rootScope.$emit("serverUpdateStarted");
+                    $timeout(function(){
+                        data.updateStatus = 0;
+                        $rootScope.$emit("serverUpdateStarted");
+                    },1500);
+
                 }).error(function()
                 {
                     //RoutesService.disconnect();
+                    data.updateStatus = 3;
+                    $rootScope.$emit("serverUpdateStarted");
                     defer.reject();
                 });
             return defer.promise;
