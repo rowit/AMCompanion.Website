@@ -3,7 +3,7 @@ amCompanion.directive('embedEmployee', function() {
     'use strict';
     return {
         restrict: 'E',
-        templateUrl: '/partials/embed/employee.html',
+        templateUrl: 'partials/embed/employee.html',
         controller:"EmbedEmployeeController",
         scope:
         {

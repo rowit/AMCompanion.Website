@@ -3,7 +3,7 @@ amCompanion.directive('amcHeader', function() {
     return {
         restrict: 'E',
         controller:"AmcHeaderController",
-        templateUrl: '/partials/utils/amc_header.html',
+        templateUrl: 'partials/utils/amc_header.html',
         scope:
         {
             homeDisplay:"=",

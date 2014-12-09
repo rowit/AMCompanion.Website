@@ -13,6 +13,25 @@ module.exports = function(grunt) {
                 reporter: require('jshint-stylish')
             }
         },
+        ngtemplates:    {
+            amCompanion:{
+                src:        ['index.html','partials/**/*.html'],
+                dest:       'js/templates.js',
+                standalone : true,
+                options:    {
+                    htmlmin: {
+                        collapseBooleanAttributes:      true,
+                        collapseWhitespace:             true,
+                        removeAttributeQuotes:          true,
+                        removeComments:                 true, // Only if you don't use comment directives!
+                        removeEmptyAttributes:          true,
+                        removeRedundantAttributes:      true,
+                        removeScriptTypeAttributes:     true,
+                        removeStyleLinkTypeAttributes:  true
+                    }
+                }
+            }
+        },
         csslint: {
             options: {
                 csslintrc: '.csslintrc'
@@ -60,6 +79,11 @@ module.exports = function(grunt) {
             }
         },
         watch: {
+            html:
+            {
+                files:['partials/**/*.html','index.html'],
+                tasks:['ngtemplates']
+            },
             css:
             {
                 files: ['css/*'],
@@ -68,9 +92,31 @@ module.exports = function(grunt) {
             js:
             {
                 files: ['js/**/*.js'],
-                tasks: ['concat:js', 'uglify',"jshint"]
+                tasks: ['concat:js', 'uglify','jshint']
             }
-        }
+        },
+        copy: {
+            main: {
+                src:
+                    [
+                        'node_modules/bower-installer/components/**/*.min.js',
+                        'node_modules/bower-installer/components/angular-i18n/angular-locale_fr-fr.js',
+                    ],
+                dest: 'js/vendors/',
+                expand: true,
+                flatten: true,
+                filter: 'isFile'
+            }
+        },
+        bower: {
+            install: {
+                options:
+                {
+                    copy:false
+                }
+            }
+        },
+        clean: ["node_modules/bower-installer/components/"]
     });
 
     grunt.loadNpmTasks('grunt-contrib-csslint');
@@ -80,5 +126,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-autoprefixer');
-    grunt.registerTask('default', [ 'concat:css','autoprefixer','cssmin:css', 'concat:js' , 'uglify:js',"csslint" ]);
+    grunt.loadNpmTasks('grunt-angular-templates');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-bower-task');
+    grunt.loadNpmTasks('grunt-contrib-clean');
+
+    grunt.registerTask('default', [ 'concat:css','autoprefixer','cssmin:css','csslint','ngtemplates','concat:js','uglify:js','jshint']);
+    grunt.registerTask('bower-task', ["bower","copy","clean"]);
 };

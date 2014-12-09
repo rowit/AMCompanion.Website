@@ -5,31 +5,31 @@ amCompanion.config(['$routeProvider','$locationProvider', function($routeProvide
     'use strict';
     $routeProvider.when('/', {
         id:"home",
-        templateUrl: '/partials/full/home.html',
+        templateUrl: 'partials/full/home.html',
         controller: 'FullHomeController'
     });
 
     $routeProvider.when('/employee/:id', {
         id:"employee",
-        templateUrl: '/partials/full/employee.html',
+        templateUrl: 'partials/full/employee.html',
         controller: 'FullEmployeeController'
     });
 
     $routeProvider.when('/link/:id/:timestamp', {
         id:"link",
-        templateUrl: '/partials/full/link.html',
+        templateUrl: 'partials/full/link.html',
         controller: 'FullLinkController'
     });
 
     $routeProvider.when('/objective/:id/:index', {
         id:"link",
-        templateUrl: '/partials/full/objective.html',
+        templateUrl: 'partials/full/objective.html',
         controller: 'FullObjectiveController'
     });
 
     $routeProvider.when('/login', {
         id:"login",
-        templateUrl: '/partials/full/login.html',
+        templateUrl: 'partials/full/login.html',
         controller: 'FullLoginController'
     });
 
