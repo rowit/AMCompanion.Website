@@ -713,7 +713,7 @@ amCompanion.controller('FullLinkController',[
                             {
                                 $scope.selectedLink = currentLink;
                                 $scope.selectedLinkBackUp = angular.copy($scope.selectedLink);
-                                $scope.selectedDate = new Date($scope.selectedLink.Date);
+                                $scope.selectedDate = new Date($scope.selectedLink.Date.slice(1,25));
                                 $scope.selectedDateTimestamp = new Date($scope.selectedLink.DateTimestamp);
                             }
                         }

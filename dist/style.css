@@ -370,10 +370,6 @@ html, body {
     }
 }
 
-.ng-dirty.ng-invalid {
-    border: 1px solid #ff0000 !important;
-}
-
 .separator {
     padding-bottom: 10px;
     padding-top: 10px;
