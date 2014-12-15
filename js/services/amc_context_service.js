@@ -17,8 +17,6 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$timeout","$q"
             data.userMail = sessionStorage.getItem("mail");
             data.updateStatus = 0;
         };
-        //Init the context at the first injection
-        this.initData();
 
         this.updateCurrentEmployee = function()
         {
@@ -62,9 +60,6 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$timeout","$q"
 
             if( data.isInit === false )
             {
-                defer = $q.defer();
-                data.employees = [];
-
                 if( this.isDevVersion() )
                 {
                     $http.get("/data/data2.json").success(
@@ -86,7 +81,7 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$timeout","$q"
                     ).success(
                         function (res) {
                             addEmployeeDate(res);
-                            data.employees.push.apply(data.employees , res);
+                            Array.prototype.push.apply(data.employees , res);
                             data.isInit = true;
                             defer.resolve();
 
@@ -139,7 +134,7 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$timeout","$q"
                     //Premier retour du serveur quand les dates sont sous forme textuelles.
                     if(typeof currentEmployee.Links[j].DateTimestamp === "undefined")
                     {
-                        timestamp = Date.parse(currentEmployee.Links[j].Date);
+                        timestamp = Date.parse(currentEmployee.Links[j].Date.slice(1,25));
                         currentEmployee.Links[j].DateTimestamp = timestamp > 0 ? timestamp : 0;
                         currentEmployee.Links[j].Date = JSON.stringify( new Date ( timestamp ) );
                     }
@@ -153,27 +148,14 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$timeout","$q"
             }
         }
 
-        this.isDevVersion = function()
-        {
-            return $cookies.env === "dev";
-        };
+        this.isDevVersion = function() { return $cookies.env === "dev"; };
 
         //Accessor of employees
-        this.getEmployees = function()
-        {
-            addEmployeeDate(data.employees);
-            return data.employees;
-        };
+        this.getEmployees = function() { addEmployeeDate(data.employees); return data.employees; };
 
-        this.getSelectedEmployee = function()
-        {
-            return data.selectedEmployee;
-        };
+        this.getSelectedEmployee = function() { return data.selectedEmployee; };
 
-        this.setSelectedEmployee = function( employee )
-        {
-            data.selectedEmployee = employee;
-        };
+        this.setSelectedEmployee = function( employee ) { data.selectedEmployee = employee; };
 
         this.setSelectedEmployeeFromId = function( id )
         {
@@ -186,21 +168,14 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$timeout","$q"
             }
         };
 
-        this.unsetSelectedEmployee = function()
-        {
-            data.selectedEmployee = undefined;
-        };
+        this.unsetSelectedEmployee = function(){ data.selectedEmployee = undefined; };
 
-        this.setUpdateStatus = function( newStatus )
-        {
-            data.updateStatus = newStatus;
-        };
+        this.setUpdateStatus = function( newStatus ) { data.updateStatus = newStatus; };
 
-        this.getUpdateStatus = function()
-        {
-            return data.updateStatus;
-        };
+        this.getUpdateStatus = function() { return data.updateStatus; };
 
+        //Init the context at the first injection
+        this.initData();
 
         return this;
     }]);
