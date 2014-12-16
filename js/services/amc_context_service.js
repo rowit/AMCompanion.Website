@@ -22,6 +22,12 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$timeout","$q"
         {
             var defer = $q.defer();
 
+            /*
+            if( data.updateStatus === 1)
+            {
+            }
+            */
+
             data.updateStatus = 1;
             $rootScope.$emit("serverUpdateStarted");
 
