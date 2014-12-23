@@ -71,7 +71,7 @@ amCompanion.factory("AmcContextService", [ "$http", "$rootScope","$timeout","$q"
                     $http.get("/data/data2.json").success(
                         function ( res ) {
                             addEmployeeDate(res);
-                            data.employees.push.apply(data.employees , res);
+                            Array.prototype.push.apply(data.employees , res);
                             data.isInit = true;
                             defer.resolve();
                         }).error(function()

@@ -46,7 +46,7 @@ module.exports = function(grunt) {
         concat: {
             css: {
                 src: [
-                    'css/*.css',
+                    'css/*.css'
                 ],
                 dest: 'dist/style.css'
             },
@@ -103,8 +103,8 @@ module.exports = function(grunt) {
             main: {
                 src:
                     [
-                        'node_modules/bower-installer/components/**/*.min.js',
-                        'node_modules/bower-installer/components/angular-i18n/angular-locale_fr-fr.js',
+                        'tmp/components/**/*.min.js',
+                        'tmp/components/angular-i18n/angular-locale_fr-fr.js'
                     ],
                 dest: 'js/vendors/',
                 expand: true,
@@ -120,7 +120,14 @@ module.exports = function(grunt) {
                 }
             }
         },
-        clean: ["node_modules/bower-installer/components/"]
+        clean: ["tmp/"],
+        csscomb: {
+            foo: {
+                files: {
+                    'css/app.css': ['css/app.css']
+                }
+            }
+        }
     });
 
     grunt.loadNpmTasks('grunt-contrib-csslint');
@@ -134,7 +141,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-bower-task');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-csscomb');
 
     grunt.registerTask('default', [ 'concat:css','autoprefixer','cssmin:css','csslint','ngtemplates','concat:js','uglify:js','jshint']);
     grunt.registerTask('bower-task', ["bower","copy","clean"]);
+    grunt.registerTask('csscomb-task', ["csscomb"]);
 };

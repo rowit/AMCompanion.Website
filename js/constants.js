@@ -26,4 +26,12 @@ amCompanion.constant("linkTypesIcons",[
     {label:"Café",icon:""},
     {label:"Entretien",icon:""}
 ]);
+
+amCompanion.constant("moods",[
+    {label:"Satisfait",status:0},
+    {label:"Passable",status:1},
+    {label:"Moyen",status:2},
+    {label:"Insatisfait",status:3},
+    {label:"Alerte",status:4}
+]);
 //types : ['Restaurant', 'Appel', 'Mail', 'Café', 'Entretien']

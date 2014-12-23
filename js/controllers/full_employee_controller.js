@@ -1,7 +1,7 @@
 /* Controllers */
 amCompanion.controller('FullEmployeeController',[
-    "$scope","$routeParams","$anchorScroll","AmcContextService","RoutesService","SweetAlert", function(
-        $scope,$routeParams, $anchorScroll ,AmcContextService, RoutesService, SweetAlert){
+    "$scope","$routeParams","$anchorScroll","AmcContextService","RoutesService","SweetAlert","moods", function(
+        $scope,$routeParams, $anchorScroll ,AmcContextService, RoutesService, SweetAlert,moods){
 
         "use strict";
 
@@ -74,6 +74,8 @@ amCompanion.controller('FullEmployeeController',[
             AmcContextService.setSelectedEmployeeFromId($routeParams.id);
             $scope.selectedEmployee = AmcContextService.getSelectedEmployee();
             $scope.nomPrenom = $scope.getName();
+            $scope.nextEPDI = new Date( $scope.selectedEmployee.NextEPDI );
+            $scope.moods = moods;
             initColors();
         });
 
@@ -175,6 +177,7 @@ amCompanion.controller('FullEmployeeController',[
 
         $scope.$on("validateEdit",function()
         {
+
             if( $scope.selectedEmployeeBackUp.Objectives.length !== $scope.selectedEmployee.Objectives.length ||
                 $scope.selectedEmployeeBackUp.Links.length !== $scope.selectedEmployee.Links.length)
             {
@@ -188,9 +191,16 @@ amCompanion.controller('FullEmployeeController',[
                         closeOnConfirm: true,
                         closeOnCancel: true},
                     function(){
+                        $scope.selectedEmployee.NextEPDI = $scope.nextEPDI;
                         AmcContextService.updateCurrentEmployee();
                         $scope.editMode = false;
                     });
+            }
+            else if ( $scope.nextEPDI.getTime() !== $scope.selectedEmployeeBackUp.NextEPDI ||
+                      $scope.selectedEmployee.Status !== $scope.selectedEmployeeBackUp.Status ){
+                $scope.selectedEmployee.NextEPDI = $scope.nextEPDI.getTime();
+                AmcContextService.updateCurrentEmployee();
+                $scope.editMode = false;
             }
             else
             {

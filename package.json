@@ -17,6 +17,7 @@
     "grunt-contrib-jshint": "^0.10.0",
     "grunt-contrib-uglify": "*",
     "grunt-contrib-watch": "*",
+    "grunt-csscomb": "^3.0.0",
     "jshint-stylish": "^1.0.0"
   },
   "dependencies": {

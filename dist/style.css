@@ -75,119 +75,130 @@ slider span.bubble.limit {
 }
 
 
-@font-face {
-    font-family: 'latolight';
-    src: url('/css/fonts/lato-light-webfont.eot');
-    src: url('/css/fonts/lato-light-webfont.eot?#iefix') format('embedded-opentype'),
+@font-face
+{
+    font-family : 'latolight';
+    src : url('/css/fonts/lato-light-webfont.eot');
+    src : url('/css/fonts/lato-light-webfont.eot?#iefix') format('embedded-opentype'),
     url('/css/fonts/lato-light-webfont.ttf') format('truetype'),
     url('/css/fonts/lato-light-webfont.svg#latolight') format('svg');
-    font-weight: normal;
-    font-style: normal;
+    font-weight : normal;
+    font-style : normal;
 }
 
 .text-center
 {
-    text-align: center;
+    text-align : center;
 }
 
 .hv-center
 {
-    bottom: 0;
-    left: 0;
-    margin: auto !important;
-    position: absolute;
-    right: 0;
-    top: 0;
+    bottom : 0;
+    left : 0;
+    margin : auto !important;
+    position : absolute;
+    right : 0;
+    top : 0;
 }
 
 .next .fa,
 .navbar .fa
 {
-    font-size: 30px;
+    font-size : 30px;
 }
 
 .add-new .fa
 {
-    font-size: 18px;
-    color: #3c3c3c;
+    font-size : 18px;
+    color : #3C3C3C;
 }
 
-body {
-    background-color: #e5e5e5 !important;
-    font-family: 'latolight', sans-serif !important;
-    font-weight: 300 !important;
+body
+{
+    background-color : #E5E5E5 !important;
+    font-family : 'latolight', sans-serif !important;
+    font-weight : 300 !important;
 }
 
 .action
 {
-    margin-right: 3px;
+    margin-right : 3px;
 }
 
-.float-right {
-    float: right;
+.float-right
+{
+    float : right;
 }
 
-.sub-info {
-    font-size: 13px;
+.sub-info
+{
+    font-size : 13px;
 }
 
-.navbar-fixed-top {
-    height: 60px;
-    position: fixed;
-    width: 100%;
-    z-index: 400;
+.navbar-fixed-top
+{
+    height : 60px;
+    position : fixed;
+    width : 100%;
+    z-index : 400;
 }
 
 .navbar-header > div,
 .navbar-header > div > div
 {
-    height: 100%;
+    height : 100%;
 }
 
 .navbar-header .glyphicon:active
 {
-    -webkit-transition: color 100ms linear;
-            transition: color 100ms linear;
+    -webkit-transition : color 100ms linear;
+            transition : color 100ms linear;
 }
 
-.content {
-    padding-top: 60px;
+.content
+{
+    padding-top : 60px;
 }
 
 /** NG view fade **/
 .fade-view .view,
 .slide-left-view .view,
-.slide-right-view .view {
-    height: 100%;
-    left: 0;
-    opacity: 1;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 100%;
+.slide-right-view .view
+{
+    height : 100%;
+    left : 0;
+    opacity : 1;
+    position : absolute;
+    right : 0;
+    top : 0;
+    width : 100%;
 }
 
 *.ng-enter span.fa,
 *.ng-leave span.fa
 {
-    -webkit-transition: -webkit-transform .4s ease-in-out;
-    transition: transform .4s ease-in-out;
+    -webkit-transition : -webkit-transform 0.4s ease-in-out;
+            transition :         transform 0.4s ease-in-out;
 }
 
-*.ng-enter span.fa{
-    opacity: 0;
+*.ng-enter span.fa
+{
+    opacity : 0;
 }
 
-*.ng-enter-active span.fa{
-    opacity: 1;
+*.ng-enter-active span.fa
+{
+    opacity : 1;
 }
 
-*.ng-leave span.fa {
-    opacity: 1;
+*.ng-leave span.fa
+{
+    opacity : 1;
 }
 
-*.ng-leave-active span.fa{
-    opacity: 0;
+*.ng-leave-active span.fa
+{
+    opacity : 0;
 }
 
 .fade-view .view.ng-enter,
@@ -195,453 +206,535 @@ body {
 .slide-left-view .view.ng-enter,
 .slide-left-view .view.ng-leave,
 .slide-right-view .view.ng-enter,
-.slide-right-view .view.ng-leave {
-    -webkit-transition: -webkit-transform .4s ease-in-out;
-    transition: transform .4s ease-in-out;
-    -webkit-transform: translate3d(0,0,0);
-    transform: translate3d(0,0,0);
+.slide-right-view .view.ng-leave
+{
+    -webkit-transition : -webkit-transform 0.4s ease-in-out;
+            transition :         transform 0.4s ease-in-out;
+    -webkit-transform : translate3d(0,0,0);
+            transform : translate3d(0,0,0);
 }
 
-.fade-view .view.ng-enter {
-    opacity: 0;
+.fade-view .view.ng-enter
+{
+    opacity : 0;
 }
 
-.fade-view .view.ng-enter-active {
-    opacity: 1;
+.fade-view .view.ng-enter-active
+{
+    opacity : 1;
 }
 
-.fade-view .view.ng-leave {
-    opacity: 1;
+.fade-view .view.ng-leave
+{
+    opacity : 1;
 }
 
-.fade-view .view.ng-leave-active {
-    opacity: 0;
+.fade-view .view.ng-leave-active
+{
+    opacity : 0;
 }
 
-.slide-left-view .view.ng-enter {
-    -webkit-transform: translate3d(-100%,0,0);
-    transform: translate3d(-100%,0,0);
+.slide-left-view .view.ng-enter
+{
+    -webkit-transform : translate3d(-100%,0,0);
+            transform : translate3d(-100%,0,0);
 }
 
-.slide-left-view .view.ng-enter-active {
-    position: absolute;
-    -webkit-transform: translate3d(0,0,0);
-    transform: translate3d(0,0,0);
+.slide-left-view .view.ng-enter-active
+{
+    position : absolute;
+    -webkit-transform : translate3d(0,0,0);
+            transform : translate3d(0,0,0);
 }
 
-.slide-left-view .view.ng-leave {
-    position: absolute;
-    -webkit-transform: translate3d(0,0,0);
-    transform: translate3d(0,0,0);
+.slide-left-view .view.ng-leave
+{
+    position : absolute;
+    -webkit-transform : translate3d(0,0,0);
+            transform : translate3d(0,0,0);
 }
 
-.slide-left-view .view.ng-leave-active {
-    -webkit-transform: translate3d(100%,0,0);
-    transform: translate3d(100%,0,0);
+.slide-left-view .view.ng-leave-active
+{
+    -webkit-transform : translate3d(100%,0,0);
+            transform : translate3d(100%,0,0);
 }
 
-.slide-right-view .view.ng-enter {
-    -webkit-transform: translate3d(100%,0,0);
-    transform: translate3d(100%,0,0);
+.slide-right-view .view.ng-enter
+{
+    -webkit-transform : translate3d(100%,0,0);
+            transform : translate3d(100%,0,0);
 }
 
-.slide-right-view .view.ng-enter-active {
-    position: absolute;
-    -webkit-transform: translate3d(0,0,0);
-    transform: translate3d(0,0,0);
+.slide-right-view .view.ng-enter-active
+{
+    position : absolute;
+    -webkit-transform : translate3d(0,0,0);
+            transform : translate3d(0,0,0);
 }
 
-.slide-right-view .view.ng-leave {
-    position: absolute;
-    -webkit-transform: translate3d(0,0,0);
-    transform: translate3d(0,0,0);
+.slide-right-view .view.ng-leave
+{
+    position : absolute;
+    -webkit-transform : translate3d(0,0,0);
+            transform : translate3d(0,0,0);
 }
 
-.slide-right-view .view.ng-leave-active {
-    -webkit-transform: translate3d(-100%,0,0);
-    transform: translate3d(-100%,0,0);
+.slide-right-view .view.ng-leave-active
+{
+    -webkit-transform : translate3d(-100%,0,0);
+            transform : translate3d(-100%,0,0);
 }
 
 /* app css stylesheet */
-html, body {
-    height: 100%;
-    margin: 0;
-    width: 100%;
+html,
+body
+{
+    height : 100%;
+    margin : 0;
+    width : 100%;
 }
 
-.clear {
-    clear: both;
+.clear
+{
+    clear : both;
 }
 
-#main-container {
-    height: 100%;
+#main-container
+{
+    height : 100%;
 }
 
-#am-companion .container {
-    margin: 0;
-    padding: 0;
+#am-companion .container
+{
+    margin : 0;
+    padding : 0;
 }
 
-#am-companion h1 {
-    margin-top: 0;
+#am-companion h1
+{
+    margin-top : 0;
 }
 
-#loginModal .row.collapse {
-    opacity: 0.7;
+#loginModal .row.collapse
+{
+    opacity : 0.7;
 }
 
-#am-companion {
-    background-color: #e5e5e5;
-    font-size: 18px;
-    height: 100%;
-    width: 100%;
+#am-companion
+{
+    background-color : #E5E5E5;
+    font-size : 18px;
+    height : 100%;
+    width : 100%;
 }
 
-#loginModal {
-    background: url("/img/login-background-full.jpg");
-    background-size: cover;
-    height: 100%;
-    text-align: center;
+#loginModal
+{
+    background : url('/img/login-background-full.jpg');
+    background-size : cover;
+    height : 100%;
+    text-align : center;
 }
 
-#loginModal .row {
-    margin-top: 10px;
+#loginModal .row
+{
+    margin-top : 10px;
 }
 
-.btn{
-    background: none;
+.btn
+{
+    background : none;
 }
 
-.btn-steria {
-    background: #04315b;
-    color: white !important;
-    transition: background-color 500ms linear;
-    -moz-transition: background-color 500ms linear;
-    -ms-transition: background-color 500ms linear;
-    -o-transition: background-color 500ms linear;
-    -webkit-transition: background-color 500ms linear;
+.btn-steria
+{
+    background : #04315B;
+    color : white !important;
+            transition : background-color 500ms linear;
+       -moz-transition : background-color 500ms linear;
+        -ms-transition : background-color 500ms linear;
+         -o-transition : background-color 500ms linear;
+    -webkit-transition : background-color 500ms linear;
 }
 
-.btn-steria:hover {
-    color: white !important;
+.btn-steria:hover
+{
+    color : white !important;
 }
 
-.btn-steria:active {
-    background: #064885;
+.btn-steria:active
+{
+    background : #064885;
 }
 
 /**Login page animation button */
-.loading {
-    -webkit-animation-duration: 2s;
-            animation-duration: 2s;
-    -webkit-animation-iteration-count: infinite;
-            animation-iteration-count: infinite;
-    -webkit-animation-name: rotateThis;
-            animation-name: rotateThis;
-    -webkit-animation-timing-function: linear;
-            animation-timing-function: linear;
-    display: inline !important;
+.loading
+{
+    -webkit-animation-duration : 2s;
+            animation-duration : 2s;
+    -webkit-animation-iteration-count : infinite;
+            animation-iteration-count : infinite;
+    -webkit-animation-name : rotateThis;
+            animation-name : rotateThis;
+    -webkit-animation-timing-function : linear;
+            animation-timing-function : linear;
+    display : inline !important;
 }
 
-#loginModal button .glyphicon {
-    display: none;
+#loginModal button .glyphicon
+{
+    display : none;
 }
 
-@-webkit-keyframes rotateThis {
-    from {
-        -webkit-transform: scale(1) rotate(0deg);
-                transform: scale(1) rotate(0deg);
+@-webkit-keyframes rotateThis
+{
+    from
+    {
+        -webkit-transform : scale(1) rotate(0deg);
+                transform : scale(1) rotate(0deg);
     }
-    to {
-        -webkit-transform: scale(1) rotate(360deg);
-                transform: scale(1) rotate(360deg);
-    }
-}
-
-@keyframes rotateThis {
-    from {
-        -webkit-transform: scale(1) rotate(0deg);
-                transform: scale(1) rotate(0deg);
-    }
-    to {
-        -webkit-transform: scale(1) rotate(360deg);
-                transform: scale(1) rotate(360deg);
+    to
+    {
+        -webkit-transform : scale(1) rotate(360deg);
+                transform : scale(1) rotate(360deg);
     }
 }
 
-.separator {
-    padding-bottom: 10px;
-    padding-top: 10px;
-
+@keyframes rotateThis
+{
+    from
+    {
+        -webkit-transform : scale(1) rotate(0deg);
+                transform : scale(1) rotate(0deg);
+    }
+    to
+    {
+        -webkit-transform : scale(1) rotate(360deg);
+                transform : scale(1) rotate(360deg);
+    }
 }
 
-.separator span {
-    background-color: #e5e5e5;
+.separator
+{
+    padding-bottom : 10px;
+    padding-top : 10px;
+}
+
+.separator span
+{
+    background-color : #E5E5E5;
 }
 
 .item .text
 {
-    overflow: hidden;
-    white-space: nowrap; /* Don't forget this one */
-    text-overflow: ellipsis;
+    overflow : hidden;
+    white-space : nowrap; /* Don't forget this one */
+    text-overflow : ellipsis;
 }
 
-.separator span.text {
-    background-color: #e5e5e5;
-    padding-left: 10px;
-    padding-right: 10px;
-    position: relative;
-    z-index: 10;
+.separator span.text
+{
+    background-color : #E5E5E5;
+    padding-left : 10px;
+    padding-right : 10px;
+    position : relative;
+    z-index : 10;
 }
 
-.separator .ligne {
-    border-top: 1px solid #000;
-    display: block;
-    height: 1px;
-    margin-left: 4%;
-    margin-top: -9px;
-    position: absolute;
-    width: 92%;
-    z-index: 1;
+.separator .ligne
+{
+    border-top : 1px solid #000000;
+    display : block;
+    height : 1px;
+    margin-left : 4%;
+    margin-top : -9px;
+    position : absolute;
+    width : 92%;
+    z-index : 1;
 }
 
 /*
 NavBAR
 */
 
-#am-companion .navbar {
-    background-color: #04315b;
-    border: 0;
-    color: #ffffff;
-    height: 60px;
+#am-companion .navbar
+{
+    background-color : #04315B;
+    border : 0;
+    color : #FFFFFF;
+    height : 60px;
 }
 
-#nav-logo {
-    height: 30px;
-    left: 0;
-    margin: 0 auto;
-    position: absolute;
-    right: 0;
+#nav-logo
+{
+    height : 30px;
+    left : 0;
+    margin : 0 auto;
+    position : absolute;
+    right : 0;
 }
 
-.navbar-header {
-    text-align: center;
+.navbar-header
+{
+    text-align : center;
 }
 
-.left-menu-icon {
-    float: left;
-    font-size: 31px;
-    height: 30px;
-    margin-left: 7px;
-    margin-top: 11px;
-    width: 30px;
+.left-menu-icon
+{
+    float : left;
+    font-size : 31px;
+    height : 30px;
+    margin-left : 7px;
+    margin-top : 11px;
+    width : 30px;
 }
 
-.right-menu-icon {
-    float: right;
-    font-size: 31px;
-    height: 28px;
-    right: 10px !important;
-    width: 30px;
+.right-menu-icon
+{
+    float : right;
+    font-size : 31px;
+    height : 28px;
+    right : 10px !important;
+    width : 30px;
 }
 
 .left-menu-icon:hover,
-.right-menu-icon:hover {
-    cursor: pointer;
+.right-menu-icon:hover
+{
+    cursor : pointer;
 }
 
-.navbar-header {
-    height: 60px;
+.navbar-header
+{
+    height : 60px;
 }
 
-.menu-title {
-    font-size: 20px;
-    padding-top: 15px;
+.menu-title
+{
+    font-size : 20px;
+    padding-top : 15px;
 }
 
 /*** employee preview ****/
-.item.last {
-    border-bottom: none;
-    margin-bottom: 20px;
+.item.last
+{
+    border-bottom : none;
+    margin-bottom : 20px;
 }
 
-.item-text {
-    padding-left: 10px;
-    padding-top: 13px;
+.item-text
+{
+    padding-left : 10px;
+    padding-top : 13px;
 }
 
-.item {
-    background: #ffffff;
-    border-bottom: 1px solid #eeeeee;
-    height: 60px;
-    padding-bottom: 3px;
-    padding-top: 3px;
+.item
+{
+    background : #FFFFFF;
+    border-bottom : 1px solid #EEEEEE;
+    height : 60px;
+    padding-bottom : 3px;
+    padding-top : 3px;
 }
 
 .item-without-padding
 {
-    background: #ffffff;
-    border-bottom: 1px solid #eeeeee;
-    height: 50px;
-    padding:0;
+    background : #FFFFFF;
+    border-bottom : 1px solid #EEEEEE;
+    height : 50px;
+    padding : 0;
+}
+
+.item-without-padding .text
+{
+    padding-top : 10px;
+    padding-left : 10px;
 }
 
 .item-fit-without-padding
 {
-    background: #ffffff;
-    border-bottom: 1px solid #eeeeee;
-    padding:0;
+    background : #FFFFFF;
+    border-bottom : 1px solid #EEEEEE;
+    padding : 0;
 }
 
 .item-without-padding select,
 .item-without-padding input,
 .item-fit-without-padding textarea
 {
-    padding-left: 5px;
-    width: 100%;
-    height: 100%;
-    border: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
+    padding-left : 5px;
+    width : 100%;
+    height : 100%;
+    border : none;
+    -webkit-appearance : none;
+       -moz-appearance : none;
 }
 
-.item-fit {
-    background: #ffffff;
-    border-bottom: 1px solid #eeeeee;
-    padding: 5px;
+.item-fit
+{
+    background : #FFFFFF;
+    border-bottom : 1px solid #EEEEEE;
+    padding : 5px;
 }
 
-.item-gray {
-    border-bottom: 1px solid #eeeeee;
-    height: 60px;
-    padding-bottom: 3px;
-    padding-top: 10px;
+.item-gray
+{
+    border-bottom : 1px solid #EEEEEE;
+    height : 60px;
+    padding-bottom : 3px;
+    padding-top : 10px;
 }
 
-.item:hover {
-    cursor: pointer;
+.item:hover
+{
+    cursor : pointer;
 }
 
-.employee .user-icon {
-    font-size: 30px;
-    margin-top: 5px;
-    text-align: center;
-    float: left;
-    text-shadow: 1px 1px 1px rgba(150, 150, 150, 1);
+.employee .user-icon
+{
+    font-size : 30px;
+    margin-top : 5px;
+    text-align : center;
+    float : left;
+    text-shadow : 1px 1px 1px rgba(150, 150, 150, 1);
 }
 
-.employee .user-info {
-    padding-left: 10px;
+.employee .user-info
+{
+    padding-left : 10px;
 }
 
-.employee .user-info .glyphicon-calendar {
-    color: #888888;
-    display: inline-block;
-    margin-right: 5px;
+.employee .user-info .glyphicon-calendar
+{
+    color : #888888;
+    display : inline-block;
+    margin-right : 5px;
 }
 
-.employee .objectives {
-    margin-top: 5px;
-    padding-left: 5px;
-    padding-right: 5px;
+.employee .objectives
+{
+    margin-top : 5px;
+    padding-left : 5px;
+    padding-right : 5px;
 }
 
-.employee-status {
-    background-position: 50%;
-    background-repeat: no-repeat;
-    height: 43px;
+.employee-status
+{
+    background-position : 50%;
+    background-repeat : no-repeat;
+    height : 43px;
 }
 
-.status-1 {
-    color:red;
+.status-4
+{
+    color : red;
 }
 
-.status-2 {
-    color:orange;
+.status-3
+{
+    color : orange;
 }
 
-.status-3 {
-    color:#ffff00;
+.status-2
+{
+    color : #FFFF00;
 }
 
-.status-4 {
-    color:lightgreen;
+.status-1
+{
+    color : lightgreen;
 }
 
-.status-5 {
-    color:green;
+.status-0
+{
+    color : green;
 }
 
-.next {
-    color: #8C8C8C;
-    display: inline-block;
-    margin-top: 12px;
+.next
+{
+    color : #8C8C8C;
+    display : inline-block;
+    margin-top : 12px;
 }
 
 /******* Employee Full **************/
-#employee-view .item .text {
-    margin-left: 60px;
-    margin-top: 12px;
+#employee-view .item .text
+{
+    margin-left : 60px;
+    margin-top : 12px;
 }
 
-.percent {
-    font-size: 14px;
-    left: 18px;
-    position: absolute;
-    top: 16px;
+.percent
+{
+    font-size : 14px;
+    left : 18px;
+    position : absolute;
+    top : 16px;
 }
 
-input[type='text'],input[type='number'],textarea {font-size:16px;}
-
-
-.percent.cent {
-    left: 12px;
+input[type='text'],
+input[type='number'],
+textarea
+{
+    font-size : 16px;
 }
 
-progress-arc {
-    left: 6px;
-    position: absolute;
-    top: 7px;
+
+.percent.cent
+{
+    left : 12px;
+}
+
+progress-arc
+{
+    left : 6px;
+    position : absolute;
+    top : 7px;
 }
 
 .rzslider span.pointer
 {
-    padding: 15px;
+    padding : 15px;
 }
 
 .rzslider span.pointer
 {
-    height: 8px;
+    height : 8px;
 }
 
 .rzslider
 {
-    width: 90%;
-    margin-left: 5%;
+    width : 90%;
+    margin-left : 5%;
 }
 
-.item-icon-left {
-    color: #04315b;
-    margin-left: 13px;
-    margin-top: 14px;
-    font-size: 24px !important;
+.item-icon-left
+{
+    color : #04315B;
+    margin-left : 13px;
+    margin-top : 14px;
+    font-size : 24px !important;
 }
 
 /*****************************/
 /**    EDIT MODE         *****/
-.item.height-300 {
-    height: 100px;
+.item.height-300
+{
+    height : 100px;
 }
 
-@media screen and (max-width: 640px) {
-
-    #loginModal {
-        background: url("/img/login-background-mobile.jpg");
-        background-size: cover;
+@media screen and (max-width: 640px)
+{
+    #loginModal
+    {
+        background : url('/img/login-background-mobile.jpg');
+        background-size : cover;
     }
 
-    #logo {
-        width: 300px;
+    #logo
+    {
+        width : 300px;
     }
 }
 
@@ -649,59 +742,61 @@ progress-arc {
 /****** Barre de notif *******/
 .notif-update
 {
-    bottom: 0;
-    position: fixed;
-    width: 100%;
-    height: 26px;
-    font-size: 16px;
-    text-align: center;
-    background-color: white;
-    -o-box-shadow: 0 -1px 8px 0 #656565;
-    box-shadow: 0 -1px 8px 0 #656565;
+    bottom : 0;
+    position : fixed;
+    width : 100%;
+    height : 26px;
+    font-size : 16px;
+    text-align : center;
+    background-color : white;
+    -o-box-shadow : 0 -1px 8px 0 #656565;
+       box-shadow : 0 -1px 8px 0 #656565;
     filter:progid:DXImageTransform.Microsoft.Shadow(color=#656565, Direction=90, Strength=8);
-
-    transition: all 300ms linear;
-    -moz-transition: all 300ms linear;
-    -ms-transition: all 300ms linear;
-    -o-transition: all 300ms linear;
-    -webkit-transition: all 300ms linear;
-
-    opacity: 1;
+            transition : all 300ms linear;
+       -moz-transition : all 300ms linear;
+        -ms-transition : all 300ms linear;
+         -o-transition : all 300ms linear;
+    -webkit-transition : all 300ms linear;
+    opacity : 1;
 }
 
-.notif-update.ng-hide {
-    opacity: 0;
+.notif-update.ng-hide
+{
+    opacity : 0;
 }
 
-.fadein.ng-hide-remove {
-    opacity: 0;
-    display: block !important;
+.fadein.ng-hide-remove
+{
+    opacity : 0;
+    display : block !important;
 }
 
 /* Will transition towards this state */
-.fadein.ng-hide-remove.ng-hide-remove-active {
-    opacity: 1;
+.fadein.ng-hide-remove.ng-hide-remove-active
+{
+    opacity : 1;
 }
 
 .notif-update.tall
 {
-    height: 56px;
+    height : 56px;
 }
 
 .notif-update i
 {
-    margin-left: 5px;
+    margin-left : 5px;
 }
 
 .fa-green
 {
-    color:darkgreen;
+    color : darkgreen;
 }
 
 .fa-red
 {
-    color:darkred;
+    color : darkred;
 }
+
 /*!
  * Bootstrap v3.2.0 (http://getbootstrap.com)
  * Copyright 2011-2014 Twitter, Inc.
