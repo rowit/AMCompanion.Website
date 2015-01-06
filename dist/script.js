@@ -391,8 +391,8 @@ amCompanion.constant("urls", {
 );
 */
 amCompanion.constant("urls", {
-        login: "http://amcserver.cloudapp.net/login",
-        employes: "http://amcserver.cloudapp.net/api/employees"
+        login: "https://amcserver.cloudapp.net/login",
+        employes: "https://amcserver.cloudapp.net/api/employees"
     }
 );
 
