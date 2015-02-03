@@ -5,8 +5,8 @@ module.exports = function(grunt) {
 
         jshint: {
             allFiles: [
-                'js/**/*.js',
-                '!js/vendors/*'
+                'app/**/*.js',
+                '!app/vendors/**/*.js'
             ],
             options: {
                 jshintrc: true,
@@ -15,8 +15,8 @@ module.exports = function(grunt) {
         },
         ngtemplates:    {
             amCompanion:{
-                src:        ['index.html','partials/**/*.html'],
-                dest:       'js/templates.js',
+                src:        ['index.html','app/**/*.html'],
+                dest:       'app/templates.js',
                 standalone : true,
                 options:    {
                     htmlmin: {
@@ -40,21 +40,24 @@ module.exports = function(grunt) {
                 options: {
                     import: 2
                 },
-                src: ['css/app.css']
+                src: [
+                    'app/**/*.css',
+                    '!app/vendors/**/*.css'
+                ]
             }
         },
         concat: {
             css: {
                 src: [
-                    'css/*.css'
+                    'app/**/*.css'
                 ],
                 dest: 'dist/style.css'
             },
             js : {
                 src : [
-                    "js/vendors/angular.min.js",
-                    "js/app.js",
-                    "js/**/*.js"
+                    "app/vendors/js/angular.min.js",
+                    "app/app.js",
+                    "app/**/*.js"
                 ],
                 dest : 'dist/script.js'
             }
@@ -74,7 +77,7 @@ module.exports = function(grunt) {
         uglify : {
             js: {
                 options: {
-                    sourceMap: true,
+                    sourceMap: false,
                     sourceMapName: 'dist/script.min.js.map'
                 },
                 files: {
@@ -82,31 +85,52 @@ module.exports = function(grunt) {
                 }
             }
         },
+        ngAnnotate: {
+            options: {
+                singleQuotes: true
+            },
+            app1: {
+                files: {
+                    'dist/script.js': ['dist/script.js']
+                }
+            }
+        },
         watch: {
             html:
             {
-                files:['partials/**/*.html','index.html'],
+                files:['app/**/*.html','index.html'],
                 tasks:['ngtemplates']
             },
             css:
             {
-                files: ['css/*'],
+                files: ['app/**/*.css'],
                 tasks: ['concat:css','autoprefixer', 'cssmin',"csslint"]
             },
             js:
             {
-                files: ['js/**/*.js'],
-                tasks: ['concat:js', 'uglify','jshint']
+                files: ['app/**/*.js'],
+                tasks: ['concat:js','ngAnnotate', 'uglify','jshint']
             }
         },
         copy: {
-            main: {
+            bowerFiles: {
                 src:
                     [
                         'tmp/components/**/*.min.js',
                         'tmp/components/angular-i18n/angular-locale_fr-fr.js'
                     ],
-                dest: 'js/vendors/',
+                dest: 'app/vendors/js/',
+                expand: true,
+                flatten: true,
+                filter: 'isFile'
+            },
+            fontFiles:
+            {
+                src:
+                    [
+                        'app/vendors/css/fonts/*'
+                    ],
+                dest: 'dist/fonts/',
                 expand: true,
                 flatten: true,
                 filter: 'isFile'
@@ -120,13 +144,10 @@ module.exports = function(grunt) {
                 }
             }
         },
-        clean: ["tmp/"],
-        csscomb: {
-            foo: {
-                files: {
-                    'css/app.css': ['css/app.css']
-                }
-            }
+        clean:
+        {
+            tmp: ["tmp/"],
+            dist: ["dist/"]
         }
     });
 
@@ -141,9 +162,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-bower-task');
     grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-csscomb');
+    grunt.loadNpmTasks('grunt-ng-annotate');
 
-    grunt.registerTask('default', [ 'concat:css','autoprefixer','cssmin:css','csslint','ngtemplates','concat:js','uglify:js','jshint']);
-    grunt.registerTask('bower-task', ["bower","copy","clean"]);
-    grunt.registerTask('csscomb-task', ["csscomb"]);
+    grunt.registerTask('default', [
+        'clean:dist','concat:css','autoprefixer','cssmin:css',
+        'csslint','ngtemplates','concat:js','ngAnnotate','copy:fontFiles',
+        'uglify:js','jshint']);
+    grunt.registerTask('bower-task', ["bower","copy:bowerFiles","clean:tmp"]);
 };

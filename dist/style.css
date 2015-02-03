@@ -1,83 +1,10 @@
-slider {
-  display: inline-block;
-  position: relative;
-  height: 7px;
-  width: 100%;
-  margin: 25px 5px 25px 5px;
-  vertical-align: middle;
-}
-slider span {
-  white-space: nowrap;
-  position: absolute;
-  display: inline-block;
-}
-slider span.base {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-}
-slider span.bar {
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  border-radius: 1em/1em;
-  background: linear-gradient(top, #c0c0c0 0, #8d8d8d 100%);
-  box-shadow: inset 2px 2px 5px;
-}
-slider span.bar.selection {
-  width: 0;
-  z-index: 1;
-  background: linear-gradient(top, #13b6ff 0, #00a8f3 100%);
-  box-shadow: none;
-}
-slider span.pointer {
-  cursor: pointer;
-  width: 20px;
-  height: 20px;
-  top: -8px;
-  background-color: #fff;
-  border: 1px solid #000;
-  z-index: 2;
-  border-radius: 1em/1em;
-}
-slider span.pointer:after {
-  content: '';
-  background-color: #808080;
-  width: 8px;
-  height: 8px;
-  position: absolute;
-  top: 6px;
-  left: 6px;
-  border-radius: 1em/1em;
-}
-slider span.pointer:hover:after {
-  background-color: #000;
-}
-slider span.pointer.active:after {
-  background-color: #f00;
-}
-slider span.bubble {
-  cursor: default;
-  top: -22px;
-  padding: 1px 3px 1px 3px;
-  font-size: 0.7em;
-  font-family: sans-serif;
-}
-slider span.bubble.selection {
-  top: 15px;
-}
-slider span.bubble.limit {
-  color: #808080;
-}
-
-
 @font-face
 {
     font-family : 'latolight';
-    src : url('/css/fonts/lato-light-webfont.eot');
-    src : url('/css/fonts/lato-light-webfont.eot?#iefix') format('embedded-opentype'),
-    url('/css/fonts/lato-light-webfont.ttf') format('truetype'),
-    url('/css/fonts/lato-light-webfont.svg#latolight') format('svg');
+    src : url('/app/css/fonts/lato-light-webfont.eot');
+    src : url('/app/css/fonts/lato-light-webfont.eot?#iefix') format('embedded-opentype'),
+    url('/app/css/fonts/lato-light-webfont.ttf') format('truetype'),
+    url('/app/css/fonts/lato-light-webfont.svg#latolight') format('svg');
     font-weight : normal;
     font-style : normal;
 }
@@ -147,7 +74,8 @@ body
 
 .navbar-header .glyphicon:active
 {
-    transition : color 100ms linear;
+    -webkit-transition : color 100ms linear;
+            transition : color 100ms linear;
 }
 
 .content
@@ -172,8 +100,8 @@ body
 *.ng-enter span.fa,
 *.ng-leave span.fa
 {
-    transition :         -webkit-transform 0.4s ease-in-out;
-    transition :         transform 0.4s ease-in-out;
+    -webkit-transition : -webkit-transform 0.4s ease-in-out;
+            transition :         transform 0.4s ease-in-out;
 }
 
 *.ng-enter span.fa
@@ -203,8 +131,8 @@ body
 .slide-right-view .view.ng-enter,
 .slide-right-view .view.ng-leave
 {
-    transition :         -webkit-transform 0.4s ease-in-out;
-    transition :         transform 0.4s ease-in-out;
+    -webkit-transition : -webkit-transform 0.4s ease-in-out;
+            transition :         transform 0.4s ease-in-out;
     -webkit-transform : translate3d(0,0,0);
             transform : translate3d(0,0,0);
 }
@@ -792,6 +720,84 @@ progress-arc
     color : darkred;
 }
 
+
+slider {
+  display: inline-block;
+  position: relative;
+  height: 7px;
+  width: 100%;
+  margin: 25px 5px 25px 5px;
+  vertical-align: middle;
+}
+slider span {
+  white-space: nowrap;
+  position: absolute;
+  display: inline-block;
+}
+slider span.base {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+slider span.bar {
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  border-radius: 1em/1em;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #c0c0c0), color-stop(1, #8d8d8d));
+  background: -webkit-linear-gradient(top, #c0c0c0 0, #8d8d8d 100%);
+  background: linear-gradient(top, #c0c0c0 0, #8d8d8d 100%);
+  box-shadow: inset 2px 2px 5px;
+}
+slider span.bar.selection {
+  width: 0;
+  z-index: 1;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #13b6ff), color-stop(1, #00a8f3));
+  background: -webkit-linear-gradient(top, #13b6ff 0, #00a8f3 100%);
+  background: linear-gradient(top, #13b6ff 0, #00a8f3 100%);
+  box-shadow: none;
+}
+slider span.pointer {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  top: -8px;
+  background-color: #fff;
+  border: 1px solid #000;
+  z-index: 2;
+  border-radius: 1em/1em;
+}
+slider span.pointer:after {
+  content: '';
+  background-color: #808080;
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  border-radius: 1em/1em;
+}
+slider span.pointer:hover:after {
+  background-color: #000;
+}
+slider span.pointer.active:after {
+  background-color: #f00;
+}
+slider span.bubble {
+  cursor: default;
+  top: -22px;
+  padding: 1px 3px 1px 3px;
+  font-size: 0.7em;
+  font-family: sans-serif;
+}
+slider span.bubble.selection {
+  top: 15px;
+}
+slider span.bubble.limit {
+  color: #808080;
+}
+
+
 /*!
  * Bootstrap v3.2.0 (http://getbootstrap.com)
  * Copyright 2011-2014 Twitter, Inc.
@@ -1041,6 +1047,7 @@ img {
   background-color: #ffffff;
   border: 1px solid #dddddd;
   border-radius: 4px;
+  -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
   display: inline-block;
   width: 100% \9;
@@ -1145,6 +1152,7 @@ output {
   border: 1px solid #cccccc;
   border-radius: 4px;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
   transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 .form-control:focus {
@@ -2234,8 +2242,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
  * -------------------------- */
 @font-face {
   font-family: 'FontAwesome';
-  src: url('/css/fonts/fontawesome-webfont.eot?v=4.2.0');
-  src: url('/css/fonts/fontawesome-webfont.eot?#iefix&v=4.2.0') format('embedded-opentype'), url('/css/fonts/fontawesome-webfont.ttf?v=4.2.0') format('truetype'), url('/css/fonts/fontawesome-webfont.svg?v=4.2.0#fontawesomeregular') format('svg');
+  src: url('./fonts/fontawesome-webfont.eot?v=4.2.0');
+  src: url('./fonts/fontawesome-webfont.eot?#iefix&v=4.2.0') format('embedded-opentype'), url('./fonts/fontawesome-webfont.ttf?v=4.2.0') format('truetype'), url('./fonts/fontawesome-webfont.svg?v=4.2.0#fontawesomeregular') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -6275,3 +6283,9 @@ rzslider span.slider-bar {
 .pulseWarningIns {
   -webkit-animation: pulseWarningIns 0.75s infinite alternate;
   animation: pulseWarningIns 0.75s infinite alternate; }
+
+
+
+
+
+
