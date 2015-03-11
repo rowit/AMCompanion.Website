@@ -1,6 +1,6 @@
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 
-    <div ng-if="homeDisplay">
+    <div ng-if="header.homeDisplay">
         <div class="navbar-header">
 
             <div class="columns small-2">
@@ -8,30 +8,30 @@
             <div class="columns small-8 menu-title">
                 <img src="/img/logo-icon.png" id="nav-logo">
             </div>
-            <div class="columns small-2" ng-click="disconnect()">
+            <div class="columns small-2" ng-click="header.disconnect()">
                 <span class="right-menu-icon fa fa-power-off hv-center"></span>
             </div>
         </div>
     </div>
 
-    <div ng-if="!homeDisplay" class="navbar-header">
+    <div ng-if="!header.homeDisplay" class="navbar-header">
         <div class="row">
-            <div class="columns small-2" ng-if="editMode" ng-click="cancelEditMode()">
+            <div class="columns small-2" ng-if="header.editMode" ng-click="header.cancelEditMode()">
                 <span class="left-menu-icon fa-ban fa hv-center" style="color:{{cancelColor}}"></span>
             </div>
-            <div class="columns small-2" ng-if="!editMode" ng-click="goBack()">
+            <div class="columns small-2" ng-if="!header.editMode" ng-click="header.goBack()">
                 <span class="left-menu-icon fa fa-arrow-left hv-center" style="color:{{backColor}}"></span>
             </div>
 
             <div class="columns small-8 menu-title">
-                <span ng-bind="libelle"></span>
+                <span ng-bind="header.label"></span>
             </div>
 
 
-            <div class="columns small-2" ng-if="!editMode" ng-click="toggleEditMode()">
+            <div class="columns small-2" ng-if="!header.editMode" ng-click="header.toggleEditMode()">
                 <span class="right-menu-icon fa-pencil-square-o fa hv-center" style="color:{{editColor}}"></span>
             </div>
-            <div class="columns small-2" ng-if="editMode" ng-click="validateEditMode()">
+            <div class="columns small-2" ng-if="header.editMode" ng-click="header.validateEditMode()">
                 <span class="right-menu-icon fa-check fa hv-center" style="color:{{validateColor}}"></span>
             </div>
         </div>

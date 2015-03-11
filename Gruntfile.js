@@ -13,6 +13,16 @@ module.exports = function(grunt) {
                 reporter: require('jshint-stylish')
             }
         },
+        babel: {
+            options: {
+                compact:false
+            },
+            dist: {
+                files: {
+                    'dist/amc-script.js': 'dist/amc-script.js'
+                }
+            }
+        },
         ngtemplates:    {
             amCompanion:{
                 src:        ['index.html','app/**/*.html'],
@@ -53,11 +63,19 @@ module.exports = function(grunt) {
                 ],
                 dest: 'dist/style.css'
             },
-            js : {
+            'amc-js' : {
+                src : [
+                    "app/app.js",
+                    "app/**/*.js",
+                    "!app/vendors/**/*.js"
+                ],
+                dest : 'dist/amc-script.js'
+            },
+            'dist-js': {
                 src : [
                     "app/vendors/js/angular.min.js",
-                    "app/app.js",
-                    "app/**/*.js"
+                    "app/vendors/**/*.js",
+                    "dist/amc-script.js"
                 ],
                 dest : 'dist/script.js'
             }
@@ -77,7 +95,7 @@ module.exports = function(grunt) {
         uglify : {
             js: {
                 options: {
-                    sourceMap: false,
+                    sourceMap: true,
                     sourceMapName: 'dist/script.min.js.map'
                 },
                 files: {
@@ -163,10 +181,22 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-bower-task');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-ng-annotate');
+    grunt.loadNpmTasks('grunt-babel');
 
     grunt.registerTask('default', [
-        'clean:dist','concat:css','autoprefixer','cssmin:css',
-        'csslint','ngtemplates','concat:js','ngAnnotate','copy:fontFiles',
-        'uglify:js','jshint']);
+        'clean:dist',
+        'concat:css',
+        'autoprefixer',
+        'cssmin:css',
+        'csslint',
+        'ngtemplates',
+        'concat:amc-js',
+        'copy:fontFiles',
+        'babel',
+        'concat:dist-js',
+        'ngAnnotate',
+        'uglify',
+        'jshint']);
+
     grunt.registerTask('bower-task', ["bower","copy:bowerFiles","clean:tmp"]);
 };

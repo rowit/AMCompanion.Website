@@ -21,6 +21,7 @@
     "jshint-stylish": "^1.0.0"
   },
   "dependencies": {
-    "express": "^4.9.0"
+    "express": "^4.9.0",
+    "grunt-babel": "^4.0.0"
   }
 }

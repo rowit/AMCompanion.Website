@@ -1,48 +1,47 @@
-/* Controllers */
 amCompanion.controller('AmcHeaderController',
-    [ "$scope","$timeout","RoutesService" ,
-        function($scope,$timeout, RoutesService){
+    function($scope,$timeout, RoutesService){
 
-            'use strict';
-            $scope.cancelColor = "#FFFFFF";
-            $scope.backColor = "#FFFFFF";
-            $scope.editColor = "#FFFFFF";
-            $scope.validateColor = "#FFFFFF";
+        'use strict';
+        this.cancelColor = "#FFFFFF";
+        this.backColor = "#FFFFFF";
+        this.editColor = "#FFFFFF";
+        this.validateColor = "#FFFFFF";
 
-            /**
-             * Cette fonction déconnecte l'utilisateur
-             */
-            $scope.disconnect = function()
-            {
-                RoutesService.disconnect();
-            };
+        /**
+         * Cette fonction déconnecte l'utilisateur
+         */
+        this.disconnect = function()
+        {
+            RoutesService.disconnect();
+        };
 
-            $scope.goBack = function()
-            {
-                $scope.goBackHandler();
-                $scope.backColor = "#2980b9";
-                $timeout(function(){$scope.backColor = "#FFFFFF";},100);
-            };
+        this.goBack = function()
+        {
+            this.goBackHandler();
+            this.backColor = "#2980b9";
+            $timeout(function(){$scope.backColor = "#FFFFFF";},100);
+        };
 
-            $scope.toggleEditMode = function()
-            {
-                $scope.$emit("startEdit");
-                $scope.editColor = "#2980b9";
-                $timeout(function(){$scope.editColor = "#FFFFFF";},100);
-            };
+        this.toggleEditMode = function()
+        {
+            $scope.$emit("startEdit");
+            this.editColor = "#2980b9";
+            $timeout(function(){$scope.editColor = "#FFFFFF";},100);
+        };
 
-            $scope.validateEditMode = function()
-            {
-                $scope.$emit("validateEdit");
-                $scope.validateColor = "#2980b9";
-                $timeout(function(){$scope.validateColor = "#FFFFFF";},100);
-            };
+        this.validateEditMode = function()
+        {
+            $scope.$emit("validateEdit");
+            this.validateColor = "#2980b9";
+            $timeout(function(){$scope.validateColor = "#FFFFFF";},100);
+        };
 
-            $scope.cancelEditMode = function()
-            {
-                $scope.$emit("cancelEdit");
-                $scope.cancelColor = "#2980b9";
-                $timeout(function(){$scope.cancelColor = "#FFFFFF";},100);
-            };
-
-        }]);
+        this.cancelEditMode = function()
+        {
+            $scope.$emit("cancelEdit");
+            this.cancelColor = "#2980b9";
+            $timeout(function(){$scope.cancelColor = "#FFFFFF";},100);
+        };
+    }
+);
+/* Controllers */

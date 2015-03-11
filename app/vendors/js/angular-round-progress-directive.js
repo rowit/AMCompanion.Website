@@ -1,4 +1,6 @@
-amCompanion.directive('angRoundProgress', [function () {
+angular.module('angRoundProgress',[]);
+
+angular.module('angRoundProgress').directive('angRoundProgress', [function () {
     'use strict';
     var compilationFunction = function (templateElement) {
         if (templateElement.length === 1) {

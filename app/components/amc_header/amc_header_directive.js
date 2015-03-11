@@ -2,14 +2,15 @@ amCompanion.directive('amcHeader', function() {
     'use strict';
     return {
         restrict: 'E',
-        controller:"AmcHeaderController",
-        templateUrl: 'app/components/amc_header/amc_header.html',
-        scope:
-        {
+        bindToController:{
             homeDisplay:"=",
-            libelle:"=",
+            label:"=",
             goBackHandler:"&",
             editMode:"="
-        }
+        },
+        controller:"AmcHeaderController",
+        controllerAs:"header",
+        templateUrl: 'app/components/amc_header/amc_header.html',
+        scope:true
     };
 });
