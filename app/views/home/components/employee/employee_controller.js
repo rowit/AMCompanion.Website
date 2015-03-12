@@ -1,5 +1,5 @@
 /* Controllers */
-amCompanion.controller('EmbedEmployeeController',
+angular.module('amCompanion').controller('EmbedEmployeeController',
     function($scope, $filter, RoutesService){
         'use strict';
         var lastLink = $filter("limitTo")($filter("orderBy")($scope.employee.Links, "Date", "reverse"), 1);

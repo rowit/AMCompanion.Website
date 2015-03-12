@@ -1,6 +1,6 @@
 
 /* Controllers */
-amCompanion.controller('FullObjectiveController',
+angular.module('amCompanion').controller('FullObjectiveController',
     function($scope,$routeParams,$anchorScroll ,AmcContextService, RoutesService, SweetAlert){
 
         'use strict';

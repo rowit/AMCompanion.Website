@@ -1,5 +1,5 @@
 /* Controllers */
-amCompanion.controller('FullEmployeeController',
+angular.module('amCompanion').controller('FullEmployeeController',
     function( $scope,$routeParams, $anchorScroll ,AmcContextService, RoutesService, SweetAlert,moods){
 
         "use strict";

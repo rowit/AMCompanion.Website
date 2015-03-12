@@ -1,4 +1,4 @@
-amCompanion.directive('amcHeader', function() {
+angular.module('amCompanion').directive('amcHeader', function() {
     'use strict';
     return {
         restrict: 'E',

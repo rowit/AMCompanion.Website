@@ -1,5 +1,5 @@
 /* Controllers */
-amCompanion.controller('FullLinkController',
+angular.module('amCompanion').controller('FullLinkController',
     function( $scope,$routeParams,$anchorScroll ,AmcContextService, RoutesService, linkTypes, SweetAlert){
         'use strict';
 

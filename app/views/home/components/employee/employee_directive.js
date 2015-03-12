@@ -1,4 +1,4 @@
-amCompanion.directive('embedEmployee', function() {
+angular.module('amCompanion').directive('embedEmployee', function() {
     'use strict';
     return {
         restrict: 'E',

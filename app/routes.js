@@ -1,12 +1,14 @@
 /**
  * Created by Sébastien on 18/05/2014.
  */
-amCompanion.config(function($routeProvider, $locationProvider) {
+angular.module('amCompanion').config(function($routeProvider, $locationProvider) {
     'use strict';
     $routeProvider.when('/', {
         id:"home",
         templateUrl: 'app/views/home/home.html',
-        controller: 'FullHomeController'
+        controller: 'FullHomeController',
+        controllerAs: "homeController"
+
     });
 
     $routeProvider.when('/employee/:id', {
@@ -37,7 +39,7 @@ amCompanion.config(function($routeProvider, $locationProvider) {
     $routeProvider.otherwise({redirectTo: '/'});
 });
 
-amCompanion.run(
+angular.module('amCompanion').run(
     function ($rootScope, $location, RoutesService ) {
         'use strict';
         $rootScope.$on('$routeChangeStart', function (event, next, current) {

@@ -1,4 +1,4 @@
-amCompanion.factory("RoutesService",
+angular.module('amCompanion').factory("RoutesService",
     function( $location, AmcContextService )
     {
         'use strict';

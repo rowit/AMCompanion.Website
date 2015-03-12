@@ -1,4 +1,4 @@
-amCompanion.controller('FullLoginController',
+angular.module('amCompanion').controller('FullLoginController',
     function($scope,$timeout,$location ,AuthService)
     {
         'use strict';

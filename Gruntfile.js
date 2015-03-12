@@ -127,7 +127,7 @@ module.exports = function(grunt) {
             js:
             {
                 files: ['app/**/*.js'],
-                tasks: ['concat:js','ngAnnotate', 'uglify','jshint']
+                tasks: ['concat:amc-js','babel','concat:dist-js','ngAnnotate', 'uglify','jshint']
             }
         },
         copy: {

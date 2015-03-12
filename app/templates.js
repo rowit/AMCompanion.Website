@@ -22,7 +22,7 @@ angular.module('amCompanion').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('app/views/home/home.html',
-    "<div id=home class=container><amc-header home-display=true></amc-header><div class=content><div class=row><div class=\"separator columns small-12\"><span class=text>Collaborateurs</span></div><div ng-repeat=\"employee in employees|orderBy:'dateMax' track by employee.id \" class=\"columns sm\"><embed-employee employee=employee last=$last></embed-employee></div></div></div></div>"
+    "<div id=home class=container><amc-header home-display=true></amc-header><div class=content><div class=row><div class=\"separator columns small-12\"><span class=text>Collaborateurs</span></div><div ng-repeat=\"employee in homeController.employees|orderBy:'dateMax' track by employee.id \" class=\"columns sm\"><embed-employee employee=employee last=$last></embed-employee></div></div></div></div>"
   );
 
 

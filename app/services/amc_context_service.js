@@ -1,4 +1,4 @@
-amCompanion.factory("AmcContextService",
+angular.module('amCompanion').factory("AmcContextService",
     function ($http, $rootScope, $timeout, $q, urls, $cookies, $location, SweetAlert )
     {
         'use strict';

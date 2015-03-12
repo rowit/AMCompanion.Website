@@ -1,4 +1,4 @@
-amCompanion.factory('AuthService',
+angular.module('amCompanion').factory('AuthService',
     function ($http , $q, urls, AmcContextService) {
         'use strict';
         return {

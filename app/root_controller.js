@@ -1,6 +1,6 @@
 
 /* Controllers */
-amCompanion.controller('RootController', function(
+angular.module('amCompanion').controller('RootController', function(
         $scope,$rootScope , AmcContextService){
         'use strict';
         $scope.updateStatus = AmcContextService.getUpdateStatus();

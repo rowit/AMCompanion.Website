@@ -1,4 +1,4 @@
-amCompanion.controller('AmcHeaderController',
+angular.module('amCompanion').controller('AmcHeaderController',
     function($scope,$timeout, RoutesService){
 
         'use strict';

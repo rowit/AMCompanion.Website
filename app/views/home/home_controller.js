@@ -1,8 +1,8 @@
 
 /* Controllers */
-amCompanion.controller('FullHomeController',
-    function( $scope,AmcContextService ){
+angular.module('amCompanion').controller('FullHomeController',
+    function( AmcContextService ){
         'use strict';
         AmcContextService.initEmployees();
-        $scope.employees = AmcContextService.getEmployees();
+        this.employees = AmcContextService.getEmployees();
 });

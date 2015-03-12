@@ -1644,8 +1644,8 @@ angular.module('rzModule', [])
 "use strict";
 
 // Declare app level module which depends on filters, and services
-var amCompanion = angular.module("amCompanion", ["ngCookies", "ngRoute", "ngAnimate", "ngTouch", "igTruncate", "angRoundProgress", "angular-progress-arc", "rzModule", "oitozero.ngSweetAlert"]);
-amCompanion.controller("AmcHeaderController", ['$scope', '$timeout', 'RoutesService', function ($scope, $timeout, RoutesService) {
+angular.module("amCompanion", ["ngCookies", "ngRoute", "ngAnimate", "ngTouch", "igTruncate", "angRoundProgress", "angular-progress-arc", "rzModule", "oitozero.ngSweetAlert"]);
+angular.module("amCompanion").controller("AmcHeaderController", ['$scope', '$timeout', 'RoutesService', function ($scope, $timeout, RoutesService) {
 
     "use strict";
     this.cancelColor = "#FFFFFF";
@@ -1694,7 +1694,7 @@ amCompanion.controller("AmcHeaderController", ['$scope', '$timeout', 'RoutesServ
 }]);
 /* Controllers */
 
-amCompanion.directive("amcHeader", function () {
+angular.module("amCompanion").directive("amcHeader", function () {
     "use strict";
     return {
         restrict: "E",
@@ -1706,7 +1706,7 @@ amCompanion.directive("amcHeader", function () {
         },
         controller: "AmcHeaderController",
         controllerAs: "header",
-        templateUrl: "/app/components/amc_header/amc_header.html",
+        templateUrl: "app/components/amc_header/amc_header.html",
         scope: true
     };
 });
@@ -1721,20 +1721,14 @@ amCompanion.constant("urls", {
     }
 );
 */
-amCompanion.constant("urls", {
+angular.module("amCompanion").constant("urls", {
     login: "http://amcserver.cloudapp.net/login",
     employes: "http://amcserver.cloudapp.net/api/employees"
-});
-
-amCompanion.constant("linkTypes", ["Restaurant", "Appel", "Mail", "Café", "Entretien"]);
-
-amCompanion.constant("linkTypesIcons", [{ label: "Restaurant", icon: "glyphicon-cutlery" }, { label: "Appel", icon: "glyphicon-earphone" }, { label: "Mail", icon: "glyphicon-envelope" }, { label: "Café", icon: "" }, { label: "Entretien", icon: "" }]);
-
-amCompanion.constant("moods", [{ label: "Satisfait", status: 0 }, { label: "Passable", status: 1 }, { label: "Moyen", status: 2 }, { label: "Insatisfait", status: 3 }, { label: "Alerte", status: 4 }]);
+}).constant("linkTypes", ["Restaurant", "Appel", "Mail", "Café", "Entretien"]).constant("linkTypesIcons", [{ label: "Restaurant", icon: "glyphicon-cutlery" }, { label: "Appel", icon: "glyphicon-earphone" }, { label: "Mail", icon: "glyphicon-envelope" }, { label: "Café", icon: "" }, { label: "Entretien", icon: "" }]).constant("moods", [{ label: "Satisfait", status: 0 }, { label: "Passable", status: 1 }, { label: "Moyen", status: 2 }, { label: "Insatisfait", status: 3 }, { label: "Alerte", status: 4 }]);
 //types : ['Restaurant', 'Appel', 'Mail', 'Café', 'Entretien']
 
 /* Controllers */
-amCompanion.controller("RootController", ['$scope', '$rootScope', 'AmcContextService', function ($scope, $rootScope, AmcContextService) {
+angular.module("amCompanion").controller("RootController", ['$scope', '$rootScope', 'AmcContextService', function ($scope, $rootScope, AmcContextService) {
     "use strict";
     $scope.updateStatus = AmcContextService.getUpdateStatus();
 
@@ -1757,12 +1751,14 @@ amCompanion.controller("RootController", ['$scope', '$rootScope', 'AmcContextSer
 /**
  * Created by Sébastien on 18/05/2014.
  */
-amCompanion.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+angular.module("amCompanion").config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     "use strict";
     $routeProvider.when("/", {
         id: "home",
         templateUrl: "app/views/home/home.html",
-        controller: "FullHomeController"
+        controller: "FullHomeController",
+        controllerAs: "homeController"
+
     });
 
     $routeProvider.when("/employee/:id", {
@@ -1793,7 +1789,7 @@ amCompanion.config(['$routeProvider', '$locationProvider', function ($routeProvi
     $routeProvider.otherwise({ redirectTo: "/" });
 }]);
 
-amCompanion.run(['$rootScope', '$location', 'RoutesService', function ($rootScope, $location, RoutesService) {
+angular.module("amCompanion").run(['$rootScope', '$location', 'RoutesService', function ($rootScope, $location, RoutesService) {
     "use strict";
     $rootScope.$on("$routeChangeStart", function (event, next, current) {
 
@@ -1817,7 +1813,7 @@ amCompanion.run(['$rootScope', '$location', 'RoutesService', function ($rootScop
     });
 }]);
 
-amCompanion.factory("AmcContextService", ['$http', '$rootScope', '$timeout', '$q', 'urls', '$cookies', '$location', 'SweetAlert', function ($http, $rootScope, $timeout, $q, urls, $cookies, $location, SweetAlert) {
+angular.module("amCompanion").factory("AmcContextService", ['$http', '$rootScope', '$timeout', '$q', 'urls', '$cookies', '$location', 'SweetAlert', function ($http, $rootScope, $timeout, $q, urls, $cookies, $location, SweetAlert) {
     "use strict";
 
     var data = {};
@@ -1982,7 +1978,7 @@ amCompanion.factory("AmcContextService", ['$http', '$rootScope', '$timeout', '$q
     return this;
 }]);
 
-amCompanion.factory("AuthService", ['$http', '$q', 'urls', 'AmcContextService', function ($http, $q, urls, AmcContextService) {
+angular.module("amCompanion").factory("AuthService", ['$http', '$q', 'urls', 'AmcContextService', function ($http, $q, urls, AmcContextService) {
     "use strict";
     return {
         login: function login(credentials) {
@@ -2012,7 +2008,7 @@ amCompanion.factory("AuthService", ['$http', '$q', 'urls', 'AmcContextService', 
     };
 }]);
 
-amCompanion.factory("RoutesService", ['$location', 'AmcContextService', function ($location, AmcContextService) {
+angular.module("amCompanion").factory("RoutesService", ['$location', 'AmcContextService', function ($location, AmcContextService) {
     "use strict";
 
     this.disconnect = function () {
@@ -2052,7 +2048,7 @@ angular.module("amCompanion").run(["$templateCache", function ($templateCache) {
 
     $templateCache.put("app/views/home/components/employee/employee.html", "<div class=row ng-click=openEmployeeView()><div class=\"item employee columns small-12\" ng-class=\"{'last':last}\"><div class=row><i class=\"small-2 user-icon fa fa-flag-o status-{{employee.Status}}\"></i><div class=\"user-info columns small-9\"><div><span ng-bind=employee.FirstName></span> <span ng-bind=employee.LastName></span></div><div ng-if=\"lastLink != undefined\" class=sub-info><i class=\"glyphicon glyphicon-map-marker\"></i> <span ng-bind=\"lastLink.DateTimestamp|date:'dd/MM/yyyy'\"></span>, <span ng-bind=lastLink.Type|truncate:20></span></div><div ng-if=\"lastLink == undefined\">Pas de rendez vous</div></div><div class=\"next columns small-1\"><i class=\"fa-angle-right fa\"></i></div></div></div></div>");
 
-    $templateCache.put("app/views/home/home.html", "<div id=home class=container><amc-header home-display=true></amc-header><div class=content><div class=row><div class=\"separator columns small-12\"><span class=text>Collaborateurs</span></div><div ng-repeat=\"employee in employees|orderBy:'dateMax' track by employee.id \" class=\"columns sm\"><embed-employee employee=employee last=$last></embed-employee></div></div></div></div>");
+    $templateCache.put("app/views/home/home.html", "<div id=home class=container><amc-header home-display=true></amc-header><div class=content><div class=row><div class=\"separator columns small-12\"><span class=text>Collaborateurs</span></div><div ng-repeat=\"employee in homeController.employees|orderBy:'dateMax' track by employee.id \" class=\"columns sm\"><embed-employee employee=employee last=$last></embed-employee></div></div></div></div>");
 
     $templateCache.put("app/views/link/link.html", "<div class=container id=employee-view><amc-header go-back-handler=goBack() label=nomPrenom home-display=false edit-mode=editMode></amc-header><div class=content><div class=row><div class=\"separator columns small-12\"><span class=text>Lieu</span></div><div class=\"item-without-padding columns small-12\"><select ng-model=selectedLink.Type ng-options=\"o as o for o in linkTypes\"></select></div><div class=\"separator columns small-12\"><span class=text>Date</span></div><div class=\"item-without-padding columns small-12\"><input type=date ng-model=selectedDate ng-change=changeSelectedDate()></div><div class=\"separator columns small-12\"><span class=text>Commentaire</span></div><div class=\"item-fit-without-padding columns small-12\"><textarea ng-model=selectedLink.Comment rows=10></textarea></div></div></div></div>");
 
@@ -2062,7 +2058,7 @@ angular.module("amCompanion").run(["$templateCache", function ($templateCache) {
 }]);
 
 /* Controllers */
-amCompanion.controller("FullEmployeeController", ['$scope', '$routeParams', '$anchorScroll', 'AmcContextService', 'RoutesService', 'SweetAlert', 'moods', function ($scope, $routeParams, $anchorScroll, AmcContextService, RoutesService, SweetAlert, moods) {
+angular.module("amCompanion").controller("FullEmployeeController", ['$scope', '$routeParams', '$anchorScroll', 'AmcContextService', 'RoutesService', 'SweetAlert', 'moods', function ($scope, $routeParams, $anchorScroll, AmcContextService, RoutesService, SweetAlert, moods) {
 
     "use strict";
 
@@ -2247,7 +2243,7 @@ amCompanion.controller("FullEmployeeController", ['$scope', '$routeParams', '$an
 }]);
 
 /* Controllers */
-amCompanion.controller("EmbedEmployeeController", ['$scope', '$filter', 'RoutesService', function ($scope, $filter, RoutesService) {
+angular.module("amCompanion").controller("EmbedEmployeeController", ['$scope', '$filter', 'RoutesService', function ($scope, $filter, RoutesService) {
     "use strict";
     var lastLink = $filter("limitTo")($filter("orderBy")($scope.employee.Links, "Date", "reverse"), 1);
     if (lastLink.length > 0) {
@@ -2281,7 +2277,7 @@ amCompanion.controller("EmbedEmployeeController", ['$scope', '$filter', 'RoutesS
         }
     }
 }]);
-amCompanion.directive("embedEmployee", function () {
+angular.module("amCompanion").directive("embedEmployee", function () {
     "use strict";
     return {
         restrict: "E",
@@ -2297,10 +2293,10 @@ amCompanion.directive("embedEmployee", function () {
  */
 
 /* Controllers */
-amCompanion.controller("FullHomeController", ['$scope', 'AmcContextService', function ($scope, AmcContextService) {
+angular.module("amCompanion").controller("FullHomeController", ['AmcContextService', function (AmcContextService) {
     "use strict";
     AmcContextService.initEmployees();
-    $scope.employees = AmcContextService.getEmployees();
+    this.employees = AmcContextService.getEmployees();
 }]);
 
 /**
@@ -2308,7 +2304,7 @@ amCompanion.controller("FullHomeController", ['$scope', 'AmcContextService', fun
  */
 
 /* Controllers */
-amCompanion.controller("FullLinkController", ['$scope', '$routeParams', '$anchorScroll', 'AmcContextService', 'RoutesService', 'linkTypes', 'SweetAlert', function ($scope, $routeParams, $anchorScroll, AmcContextService, RoutesService, linkTypes, SweetAlert) {
+angular.module("amCompanion").controller("FullLinkController", ['$scope', '$routeParams', '$anchorScroll', 'AmcContextService', 'RoutesService', 'linkTypes', 'SweetAlert', function ($scope, $routeParams, $anchorScroll, AmcContextService, RoutesService, linkTypes, SweetAlert) {
     "use strict";
 
     $anchorScroll();
@@ -2417,7 +2413,7 @@ amCompanion.controller("FullLinkController", ['$scope', '$routeParams', '$anchor
     });
 }]);
 
-amCompanion.controller("FullLoginController", ['$scope', '$timeout', '$location', 'AuthService', function ($scope, $timeout, $location, AuthService) {
+angular.module("amCompanion").controller("FullLoginController", ['$scope', '$timeout', '$location', 'AuthService', function ($scope, $timeout, $location, AuthService) {
     "use strict";
 
     /**
@@ -2461,7 +2457,7 @@ amCompanion.controller("FullLoginController", ['$scope', '$timeout', '$location'
 }]);
 
 /* Controllers */
-amCompanion.controller("FullObjectiveController", ['$scope', '$routeParams', '$anchorScroll', 'AmcContextService', 'RoutesService', 'SweetAlert', function ($scope, $routeParams, $anchorScroll, AmcContextService, RoutesService, SweetAlert) {
+angular.module("amCompanion").controller("FullObjectiveController", ['$scope', '$routeParams', '$anchorScroll', 'AmcContextService', 'RoutesService', 'SweetAlert', function ($scope, $routeParams, $anchorScroll, AmcContextService, RoutesService, SweetAlert) {
 
     "use strict";
     $anchorScroll();
