@@ -1647,7 +1647,6 @@ angular.module('rzModule', [])
 angular.module("amCompanion", ["ngCookies", "ngRoute", "ngAnimate", "ngTouch", "igTruncate", "angRoundProgress", "angular-progress-arc", "rzModule", "oitozero.ngSweetAlert"]);
 angular.module("amCompanion").controller("AmcHeaderController", ['$scope', '$timeout', 'RoutesService', function ($scope, $timeout, RoutesService) {
 
-    "use strict";
     this.cancelColor = "#FFFFFF";
     this.backColor = "#FFFFFF";
     this.editColor = "#FFFFFF";
@@ -1664,7 +1663,7 @@ angular.module("amCompanion").controller("AmcHeaderController", ['$scope', '$tim
         this.goBackHandler();
         this.backColor = "#2980b9";
         $timeout(function () {
-            $scope.backColor = "#FFFFFF";
+            this.backColor = "#FFFFFF";
         }, 100);
     };
 
@@ -1672,7 +1671,7 @@ angular.module("amCompanion").controller("AmcHeaderController", ['$scope', '$tim
         $scope.$emit("startEdit");
         this.editColor = "#2980b9";
         $timeout(function () {
-            $scope.editColor = "#FFFFFF";
+            this.editColor = "#FFFFFF";
         }, 100);
     };
 
@@ -1680,7 +1679,7 @@ angular.module("amCompanion").controller("AmcHeaderController", ['$scope', '$tim
         $scope.$emit("validateEdit");
         this.validateColor = "#2980b9";
         $timeout(function () {
-            $scope.validateColor = "#FFFFFF";
+            this.validateColor = "#FFFFFF";
         }, 100);
     };
 
@@ -1688,7 +1687,7 @@ angular.module("amCompanion").controller("AmcHeaderController", ['$scope', '$tim
         $scope.$emit("cancelEdit");
         this.cancelColor = "#2980b9";
         $timeout(function () {
-            $scope.cancelColor = "#FFFFFF";
+            this.cancelColor = "#FFFFFF";
         }, 100);
     };
 }]);
@@ -1714,6 +1713,42 @@ angular.module("amCompanion").directive("amcHeader", function () {
  * Created by romainseb on 03/02/15.
  */
 
+angular.module("amCompanion").controller("NotificationToasterController", ['$rootScope', 'AmcContextService', function ($rootScope, AmcContextService) {
+
+    this.updateStatus = AmcContextService.getUpdateStatus();
+    var that = this;
+
+    $rootScope.$on("serverUpdateStarted", function () {
+        that.updateStatus = AmcContextService.getUpdateStatus();
+    });
+
+    this.closeNotif = function () {
+        AmcContextService.setUpdateStatus(0);
+        this.updateStatus = 0;
+    };
+
+    this.sendRapport = function () {
+        window.location.href = "mailto:sebastien.romain@gmail.com;nicolas.wlodarczyk@outlook.com?" + "subject=AMC Fail report" + "&body=Here the error";
+        AmcContextService.setUpdateStatus(0);
+        this.updateStatus = 0;
+    };
+}]);
+
+angular.module("amCompanion").directive("notificationToaster", function () {
+    "use strict";
+    return {
+        restrict: "E",
+        bindToController: {},
+        controller: "NotificationToasterController",
+        controllerAs: "notificationController",
+        templateUrl: "/app/components/notification_toaster/notification_toaster.html",
+        scope: true
+    };
+});
+/**
+ * Created by romainseb on 03/02/15.
+ */
+
 /*
 amCompanion.constant("urls", {
         login: "http://localhost:1337/login",
@@ -1727,27 +1762,6 @@ angular.module("amCompanion").constant("urls", {
 }).constant("linkTypes", ["Restaurant", "Appel", "Mail", "Café", "Entretien"]).constant("linkTypesIcons", [{ label: "Restaurant", icon: "glyphicon-cutlery" }, { label: "Appel", icon: "glyphicon-earphone" }, { label: "Mail", icon: "glyphicon-envelope" }, { label: "Café", icon: "" }, { label: "Entretien", icon: "" }]).constant("moods", [{ label: "Satisfait", status: 0 }, { label: "Passable", status: 1 }, { label: "Moyen", status: 2 }, { label: "Insatisfait", status: 3 }, { label: "Alerte", status: 4 }]);
 //types : ['Restaurant', 'Appel', 'Mail', 'Café', 'Entretien']
 
-/* Controllers */
-angular.module("amCompanion").controller("RootController", ['$scope', '$rootScope', 'AmcContextService', function ($scope, $rootScope, AmcContextService) {
-    "use strict";
-    $scope.updateStatus = AmcContextService.getUpdateStatus();
-
-    $rootScope.$on("serverUpdateStarted", function () {
-        $scope.updateStatus = AmcContextService.getUpdateStatus();
-    });
-
-    $scope.closeNotif = function () {
-        AmcContextService.setUpdateStatus(0);
-        $scope.updateStatus = 0;
-    };
-
-    $scope.sendRapport = function () {
-        window.location.href = "mailto:sebastien.romain@gmail.com;nicolas.wlodarczyk@outlook.com?" + "subject=AMC Fail report" + "&body=Here the error";
-        AmcContextService.setUpdateStatus(0);
-        $scope.updateStatus = 0;
-    };
-}]);
-
 /**
  * Created by Sébastien on 18/05/2014.
  */
@@ -1755,16 +1769,16 @@ angular.module("amCompanion").config(['$routeProvider', '$locationProvider', fun
     "use strict";
     $routeProvider.when("/", {
         id: "home",
-        templateUrl: "app/views/home/home.html",
+        templateUrl: "/app/views/home/home.html",
         controller: "FullHomeController",
         controllerAs: "homeController"
-
     });
 
     $routeProvider.when("/employee/:id", {
         id: "employee",
-        templateUrl: "app/views/employee/employee.html",
-        controller: "FullEmployeeController"
+        templateUrl: "/app/views/employee/employee.html",
+        controller: "FullEmployeeController",
+        controllerAs: "employeeController"
     });
 
     $routeProvider.when("/link/:id/:timestamp", {
@@ -2040,11 +2054,13 @@ angular.module("amCompanion").factory("RoutesService", ['$location', 'AmcContext
 angular.module("amCompanion").run(["$templateCache", function ($templateCache) {
     "use strict";
 
-    $templateCache.put("index.html", "<!DOCTYPE html><!--[if lt IE 7]><html lang=\"en\" ng-app=\"amCompanion\" class=\"no-js lt-ie9 lt-ie8 lt-ie7\"><![endif]--><!--[if IE 7]><html lang=\"en\" ng-app=\"amCompanion\" class=\"no-js lt-ie9 lt-ie8\"><![endif]--><!--[if IE 8]><html lang=\"en\" ng-app=\"amCompanion\" class=\"no-js lt-ie9\"><![endif]--><!--[if gt IE 8]><!--><html lang=en ng-app=amCompanion class=no-js><!--<![endif]--><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content=\"IE=edge\"><title>Am Companion</title><meta name=description content=\"\"><meta name=viewport content=\"width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0\"><meta name=apple-mobile-web-app-capable content=\"yes\"><base href=\"/\"><link rel=\"stylesheet prefetch\" href=\"/dist/style.min.css\"></head><body id=am-companion class=fade-view ng-controller=RootController><div id=main-container ng-view class=view></div><div class=\"notif-update ng-hide\" ng-show=\"updateStatus != 0\" ng-class=\"{'tall':updateStatus == 3}\"><div ng-if=\"updateStatus == 1\">Mise à jour en cours <i class=\"fa fa-circle-o-notch fa-spin\"></i></div><div ng-if=\"updateStatus == 2\">Mise à jour effectuée <i class=\"fa fa-check fa-green\"></i></div><div ng-if=\"updateStatus == 3\"><div>Mise à jour échouée <i class=\"fa fa-times fa-red\"></i></div><div class=row><div class=\"columns small-6\"><button ng-click=sendRapport() class=\"btn btn-steria btn-xs small-10 small-centered push-1 columns\">Envoyer le rapport</button></div><div class=\"columns small-6\"><button ng-click=closeNotif() class=\"btn btn-steria btn-xs small-10 small-centered columns\">Fermer</button></div></div></div></div><script src=/dist/script.min.js></script></body></html>");
+    $templateCache.put("index.html", "<!DOCTYPE html><!--[if lt IE 7]><html lang=\"en\" ng-app=\"amCompanion\" class=\"no-js lt-ie9 lt-ie8 lt-ie7\"><![endif]--><!--[if IE 7]><html lang=\"en\" ng-app=\"amCompanion\" class=\"no-js lt-ie9 lt-ie8\"><![endif]--><!--[if IE 8]><html lang=\"en\" ng-app=\"amCompanion\" class=\"no-js lt-ie9\"><![endif]--><!--[if gt IE 8]><!--><html lang=en ng-app=amCompanion class=no-js><!--<![endif]--><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content=\"IE=edge\"><title>Am Companion</title><meta name=description content=\"\"><meta name=viewport content=\"width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0\"><meta name=apple-mobile-web-app-capable content=\"yes\"><base href=\"/\"><link rel=\"stylesheet prefetch\" href=\"/dist/style.min.css\"></head><body id=am-companion class=fade-view><div id=main-container ng-view class=view></div><notification-toaster></notification-toaster><script src=/dist/script.min.js></script></body></html>");
 
     $templateCache.put("app/components/amc_header/amc_header.html", "<nav class=\"navbar navbar-default navbar-fixed-top\" role=navigation><div ng-if=header.homeDisplay><div class=navbar-header><div class=\"columns small-2\"></div><div class=\"columns small-8 menu-title\"><img src=/img/logo-icon.png id=nav-logo></div><div class=\"columns small-2\" ng-click=header.disconnect()><span class=\"right-menu-icon fa fa-power-off hv-center\"></span></div></div></div><div ng-if=!header.homeDisplay class=navbar-header><div class=row><div class=\"columns small-2\" ng-if=header.editMode ng-click=header.cancelEditMode()><span class=\"left-menu-icon fa-ban fa hv-center\" style=color:{{cancelColor}}></span></div><div class=\"columns small-2\" ng-if=!header.editMode ng-click=header.goBack()><span class=\"left-menu-icon fa fa-arrow-left hv-center\" style=color:{{backColor}}></span></div><div class=\"columns small-8 menu-title\"><span ng-bind=header.label></span></div><div class=\"columns small-2\" ng-if=!header.editMode ng-click=header.toggleEditMode()><span class=\"right-menu-icon fa-pencil-square-o fa hv-center\" style=color:{{editColor}}></span></div><div class=\"columns small-2\" ng-if=header.editMode ng-click=header.validateEditMode()><span class=\"right-menu-icon fa-check fa hv-center\" style=color:{{validateColor}}></span></div></div></div></nav>");
 
-    $templateCache.put("app/views/employee/employee.html", "<div class=container id=employee-view><amc-header go-back-handler=goBack() label=nomPrenom home-display=false edit-mode=editMode></amc-header><div class=content><form><div class=row><div class=\"separator columns small-12\"><span class=text>Humeur</span></div><div class=\"item-without-padding columns small-12\"><div class=text ng-bind=moods[selectedEmployee.Status].label ng-if=!editMode></div><select ng-options=\"mood.status as mood.label for mood in moods\" ng-show=editMode ng-model=selectedEmployee.Status></select></div><div class=\"separator columns small-12\"><span class=text>Prochain EPDI</span></div><div class=\"item-without-padding columns small-12\"><input ng-show=editMode type=date ng-model=nextEPDI><div class=text ng-bind=\"nextEPDI|date:'d MMMM yyyy'\" ng-if=!editMode></div></div><div class=\"separator columns small-12\"><span class=text>Objectifs</span> <span class=\"action float-right\" ng-click=createNewObjective()><button class=\"btn add-new\" ng-disabled=editMode><span class=\"fa fa-plus\"></span></button></span></div><div class=\"item columns small-12\" ng-repeat=\"objective in selectedEmployee.Objectives\" ng-click=\"showFullObjective( $index )\"><div class=\"columns small-10\"><progress-arc complete=objective.ProgressionPercent/100 stroke=progressColors[$index]></progress-arc><div class=percent ng-class=\"{'cent':objective.ProgressionPercent == 100}\">{{objective.ProgressionPercent}}%</div><div class=text>{{objective.Text}}</div></div><div ng-if=!editMode class=\"next columns small-1\"></div><div ng-if=!editMode class=\"next columns small-1\"><i class=\"fa-angle-right fa\"></i></div><div ng-if=editMode class=\"text-center next columns small-2\" ng-click=\"deleteObjective($event, $index)\"><span class=\"fa fa-trash-o red\"></span></div></div><div class=\"separator columns small-12\"><span class=text>Entretiens</span> <span class=\"action float-right\" ng-click=createNewLink()><button class=\"btn add-new\" ng-disabled=editMode><span class=\"fa fa-plus\"></span></button></span></div><div class=\"item columns small-12\" ng-repeat=\"link in selectedEmployee.Links | orderBy:'date':'reverse'\" ng-click=\"showFullLink( link )\"><div class=row><div class=\"small-2 columns\"><i class=\"fa item-icon-left\" ng-class=getIcon(link.Type)></i></div><div class=\"small-8 columns\"><div>{{link.Type}}</div><div>{{link.DateTimestamp|date:'d MMMM yyyy'}}</div></div><div ng-if=!editMode class=\"next columns small-1\"></div><div ng-if=!editMode class=\"next columns small-1\"><i class=\"fa-angle-right fa\"></i></div><div ng-if=editMode class=\"text-center next columns small-2\" ng-click=\"deleteLink($event, $index)\"><span class=\"fa fa-trash-o red\"></span></div></div></div></div></form></div></div>");
+    $templateCache.put("app/components/notification_toaster/notification_toaster.html", "a{{notificationController.updateStatus}}b<div class=\"notif-update ng-hide\" ng-show=\"notificationController.updateStatus != 0\" ng-class=\"{'tall':notificationController.updateStatus == 3}\"><div ng-if=\"notificationController.updateStatus == 1\">Mise à jour en cours <i class=\"fa fa-circle-o-notch fa-spin\"></i></div><div ng-if=\"notificationController.updateStatus == 2\">Mise à jour effectuée <i class=\"fa fa-check fa-green\"></i></div><div ng-if=\"notificationController.updateStatus == 3\"><div>Mise à jour échouée <i class=\"fa fa-times fa-red\"></i></div><div class=row><div class=\"columns small-6\"><button ng-click=notificationController.sendRapport() class=\"btn btn-steria btn-xs small-10 small-centered push-1 columns\">Envoyer le rapport</button></div><div class=\"columns small-6\"><button ng-click=notificationController.closeNotif() class=\"btn btn-steria btn-xs small-10 small-centered columns\">Fermer</button></div></div></div></div>");
+
+    $templateCache.put("app/views/employee/employee.html", "<div class=container id=employee-view><amc-header go-back-handler=employeeController.goBack() label=employeeController.nomPrenom home-display=false edit-mode=employeeController.editMode></amc-header><div class=content><form><div class=row><div class=\"separator columns small-12\"><span class=text>Humeur</span></div><div class=\"item-without-padding columns small-12\"><div class=text ng-bind=employeeController.moods[employeeController.selectedEmployee.Status].label ng-if=!employeeController.editMode></div><select ng-options=\"mood.status as mood.label for mood in employeeController.moods\" ng-show=employeeController.editMode ng-model=employeeController.selectedEmployee.Status></select></div><div class=\"separator columns small-12\"><span class=text>Prochain EPDI</span></div><div class=\"item-without-padding columns small-12\"><input ng-show=employeeController.editMode type=date ng-model=employeeController.nextEPDI><div class=text ng-bind=\"employeeController.nextEPDI|date:'d MMMM yyyy'\" ng-if=!employeeController.editMode></div></div><div class=\"separator columns small-12\"><span class=text>Objectifs</span> <span class=\"action float-right\" ng-click=employeeController.createNewObjective()><button class=\"btn add-new\" ng-disabled=employeeController.editMode><span class=\"fa fa-plus\"></span></button></span></div><div class=\"item columns small-12\" ng-repeat=\"objective in employeeController.selectedEmployee.Objectives\" ng-click=\"employeeController.showFullObjective( $index )\"><div class=\"columns small-10\"><progress-arc complete=employeeController.objective.ProgressionPercent/100 stroke=employeeController.progressColors[$index]></progress-arc><div class=percent ng-class=\"{'cent':employeeController.objective.ProgressionPercent == 100}\">{{objective.ProgressionPercent}}%</div><div class=text>{{objective.Text}}</div></div><div ng-if=!employeeController.editMode class=\"next columns small-1\"></div><div ng-if=!employeeController.editMode class=\"next columns small-1\"><i class=\"fa-angle-right fa\"></i></div><div ng-if=employeeController.editMode class=\"text-center next columns small-2\" ng-click=\"employeeController.deleteObjective($event, $index)\"><span class=\"fa fa-trash-o red\"></span></div></div><div class=\"separator columns small-12\"><span class=text>Entretiens</span> <span class=\"action float-right\" ng-click=employeeController.createNewLink()><button class=\"btn add-new\" ng-disabled=employeeController.editMode><span class=\"fa fa-plus\"></span></button></span></div><div class=\"item columns small-12\" ng-repeat=\"link in employeeController.selectedEmployee.Links | orderBy:'date':'reverse'\" ng-click=\"employeeController.showFullLink( link )\"><div class=row><div class=\"small-2 columns\"><i class=\"fa item-icon-left\" ng-class=employeeController.getIcon(link.Type)></i></div><div class=\"small-8 columns\"><div>{{link.Type}}</div><div>{{link.DateTimestamp|date:'d MMMM yyyy'}}</div></div><div ng-if=!employeeController.editMode class=\"next columns small-1\"></div><div ng-if=!employeeController.editMode class=\"next columns small-1\"><i class=\"fa-angle-right fa\"></i></div><div ng-if=employeeController.editMode class=\"text-center next columns small-2\" ng-click=\"employeeController.deleteLink($event, $index)\"><span class=\"fa fa-trash-o red\"></span></div></div></div></div></form></div></div>");
 
     $templateCache.put("app/views/home/components/employee/employee.html", "<div class=row ng-click=openEmployeeView()><div class=\"item employee columns small-12\" ng-class=\"{'last':last}\"><div class=row><i class=\"small-2 user-icon fa fa-flag-o status-{{employee.Status}}\"></i><div class=\"user-info columns small-9\"><div><span ng-bind=employee.FirstName></span> <span ng-bind=employee.LastName></span></div><div ng-if=\"lastLink != undefined\" class=sub-info><i class=\"glyphicon glyphicon-map-marker\"></i> <span ng-bind=\"lastLink.DateTimestamp|date:'dd/MM/yyyy'\"></span>, <span ng-bind=lastLink.Type|truncate:20></span></div><div ng-if=\"lastLink == undefined\">Pas de rendez vous</div></div><div class=\"next columns small-1\"><i class=\"fa-angle-right fa\"></i></div></div></div></div>");
 
@@ -2062,10 +2078,11 @@ angular.module("amCompanion").controller("FullEmployeeController", ['$scope', '$
 
     "use strict";
 
-    $scope.progressColors = [];
-    $scope.editMode = false;
-    $scope.selectedEmployeeEdited = undefined;
-    $scope.nomPrenom = "";
+    var that = this;
+    this.progressColors = [];
+    this.editMode = false;
+    this.selectedEmployeeEdited = undefined;
+    this.nomPrenom = "";
 
     $anchorScroll();
 
@@ -2112,26 +2129,27 @@ angular.module("amCompanion").controller("FullEmployeeController", ['$scope', '$
         return hex.length === 1 ? "0" + hex : hex;
     }
 
-    function initColors() {
+    this.initColors = function () {
         var i;
-        $scope.progressColors = [];
-        for (i = 0; i < $scope.selectedEmployee.Objectives.length; i++) {
-            $scope.progressColors[i] = getColorForPercentage($scope.selectedEmployee.Objectives[i].ProgressionPercent / 100);
+        this.progressColors = [];
+        for (i = 0; i < this.selectedEmployee.Objectives.length; i++) {
+            this.progressColors[i] = getColorForPercentage(this.selectedEmployee.Objectives[i].ProgressionPercent / 100);
         }
-    }
+    };
 
     //init the page's context
     var promise = AmcContextService.initEmployees();
     promise.then(function () {
         AmcContextService.setSelectedEmployeeFromId($routeParams.id);
-        $scope.selectedEmployee = AmcContextService.getSelectedEmployee();
-        $scope.nomPrenom = $scope.getName();
-        $scope.nextEPDI = new Date($scope.selectedEmployee.NextEPDI);
-        $scope.moods = moods;
-        initColors();
+
+        that.selectedEmployee = AmcContextService.getSelectedEmployee();
+        that.nomPrenom = that.getName();
+        that.nextEPDI = new Date(that.selectedEmployee.NextEPDI);
+        that.moods = moods;
+        that.initColors();
     });
 
-    $scope.getIcon = function (type) {
+    this.getIcon = function (type) {
         var icon;
 
         if (type === "Mail") {
@@ -2153,10 +2171,10 @@ angular.module("amCompanion").controller("FullEmployeeController", ['$scope', '$
      * get the name of the employee clicked
      * @returns {string}
      */
-    $scope.getName = function () {
+    this.getName = function () {
         var str = "";
-        if ($scope.selectedEmployee !== undefined) {
-            str = $scope.selectedEmployee.FirstName + " " + $scope.selectedEmployee.LastName;
+        if (this.selectedEmployee !== undefined) {
+            str = this.selectedEmployee.FirstName + " " + this.selectedEmployee.LastName;
         }
         return str;
     };
@@ -2164,7 +2182,7 @@ angular.module("amCompanion").controller("FullEmployeeController", ['$scope', '$
     /**
      * This function allow to return to the home page
      */
-    $scope.goBack = function () {
+    this.goBack = function () {
         RoutesService.loadHomeView();
     };
 
@@ -2172,43 +2190,43 @@ angular.module("amCompanion").controller("FullEmployeeController", ['$scope', '$
      * This is what happened when a link is clicked
      * @param link
      */
-    $scope.showFullLink = function (link) {
-        if ($scope.editMode === false) {
-            RoutesService.loadLinkView($scope.selectedEmployee, link);
+    this.showFullLink = function (link) {
+        if (this.editMode === false) {
+            RoutesService.loadLinkView(this.selectedEmployee, link);
         }
     };
 
-    $scope.createNewObjective = function () {
-        if ($scope.editMode === false) {
-            RoutesService.loadObjectiveView($scope.selectedEmployee, "new");
+    this.createNewObjective = function () {
+        if (this.editMode === false) {
+            RoutesService.loadObjectiveView(this.selectedEmployee, "new");
         }
     };
 
-    $scope.createNewLink = function () {
-        if ($scope.editMode === false) {
-            RoutesService.loadLinkView($scope.selectedEmployee, { DateTimestamp: "new" });
+    this.createNewLink = function () {
+        if (this.editMode === false) {
+            RoutesService.loadLinkView(this.selectedEmployee, { DateTimestamp: "new" });
         }
     };
 
-    $scope.showFullObjective = function ($index) {
-        if ($scope.editMode === false) {
-            RoutesService.loadObjectiveView($scope.selectedEmployee, $index);
+    this.showFullObjective = function ($index) {
+        if (this.editMode === false) {
+            RoutesService.loadObjectiveView(this.selectedEmployee, $index);
         }
     };
 
     $scope.$on("startEdit", function () {
-        $scope.selectedEmployeeBackUp = angular.copy($scope.selectedEmployee);
-        $scope.editMode = true;
+        that.selectedEmployeeBackUp = angular.copy(that.selectedEmployee);
+        that.editMode = true;
     });
 
     $scope.$on("cancelEdit", function () {
-        $scope.selectedEmployee = $scope.selectedEmployeeBackUp;
-        $scope.editMode = false;
+        that.selectedEmployee = that.selectedEmployeeBackUp;
+        that.editMode = false;
     });
 
     $scope.$on("validateEdit", function () {
 
-        if ($scope.selectedEmployeeBackUp.Objectives.length !== $scope.selectedEmployee.Objectives.length || $scope.selectedEmployeeBackUp.Links.length !== $scope.selectedEmployee.Links.length) {
+        if (that.selectedEmployeeBackUp.Objectives.length !== that.selectedEmployee.Objectives.length || that.selectedEmployeeBackUp.Links.length !== that.selectedEmployee.Links.length) {
             SweetAlert.swal({
                 title: "Êtes vous sûr ?",
                 text: "Voulez vous supprimer ces données ?",
@@ -2218,26 +2236,26 @@ angular.module("amCompanion").controller("FullEmployeeController", ['$scope', '$
                 cancelButtonText: "Annuler",
                 closeOnConfirm: true,
                 closeOnCancel: true }, function () {
-                $scope.selectedEmployee.NextEPDI = $scope.nextEPDI;
+                that.selectedEmployee.NextEPDI = that.nextEPDI;
                 AmcContextService.updateCurrentEmployee();
-                $scope.editMode = false;
+                that.editMode = false;
             });
-        } else if ($scope.nextEPDI.getTime() !== $scope.selectedEmployeeBackUp.NextEPDI || $scope.selectedEmployee.Status !== $scope.selectedEmployeeBackUp.Status) {
-            $scope.selectedEmployee.NextEPDI = $scope.nextEPDI.getTime();
+        } else if (that.nextEPDI.getTime() !== that.selectedEmployeeBackUp.NextEPDI || that.selectedEmployee.Status !== that.selectedEmployeeBackUp.Status) {
+            that.selectedEmployee.NextEPDI = that.nextEPDI.getTime();
             AmcContextService.updateCurrentEmployee();
-            $scope.editMode = false;
+            that.editMode = false;
         } else {
-            $scope.editMode = false;
+            that.editMode = false;
         }
     });
 
-    $scope.deleteObjective = function ($event, $index) {
-        $scope.selectedEmployee.Objectives.splice($index, 1);
+    this.deleteObjective = function ($event, $index) {
+        that.selectedEmployee.Objectives.splice($index, 1);
         $event.stopPropagation();
     };
 
-    $scope.deleteLink = function ($event, $index) {
-        $scope.selectedEmployee.Links.splice($index, 1);
+    this.deleteLink = function ($event, $index) {
+        that.selectedEmployee.Links.splice($index, 1);
         $event.stopPropagation();
     };
 }]);

@@ -5,16 +5,16 @@ angular.module('amCompanion').config(function($routeProvider, $locationProvider)
     'use strict';
     $routeProvider.when('/', {
         id:"home",
-        templateUrl: 'app/views/home/home.html',
+        templateUrl: '/app/views/home/home.html',
         controller: 'FullHomeController',
         controllerAs: "homeController"
-
     });
 
     $routeProvider.when('/employee/:id', {
         id:"employee",
-        templateUrl: 'app/views/employee/employee.html',
-        controller: 'FullEmployeeController'
+        templateUrl: '/app/views/employee/employee.html',
+        controller: 'FullEmployeeController',
+        controllerAs: "employeeController"
     });
 
     $routeProvider.when('/link/:id/:timestamp', {

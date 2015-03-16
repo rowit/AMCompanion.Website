@@ -4,10 +4,11 @@ angular.module('amCompanion').controller('FullEmployeeController',
 
         "use strict";
 
-        $scope.progressColors = [];
-        $scope.editMode = false;
-        $scope.selectedEmployeeEdited = undefined;
-        $scope.nomPrenom = "";
+        var that = this;
+        this.progressColors = [];
+        this.editMode = false;
+        this.selectedEmployeeEdited = undefined;
+        this.nomPrenom = "";
 
         $anchorScroll();
 
@@ -57,28 +58,29 @@ angular.module('amCompanion').controller('FullEmployeeController',
             return hex.length === 1 ? "0" + hex : hex;
         }
 
-        function initColors()
+        this.initColors = function()
         {
             var i;
-            $scope.progressColors = [];
-            for ( i = 0 ; i < $scope.selectedEmployee.Objectives.length ; i++ )
+            this.progressColors = [];
+            for ( i = 0 ; i < this.selectedEmployee.Objectives.length ; i++ )
             {
-                $scope.progressColors[i] = getColorForPercentage($scope.selectedEmployee.Objectives[i].ProgressionPercent/100);
+                this.progressColors[i] = getColorForPercentage(this.selectedEmployee.Objectives[i].ProgressionPercent/100);
             }
-        }
+        };
 
         //init the page's context
         var promise = AmcContextService.initEmployees();
         promise.then(function(){
             AmcContextService.setSelectedEmployeeFromId($routeParams.id);
-            $scope.selectedEmployee = AmcContextService.getSelectedEmployee();
-            $scope.nomPrenom = $scope.getName();
-            $scope.nextEPDI = new Date( $scope.selectedEmployee.NextEPDI );
-            $scope.moods = moods;
-            initColors();
+
+            that.selectedEmployee = AmcContextService.getSelectedEmployee();
+            that.nomPrenom = that.getName();
+            that.nextEPDI = new Date( that.selectedEmployee.NextEPDI );
+            that.moods = moods;
+            that.initColors();
         });
 
-        $scope.getIcon = function( type )
+        this.getIcon = function( type )
         {
             var icon;
 
@@ -111,12 +113,12 @@ angular.module('amCompanion').controller('FullEmployeeController',
          * get the name of the employee clicked
          * @returns {string}
          */
-        $scope.getName = function()
+        this.getName = function()
         {
             var str = "";
-            if( $scope.selectedEmployee !== undefined )
+            if( this.selectedEmployee !== undefined )
             {
-                str = $scope.selectedEmployee.FirstName + " " + $scope.selectedEmployee.LastName;
+                str = this.selectedEmployee.FirstName + " " + this.selectedEmployee.LastName;
             }
             return str;
         };
@@ -124,7 +126,7 @@ angular.module('amCompanion').controller('FullEmployeeController',
         /**
          * This function allow to return to the home page
          */
-        $scope.goBack = function()
+        this.goBack = function()
         {
             RoutesService.loadHomeView();
         };
@@ -133,52 +135,52 @@ angular.module('amCompanion').controller('FullEmployeeController',
          * This is what happened when a link is clicked
          * @param link
          */
-        $scope.showFullLink = function( link )
+        this.showFullLink = function( link )
         {
-            if( $scope.editMode === false)
+            if( this.editMode === false)
             {
-                RoutesService.loadLinkView( $scope.selectedEmployee, link );
+                RoutesService.loadLinkView( this.selectedEmployee, link );
             }
         };
 
-        $scope.createNewObjective = function()
+        this.createNewObjective = function()
         {
-            if( $scope.editMode === false) {
-                RoutesService.loadObjectiveView($scope.selectedEmployee, "new");
+            if( this.editMode === false) {
+                RoutesService.loadObjectiveView(this.selectedEmployee, "new");
             }
         };
 
-        $scope.createNewLink = function()
+        this.createNewLink = function()
         {
-            if( $scope.editMode === false) {
-                RoutesService.loadLinkView($scope.selectedEmployee, {DateTimestamp:"new"});
+            if( this.editMode === false) {
+                RoutesService.loadLinkView(this.selectedEmployee, {DateTimestamp:"new"});
             }
         };
 
-        $scope.showFullObjective = function( $index )
+        this.showFullObjective = function( $index )
         {
-            if( $scope.editMode === false) {
-                RoutesService.loadObjectiveView($scope.selectedEmployee, $index);
+            if( this.editMode === false) {
+                RoutesService.loadObjectiveView(this.selectedEmployee, $index);
             }
         };
 
         $scope.$on( "startEdit" , function()
         {
-            $scope.selectedEmployeeBackUp = angular.copy($scope.selectedEmployee);
-            $scope.editMode = true;
+            that.selectedEmployeeBackUp = angular.copy(that.selectedEmployee);
+            that.editMode = true;
         });
 
         $scope.$on("cancelEdit",function()
         {
-            $scope.selectedEmployee = $scope.selectedEmployeeBackUp;
-            $scope.editMode = false;
+            that.selectedEmployee = that.selectedEmployeeBackUp;
+            that.editMode = false;
         });
 
         $scope.$on("validateEdit",function()
         {
 
-            if( $scope.selectedEmployeeBackUp.Objectives.length !== $scope.selectedEmployee.Objectives.length ||
-                $scope.selectedEmployeeBackUp.Links.length !== $scope.selectedEmployee.Links.length)
+            if( that.selectedEmployeeBackUp.Objectives.length !== that.selectedEmployee.Objectives.length ||
+                that.selectedEmployeeBackUp.Links.length !== that.selectedEmployee.Links.length)
             {
                 SweetAlert.swal({
                         title: "Êtes vous sûr ?",
@@ -190,32 +192,32 @@ angular.module('amCompanion').controller('FullEmployeeController',
                         closeOnConfirm: true,
                         closeOnCancel: true},
                     function(){
-                        $scope.selectedEmployee.NextEPDI = $scope.nextEPDI;
+                        that.selectedEmployee.NextEPDI = that.nextEPDI;
                         AmcContextService.updateCurrentEmployee();
-                        $scope.editMode = false;
+                        that.editMode = false;
                     });
             }
-            else if ( $scope.nextEPDI.getTime() !== $scope.selectedEmployeeBackUp.NextEPDI ||
-                      $scope.selectedEmployee.Status !== $scope.selectedEmployeeBackUp.Status ){
-                $scope.selectedEmployee.NextEPDI = $scope.nextEPDI.getTime();
+            else if ( that.nextEPDI.getTime() !== that.selectedEmployeeBackUp.NextEPDI ||
+                that.selectedEmployee.Status !== that.selectedEmployeeBackUp.Status ){
+                that.selectedEmployee.NextEPDI = that.nextEPDI.getTime();
                 AmcContextService.updateCurrentEmployee();
-                $scope.editMode = false;
+                that.editMode = false;
             }
             else
             {
-                $scope.editMode = false;
+                that.editMode = false;
             }
         });
 
-        $scope.deleteObjective = function($event, $index)
+        this.deleteObjective = function($event, $index)
         {
-            $scope.selectedEmployee.Objectives.splice($index, 1);
+            that.selectedEmployee.Objectives.splice($index, 1);
             $event.stopPropagation();
         };
 
-        $scope.deleteLink = function($event, $index)
+        this.deleteLink = function($event, $index)
         {
-            $scope.selectedEmployee.Links.splice($index, 1);
+            that.selectedEmployee.Links.splice($index, 1);
             $event.stopPropagation();
         };
 

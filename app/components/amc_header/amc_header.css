@@ -1,0 +1,95 @@
+/*
+NavBAR
+*/
+.hv-center
+{
+    bottom : 0;
+    left : 0;
+    margin : auto !important;
+    position : absolute;
+    right : 0;
+    top : 0;
+}
+
+.navbar-fixed-top
+{
+    height : 60px;
+    position : fixed;
+    width : 100%;
+    z-index : 400;
+}
+
+.navbar-header > div,
+.navbar-header > div > div
+{
+    height : 100%;
+}
+
+.navbar-header .glyphicon:active
+{
+    transition : color 100ms linear;
+}
+
+
+#am-companion .navbar
+{
+    background-color : #04315B;
+    border : 0;
+    color : #FFFFFF;
+    height : 60px;
+}
+
+#nav-logo
+{
+    height : 30px;
+    left : 0;
+    margin : 0 auto;
+    position : absolute;
+    right : 0;
+}
+
+.navbar-header
+{
+    text-align : center;
+}
+
+.left-menu-icon
+{
+    float : left;
+    font-size : 31px;
+    height : 30px;
+    margin-left : 7px;
+    margin-top : 11px;
+    width : 30px;
+}
+
+.left-menu-icon:hover,
+.right-menu-icon:hover
+{
+    cursor : pointer;
+}
+
+.navbar-header
+{
+    height : 60px;
+}
+
+.menu-title
+{
+    font-size : 20px;
+    padding-top : 15px;
+}
+
+.navbar .fa
+{
+    font-size : 30px;
+}
+
+.right-menu-icon
+{
+    float : right;
+    font-size : 31px;
+    height : 28px;
+    right : 10px !important;
+    width : 30px;
+}

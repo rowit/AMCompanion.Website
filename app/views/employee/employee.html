@@ -1,8 +1,8 @@
 <div class="container" id="employee-view">
-    <amc-header go-back-handler="goBack()"
-                label="nomPrenom"
+    <amc-header go-back-handler="employeeController.goBack()"
+                label="employeeController.nomPrenom"
                 home-display="false"
-                edit-mode="editMode"></amc-header>
+                edit-mode="employeeController.editMode"></amc-header>
 
     <div class="content">
         <form>
@@ -12,79 +12,81 @@
                 </div>
                 <div class="item-without-padding columns small-12">
                     <div class="text"
-                         ng-bind="moods[selectedEmployee.Status].label"
-                         ng-if="!editMode">
+                         ng-bind="employeeController.moods[employeeController.selectedEmployee.Status].label"
+                         ng-if="!employeeController.editMode">
                     </div>
-                    <select ng-options="mood.status as mood.label for mood in moods"
-                            ng-show="editMode"
-                            ng-model="selectedEmployee.Status">
+                    <select ng-options="mood.status as mood.label for mood in employeeController.moods"
+                            ng-show="employeeController.editMode"
+                            ng-model="employeeController.selectedEmployee.Status">
                     </select>
                 </div>
                 <div class="separator columns small-12">
                     <span class="text">Prochain EPDI</span>
                 </div>
                 <div class="item-without-padding columns small-12">
-                    <input  ng-show="editMode"
+                    <input  ng-show="employeeController.editMode"
                             type="date"
-                            ng-model="nextEPDI"
+                            ng-model="employeeController.nextEPDI"
                             >
                     <div class="text"
-                         ng-bind="nextEPDI|date:'d MMMM yyyy'"
-                         ng-if="!editMode">
+                         ng-bind="employeeController.nextEPDI|date:'d MMMM yyyy'"
+                         ng-if="!employeeController.editMode">
                     </div>
                 </div>
                 <div class="separator columns small-12">
 
                     <span class="text">Objectifs</span>
-                <span class="action float-right" ng-click="createNewObjective()">
-                    <button class="btn add-new" ng-disabled="editMode">
+                <span class="action float-right" ng-click="employeeController.createNewObjective()">
+                    <button class="btn add-new" ng-disabled="employeeController.editMode">
                         <span class="fa fa-plus"></span>
                     </button>
                 </span>
                 </div>
-                <div class="item columns small-12" ng-repeat="objective in selectedEmployee.Objectives"
-                     ng-click="showFullObjective( $index )">
+                <div class="item columns small-12" ng-repeat="objective in employeeController.selectedEmployee.Objectives"
+                     ng-click="employeeController.showFullObjective( $index )">
                     <div class="columns small-10">
-                        <progress-arc complete="objective.ProgressionPercent/100" stroke="progressColors[$index]"></progress-arc>
-                        <div class="percent" ng-class="{'cent':objective.ProgressionPercent == 100}">{{objective.ProgressionPercent}}%</div>
+                        <progress-arc complete="employeeController.objective.ProgressionPercent/100" stroke="employeeController.progressColors[$index]"></progress-arc>
+                        <div class="percent" ng-class="{'cent':employeeController.objective.ProgressionPercent == 100}">{{objective.ProgressionPercent}}%</div>
                         <div class="text">{{objective.Text}} </div>
                     </div>
-                    <div ng-if="!editMode" class="next columns small-1">
+                    <div ng-if="!employeeController.editMode" class="next columns small-1">
                     </div>
-                    <div ng-if="!editMode" class="next columns small-1">
+                    <div ng-if="!employeeController.editMode" class="next columns small-1">
                         <i class="fa-angle-right fa"></i>
                     </div>
-                    <div ng-if="editMode" class="text-center next columns small-2" ng-click="deleteObjective($event, $index)">
+                    <div ng-if="employeeController.editMode" class="text-center next columns small-2"
+                         ng-click="employeeController.deleteObjective($event, $index)">
                         <span class="fa fa-trash-o red"></span>
                     </div>
 
                 </div>
                 <div class="separator columns small-12">
                     <span class="text">Entretiens</span>
-                <span class="action float-right" ng-click="createNewLink()">
-                    <button class="btn add-new" ng-disabled="editMode">
+                <span class="action float-right" ng-click="employeeController.createNewLink()">
+                    <button class="btn add-new" ng-disabled="employeeController.editMode">
                         <span class="fa fa-plus"></span>
                     </button>
                 </span>
                 </div>
                 <div class="item columns small-12"
-                     ng-repeat="link in selectedEmployee.Links | orderBy:'date':'reverse'"
-                     ng-click="showFullLink( link )"
+                     ng-repeat="link in employeeController.selectedEmployee.Links | orderBy:'date':'reverse'"
+                     ng-click="employeeController.showFullLink( link )"
                         >
                     <div class="row">
                         <div class="small-2 columns">
-                            <i class="fa item-icon-left" ng-class="getIcon(link.Type)" ></i>
+                            <i class="fa item-icon-left" ng-class="employeeController.getIcon(link.Type)" ></i>
                         </div>
                         <div class="small-8 columns">
                             <div>{{link.Type}}</div>
                             <div>{{link.DateTimestamp|date:'d MMMM yyyy'}}</div>
                         </div>
-                        <div ng-if="!editMode" class="next columns small-1">
+                        <div ng-if="!employeeController.editMode" class="next columns small-1">
                         </div>
-                        <div ng-if="!editMode" class="next columns small-1">
+                        <div ng-if="!employeeController.editMode" class="next columns small-1">
                             <i class="fa-angle-right fa"></i>
                         </div>
-                        <div ng-if="editMode" class="text-center next columns small-2" ng-click="deleteLink($event, $index)">
+                        <div ng-if="employeeController.editMode" class="text-center next columns small-2"
+                             ng-click="employeeController.deleteLink($event, $index)">
                             <span class="fa fa-trash-o red"></span>
                         </div>
                     </div>

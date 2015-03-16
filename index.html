@@ -14,29 +14,9 @@
         <link rel="stylesheet prefetch" href="/dist/style.min.css"/>
 
     </head>
-    <body id="am-companion" class="fade-view" ng-controller="RootController">
+    <body id="am-companion" class="fade-view">
         <div id="main-container" ng-view class="view"></div>
-        <div class="notif-update ng-hide" ng-show="updateStatus != 0" ng-class="{'tall':updateStatus == 3}">
-            <div ng-if="updateStatus == 1">Mise à jour en cours <i class="fa fa-circle-o-notch fa-spin"></i> </div>
-            <div ng-if="updateStatus == 2">Mise à jour effectuée <i class="fa fa-check fa-green"></i> </div>
-            <div ng-if="updateStatus == 3">
-                <div>
-                    Mise à jour échouée <i class="fa fa-times fa-red"></i>
-                </div>
-                <div class="row">
-                    <div class="columns small-6">
-                        <button ng-click="sendRapport()" class="btn btn-steria btn-xs small-10 small-centered push-1 columns">
-                            Envoyer le rapport
-                        </button>
-                    </div>
-                    <div class="columns small-6">
-                        <button ng-click="closeNotif()" class="btn btn-steria btn-xs small-10 small-centered columns">
-                            Fermer
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <notification-toaster></notification-toaster>
         <script src="/dist/script.min.js"></script>
     </body>
 </html>

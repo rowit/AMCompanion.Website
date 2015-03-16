@@ -1,0 +1,22 @@
+a{{notificationController.updateStatus}}b
+<div class="notif-update ng-hide" ng-show="notificationController.updateStatus != 0" ng-class="{'tall':notificationController.updateStatus == 3}">
+    <div ng-if="notificationController.updateStatus == 1">Mise à jour en cours <i class="fa fa-circle-o-notch fa-spin"></i> </div>
+    <div ng-if="notificationController.updateStatus == 2">Mise à jour effectuée <i class="fa fa-check fa-green"></i> </div>
+    <div ng-if="notificationController.updateStatus == 3">
+        <div>
+            Mise à jour échouée <i class="fa fa-times fa-red"></i>
+        </div>
+        <div class="row">
+            <div class="columns small-6">
+                <button ng-click="notificationController.sendRapport()" class="btn btn-steria btn-xs small-10 small-centered push-1 columns">
+                    Envoyer le rapport
+                </button>
+            </div>
+            <div class="columns small-6">
+                <button ng-click="notificationController.closeNotif()" class="btn btn-steria btn-xs small-10 small-centered columns">
+                    Fermer
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
