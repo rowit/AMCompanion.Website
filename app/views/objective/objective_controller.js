@@ -3,20 +3,21 @@
 angular.module('amCompanion').controller('FullObjectiveController',
     function($scope,$routeParams,$anchorScroll ,AmcContextService, RoutesService, SweetAlert){
 
-        'use strict';
+        var that = this;
+
         $anchorScroll();
-        $scope.editMode = true;
-        $scope.newMode = false;
+        this.editMode = true;
+        this.newMode = false;
 
         /**
          * This methods is passed in parameter to header, it allow to go back to employee view
          */
-        $scope.goBack = function()
+        this.goBack = function()
         {
-            RoutesService.loadEmployeeView($scope.selectedEmployee);
+            RoutesService.loadEmployeeView(that.selectedEmployee);
         };
 
-        $scope.getName = function()
+        this.getName = function()
         {
             var employee = AmcContextService.getSelectedEmployee();
             var str = "";
@@ -32,22 +33,22 @@ angular.module('amCompanion').controller('FullObjectiveController',
             function()
             {
                 AmcContextService.setSelectedEmployeeFromId($routeParams.id);
-                $scope.selectedEmployee = AmcContextService.getSelectedEmployee();
-                $scope.nomPrenom = $scope.getName();
+                that.selectedEmployee = AmcContextService.getSelectedEmployee();
+                that.nomPrenom = that.getName();
                 if( $routeParams.index === "new" )
                 {
-                    $scope.selectedObjective = {
+                    that.selectedObjective = {
                         ProgressionPercent:0,
                         ponderation:0
                     };
-                    $scope.newMode = true;
-                    $scope.editMode = true;
-                    $scope.nomPrenom = "Nouvel Objectif";
+                    that.newMode = true;
+                    that.editMode = true;
+                    that.nomPrenom = "Nouvel Objectif";
                 }
                 else
                 {
-                    $scope.selectedObjective = $scope.selectedEmployee.Objectives[$routeParams.index];
-                    $scope.selectedObjectiveBack = angular.copy($scope.selectedObjective);
+                    that.selectedObjective = that.selectedEmployee.Objectives[$routeParams.index];
+                    that.selectedObjectiveBack = angular.copy(that.selectedObjective);
                 }
 
             }
@@ -55,41 +56,41 @@ angular.module('amCompanion').controller('FullObjectiveController',
 
         $scope.$on("cancelEdit",function()
         {
-            if( $scope.newMode )
+            if( that.newMode )
             {
-                $scope.goBack();
+                that.goBack();
             }
             else
             {
-                $scope.selectedObjective.Text = $scope.selectedObjectiveBack.Text;
-                $scope.selectedObjective.ProgressionPercent = $scope.selectedObjectiveBack.ProgressionPercent;
-                $scope.selectedObjective.ponderation = $scope.selectedObjectiveBack.ponderation;
-                $scope.goBack();
+                that.selectedObjective.Text = that.selectedObjectiveBack.Text;
+                that.selectedObjective.ProgressionPercent = that.selectedObjectiveBack.ProgressionPercent;
+                that.selectedObjective.ponderation = that.selectedObjectiveBack.ponderation;
+                that.goBack();
             }
 
         });
 
         $scope.$on("validateEdit",function() {
 
-            if ($scope.selectedObjective.Text === undefined) {
+            if (that.selectedObjective.Text === undefined) {
                 SweetAlert.error("","Un intitulé est requis.");
             }
             else {
 
                 //If it's a new objective
-                if ($scope.newMode) {
-                    $scope.selectedEmployee.Objectives.push($scope.selectedObjective);
+                if (that.newMode) {
+                    that.selectedEmployee.Objectives.push(that.selectedObjective);
                     AmcContextService.updateCurrentEmployee();
                 }
                 //If the new validated objectif is not the same as the original
-                else if( $scope.selectedObjective.Text !== $scope.selectedObjectiveBack.Text ||
-                    $scope.selectedObjective.ProgressionPercent !== $scope.selectedObjectiveBack.ProgressionPercent ||
-                    $scope.selectedObjective.ponderation !== $scope.selectedObjectiveBack.ponderation )
+                else if( that.selectedObjective.Text !== that.selectedObjectiveBack.Text ||
+                    that.selectedObjective.ProgressionPercent !== that.selectedObjectiveBack.ProgressionPercent ||
+                    that.selectedObjective.ponderation !== that.selectedObjectiveBack.ponderation )
                 {
                     AmcContextService.updateCurrentEmployee();
                 }
                 //Go back
-                $scope.goBack();
+                that.goBack();
             }
         });
 

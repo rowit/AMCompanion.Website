@@ -20,13 +20,15 @@ angular.module('amCompanion').config(function($routeProvider, $locationProvider)
     $routeProvider.when('/link/:id/:timestamp', {
         id:"link",
         templateUrl: 'app/views/link/link.html',
-        controller: 'FullLinkController'
+        controller: 'FullLinkController',
+        controllerAs: 'linkController'
     });
 
     $routeProvider.when('/objective/:id/:index', {
         id:"link",
         templateUrl: 'app/views/objective/objective.html',
-        controller: 'FullObjectiveController'
+        controller: 'FullObjectiveController',
+        controllerAs: 'objectiveController'
     });
 
     $routeProvider.when('/login', {

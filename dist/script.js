@@ -1801,13 +1801,15 @@ angular.module("amCompanion").config(['$routeProvider', '$locationProvider', fun
     $routeProvider.when("/link/:id/:timestamp", {
         id: "link",
         templateUrl: "app/views/link/link.html",
-        controller: "FullLinkController"
+        controller: "FullLinkController",
+        controllerAs: "linkController"
     });
 
     $routeProvider.when("/objective/:id/:index", {
         id: "link",
         templateUrl: "app/views/objective/objective.html",
-        controller: "FullObjectiveController"
+        controller: "FullObjectiveController",
+        controllerAs: "objectiveController"
     });
 
     $routeProvider.when("/login", {
@@ -2084,11 +2086,11 @@ angular.module("amCompanion").run(["$templateCache", function ($templateCache) {
 
     $templateCache.put("app/views/home/home.html", "<div id=home class=container><amc-header home-display=true></amc-header><div class=content><div class=row><div class=\"separator columns small-12\"><span class=text>Collaborateurs</span></div><div ng-repeat=\"employee in homeController.employees|orderBy:'dateMax' track by employee.id \" class=\"columns sm\"><embed-employee employee=employee last=$last></embed-employee></div></div></div></div>");
 
-    $templateCache.put("app/views/link/link.html", "<div class=container id=employee-view><amc-header go-back-handler=goBack() label=nomPrenom home-display=false edit-mode=editMode></amc-header><div class=content><div class=row><div class=\"separator columns small-12\"><span class=text>Lieu</span></div><div class=\"item-without-padding columns small-12\"><select ng-model=selectedLink.Type ng-options=\"o as o for o in linkTypes\"></select></div><div class=\"separator columns small-12\"><span class=text>Date</span></div><div class=\"item-without-padding columns small-12\"><input type=date ng-model=selectedDate ng-change=changeSelectedDate()></div><div class=\"separator columns small-12\"><span class=text>Commentaire</span></div><div class=\"item-fit-without-padding columns small-12\"><textarea ng-model=selectedLink.Comment rows=10></textarea></div></div></div></div>");
+    $templateCache.put("app/views/link/link.html", "<div class=container id=employee-view><amc-header go-back-handler=linkController.goBack() label=nomPrenom home-display=false edit-mode=linkController.editMode></amc-header><div class=content><div class=row><div class=\"separator columns small-12\"><span class=text>Lieu</span></div><div class=\"item-without-padding columns small-12\"><select ng-model=linkController.selectedLink.Type ng-options=\"o as o for o in linkController.linkTypes\"></select></div><div class=\"separator columns small-12\"><span class=text>Date</span></div><div class=\"item-without-padding columns small-12\"><input type=date ng-model=linkController.selectedDate ng-change=linkController.changeSelectedDate()></div><div class=\"separator columns small-12\"><span class=text>Commentaire</span></div><div class=\"item-fit-without-padding columns small-12\"><textarea ng-model=linkController.selectedLink.Comment rows=10></textarea></div></div></div></div>");
 
     $templateCache.put("app/views/login/login.html", "<div id=loginModal><img id=logo src=\"/img/logo-white.png\"><div class=row><form class=\"columns large-4 large-centered small-10 small-centered center-block\" ng-submit=loginController.login() name=loginForm><div class=\"row collapse\"><div class=\"input-group input-group-lg\"><span class=input-group-addon>@</span> <input type=email name=email class=form-control placeholder=\"Adresse mail\" ng-model=loginController.credentials.email required></div></div><div class=\"row collapse\"><div class=\"input-group input-group-lg\"><span class=input-group-addon><span class=\"fa fa-lock\"></span></span> <input name=password type=password class=form-control placeholder=\"Mot de passe\" ng-model=loginController.credentials.password required></div></div><div class=\"row collapse\"><button type=submit ng-class=\"{'btn-danger':loginController.failed,'btn-success':loginController.success}\" class=\"btn btn-steria btn-lg btn-block small-10 small-centered columns large-12\" ng-disabled=\"!loginForm.$valid || loginController.loading\">{{loginController.buttonLabel}}</button></div></form><div class=clear></div></div></div>");
 
-    $templateCache.put("app/views/objective/objective.html", "<div class=container id=employee-view><amc-header go-back-handler=goBack() label=nomPrenom home-display=false edit-mode=editMode></amc-header><div class=content><div class=row><div class=\"separator columns small-12\"><span class=text>Intitulé</span></div><div class=\"columns small-12\"><div class=\"input-group input-group-lg columns small-12 small-centered\"><input class=form-control placeholder=Intitulé ng-model=selectedObjective.Text required></div></div><div class=\"separator columns small-12\"><span class=text>Pourcentage d'accomplissement</span></div><div class=\"item columns small-12\"><div class=\"input-group input-group-lg columns small-12 small-centered\"><div class=rzslider><rzslider rz-slider-model=selectedObjective.ProgressionPercent rz-slider-floor=0 rz-slider-ceil=100></rzslider></div></div></div></div></div></div>");
+    $templateCache.put("app/views/objective/objective.html", "<div class=container id=employee-view><amc-header go-back-handler=objectiveController.goBack() label=objectiveController.nomPrenom home-display=false edit-mode=objectiveController.editMode></amc-header><div class=content><div class=row><div class=\"separator columns small-12\"><span class=text>Intitulé</span></div><div class=\"columns small-12\"><div class=\"input-group input-group-lg columns small-12 small-centered\"><input class=form-control placeholder=Intitulé ng-model=objectiveController.selectedObjective.Text required></div></div><div class=\"separator columns small-12\"><span class=text>Pourcentage d'accomplissement</span></div><div class=\"item columns small-12\"><div class=\"input-group input-group-lg columns small-12 small-centered\"><div class=rzslider><rzslider rz-slider-model=objectiveController.selectedObjective.ProgressionPercent rz-slider-floor=0 rz-slider-ceil=100></rzslider></div></div></div></div></div></div>");
 }]);
 
 /* Controllers */
@@ -2343,29 +2345,31 @@ angular.module("amCompanion").controller("FullHomeController", ['AmcContextServi
 angular.module("amCompanion").controller("FullLinkController", ['$scope', '$routeParams', '$anchorScroll', 'AmcContextService', 'RoutesService', 'linkTypes', 'SweetAlert', function ($scope, $routeParams, $anchorScroll, AmcContextService, RoutesService, linkTypes, SweetAlert) {
     "use strict";
 
-    $anchorScroll();
-    $scope.editMode = true;
-    $scope.newMode = false;
-    $scope.selectedDate = undefined;
-    $scope.selectedLinkBackUp = undefined;
+    var that = this;
 
-    $scope.linkTypes = linkTypes;
+    $anchorScroll();
+    this.editMode = true;
+    this.newMode = false;
+    this.selectedDate = undefined;
+    this.selectedLinkBackUp = undefined;
+
+    this.linkTypes = linkTypes;
 
     /**
      * This methods is passed in parameter to header, it allow to go back to employee view
      */
-    $scope.goBack = function () {
-        RoutesService.loadEmployeeView($scope.selectedEmployee);
+    this.goBack = function () {
+        RoutesService.loadEmployeeView(that.selectedEmployee);
     };
 
-    $scope.changeSelectedDate = function () {
-        if (!!$scope.selectedDate) {
-            $scope.selectedLink.DateTimestamp = $scope.selectedDate.getTime();
-            $scope.selectedLink.Date = JSON.stringify($scope.selectedDate);
+    this.changeSelectedDate = function () {
+        if (!!that.selectedDate) {
+            that.selectedLink.DateTimestamp = that.selectedDate.getTime();
+            that.selectedLink.Date = JSON.stringify(that.selectedDate);
         }
     };
 
-    $scope.getName = function () {
+    this.getName = function () {
         var employee = AmcContextService.getSelectedEmployee();
         var str = "";
         if (employee !== undefined) {
@@ -2378,73 +2382,73 @@ angular.module("amCompanion").controller("FullLinkController", ['$scope', '$rout
     promise.then(function () {
 
         AmcContextService.setSelectedEmployeeFromId($routeParams.id);
-        $scope.selectedEmployee = AmcContextService.getSelectedEmployee();
-        $scope.nomPrenom = $scope.getName();
+        that.selectedEmployee = AmcContextService.getSelectedEmployee();
+        that.nomPrenom = that.getName();
         var currentLink;
 
         if ($routeParams.timestamp === "new") {
             var date = new Date();
 
-            $scope.selectedLink = {
+            that.selectedLink = {
                 Type: undefined,
                 DateTimestamp: date.getTime(),
                 Date: JSON.stringify(date),
                 Comment: ""
             };
-            $scope.newMode = true;
-            $scope.editMode = true;
-            $scope.nomPrenom = "Nouveau rendez-vous";
+            that.newMode = true;
+            that.editMode = true;
+            that.nomPrenom = "Nouveau rendez-vous";
 
-            $scope.selectedDate = date;
+            that.selectedDate = date;
         } else {
-            for (var i = 0; i < $scope.selectedEmployee.Links.length; i++) {
-                currentLink = $scope.selectedEmployee.Links[i];
+            for (var i = 0; i < that.selectedEmployee.Links.length; i++) {
+                currentLink = that.selectedEmployee.Links[i];
                 if (currentLink.DateTimestamp === parseInt($routeParams.timestamp)) {
-                    $scope.selectedLink = currentLink;
-                    $scope.selectedLinkBackUp = angular.copy($scope.selectedLink);
-                    $scope.selectedDate = new Date($scope.selectedLink.Date.slice(1, 25));
-                    $scope.selectedDateTimestamp = new Date($scope.selectedLink.DateTimestamp);
+                    that.selectedLink = currentLink;
+                    that.selectedLinkBackUp = angular.copy(that.selectedLink);
+                    that.selectedDate = new Date(that.selectedLink.Date.slice(1, 25));
+                    that.selectedDateTimestamp = new Date(that.selectedLink.DateTimestamp);
                 }
             }
 
-            if ($scope.selectedLink === undefined) {
-                RoutesService.loadEmployeeView($scope.selectedEmployee);
+            if (that.selectedLink === undefined) {
+                RoutesService.loadEmployeeView(that.selectedEmployee);
             }
         }
     });
 
     $scope.$on("cancelEdit", function () {
-        if ($scope.newMode) {
-            $scope.goBack();
+        if (that.newMode) {
+            that.goBack();
         } else {
 
-            $scope.selectedLink.Type = $scope.selectedLinkBackUp.Type;
-            $scope.selectedLink.Date = $scope.selectedLinkBackUp.Date;
-            $scope.selectedLink.DateTimestamp = $scope.selectedLinkBackUp.DateTimestamp;
-            $scope.selectedLink.Comment = $scope.selectedLinkBackUp.Comment;
-            $scope.goBack();
+            that.selectedLink.Type = that.selectedLinkBackUp.Type;
+            that.selectedLink.Date = that.selectedLinkBackUp.Date;
+            that.selectedLink.DateTimestamp = that.selectedLinkBackUp.DateTimestamp;
+            that.selectedLink.Comment = that.selectedLinkBackUp.Comment;
+            that.goBack();
         }
     });
 
     $scope.$on("validateEdit", function () {
 
-        if ($scope.selectedLink.Date === undefined) {
+        if (that.selectedLink.Date === undefined) {
             SweetAlert.error("", "Une date valide est requise");
-        } else if ($scope.selectedLink.Type === undefined) {
+        } else if (that.selectedLink.Type === undefined) {
             SweetAlert.error("", "Un lieu est requis");
         } else {
 
             //If it's a new objective
-            if ($scope.newMode) {
-                $scope.selectedEmployee.Links.push($scope.selectedLink);
+            if (that.newMode) {
+                that.selectedEmployee.Links.push(that.selectedLink);
                 AmcContextService.updateCurrentEmployee();
             }
             //If the new validated objectif is not the same as the original
-            else if ($scope.selectedLink.Type !== $scope.selectedLinkBackUp.Type || $scope.selectedLink.DateTimestamp !== $scope.selectedLinkBackUp.DateTimestamp || $scope.selectedLink.Comment !== $scope.selectedLinkBackUp.Comment) {
+            else if (that.selectedLink.Type !== that.selectedLinkBackUp.Type || that.selectedLink.DateTimestamp !== that.selectedLinkBackUp.DateTimestamp || that.selectedLink.Comment !== that.selectedLinkBackUp.Comment) {
                 AmcContextService.updateCurrentEmployee();
             }
             //Go back
-            $scope.goBack();
+            that.goBack();
         }
     });
 }]);
@@ -2494,19 +2498,20 @@ angular.module("amCompanion").controller("FullLoginController", ['$scope', '$tim
 /* Controllers */
 angular.module("amCompanion").controller("FullObjectiveController", ['$scope', '$routeParams', '$anchorScroll', 'AmcContextService', 'RoutesService', 'SweetAlert', function ($scope, $routeParams, $anchorScroll, AmcContextService, RoutesService, SweetAlert) {
 
-    "use strict";
+    var that = this;
+
     $anchorScroll();
-    $scope.editMode = true;
-    $scope.newMode = false;
+    this.editMode = true;
+    this.newMode = false;
 
     /**
      * This methods is passed in parameter to header, it allow to go back to employee view
      */
-    $scope.goBack = function () {
-        RoutesService.loadEmployeeView($scope.selectedEmployee);
+    this.goBack = function () {
+        RoutesService.loadEmployeeView(that.selectedEmployee);
     };
 
-    $scope.getName = function () {
+    this.getName = function () {
         var employee = AmcContextService.getSelectedEmployee();
         var str = "";
         if (employee !== undefined) {
@@ -2518,50 +2523,50 @@ angular.module("amCompanion").controller("FullObjectiveController", ['$scope', '
     var promise = AmcContextService.initEmployees();
     promise.then(function () {
         AmcContextService.setSelectedEmployeeFromId($routeParams.id);
-        $scope.selectedEmployee = AmcContextService.getSelectedEmployee();
-        $scope.nomPrenom = $scope.getName();
+        that.selectedEmployee = AmcContextService.getSelectedEmployee();
+        that.nomPrenom = that.getName();
         if ($routeParams.index === "new") {
-            $scope.selectedObjective = {
+            that.selectedObjective = {
                 ProgressionPercent: 0,
                 ponderation: 0
             };
-            $scope.newMode = true;
-            $scope.editMode = true;
-            $scope.nomPrenom = "Nouvel Objectif";
+            that.newMode = true;
+            that.editMode = true;
+            that.nomPrenom = "Nouvel Objectif";
         } else {
-            $scope.selectedObjective = $scope.selectedEmployee.Objectives[$routeParams.index];
-            $scope.selectedObjectiveBack = angular.copy($scope.selectedObjective);
+            that.selectedObjective = that.selectedEmployee.Objectives[$routeParams.index];
+            that.selectedObjectiveBack = angular.copy(that.selectedObjective);
         }
     });
 
     $scope.$on("cancelEdit", function () {
-        if ($scope.newMode) {
-            $scope.goBack();
+        if (that.newMode) {
+            that.goBack();
         } else {
-            $scope.selectedObjective.Text = $scope.selectedObjectiveBack.Text;
-            $scope.selectedObjective.ProgressionPercent = $scope.selectedObjectiveBack.ProgressionPercent;
-            $scope.selectedObjective.ponderation = $scope.selectedObjectiveBack.ponderation;
-            $scope.goBack();
+            that.selectedObjective.Text = that.selectedObjectiveBack.Text;
+            that.selectedObjective.ProgressionPercent = that.selectedObjectiveBack.ProgressionPercent;
+            that.selectedObjective.ponderation = that.selectedObjectiveBack.ponderation;
+            that.goBack();
         }
     });
 
     $scope.$on("validateEdit", function () {
 
-        if ($scope.selectedObjective.Text === undefined) {
+        if (that.selectedObjective.Text === undefined) {
             SweetAlert.error("", "Un intitulé est requis.");
         } else {
 
             //If it's a new objective
-            if ($scope.newMode) {
-                $scope.selectedEmployee.Objectives.push($scope.selectedObjective);
+            if (that.newMode) {
+                that.selectedEmployee.Objectives.push(that.selectedObjective);
                 AmcContextService.updateCurrentEmployee();
             }
             //If the new validated objectif is not the same as the original
-            else if ($scope.selectedObjective.Text !== $scope.selectedObjectiveBack.Text || $scope.selectedObjective.ProgressionPercent !== $scope.selectedObjectiveBack.ProgressionPercent || $scope.selectedObjective.ponderation !== $scope.selectedObjectiveBack.ponderation) {
+            else if (that.selectedObjective.Text !== that.selectedObjectiveBack.Text || that.selectedObjective.ProgressionPercent !== that.selectedObjectiveBack.ProgressionPercent || that.selectedObjective.ponderation !== that.selectedObjectiveBack.ponderation) {
                 AmcContextService.updateCurrentEmployee();
             }
             //Go back
-            $scope.goBack();
+            that.goBack();
         }
     });
 }]);

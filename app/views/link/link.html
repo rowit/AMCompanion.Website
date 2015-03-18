@@ -1,8 +1,8 @@
 <div class="container" id="employee-view">
-    <amc-header go-back-handler="goBack()"
+    <amc-header go-back-handler="linkController.goBack()"
                 label="nomPrenom"
                 home-display="false"
-                edit-mode="editMode"></amc-header>
+                edit-mode="linkController.editMode"></amc-header>
     <div class="content">
         <div class="row">
             <!-- Affichage de l'endroit -->
@@ -10,7 +10,7 @@
                 <span class="text">Lieu</span>
             </div>
             <div class="item-without-padding columns small-12">
-                <select ng-model="selectedLink.Type" ng-options="o as o for o in linkTypes"></select>
+                <select ng-model="linkController.selectedLink.Type" ng-options="o as o for o in linkController.linkTypes"></select>
             </div>
             <!-- Affichage de la date -->
             <div class="separator columns small-12">
@@ -18,8 +18,8 @@
             </div>
             <div class="item-without-padding columns small-12">
                 <input type="date"
-                       ng-model="selectedDate"
-                       ng-change="changeSelectedDate()"
+                       ng-model="linkController.selectedDate"
+                       ng-change="linkController.changeSelectedDate()"
                         >
             </div>
             <!-- Affichage du commentaire -->
@@ -27,7 +27,7 @@
                 <span class="text">Commentaire</span>
             </div>
             <div class="item-fit-without-padding columns small-12">
-                <textarea ng-model="selectedLink.Comment" rows="10" ></textarea>
+                <textarea ng-model="linkController.selectedLink.Comment" rows="10" ></textarea>
             </div>
         </div>
     </div>

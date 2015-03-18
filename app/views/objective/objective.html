@@ -1,8 +1,8 @@
 <div class="container" id="employee-view">
-    <amc-header go-back-handler="goBack()"
-                label="nomPrenom"
+    <amc-header go-back-handler="objectiveController.goBack()"
+                label="objectiveController.nomPrenom"
                 home-display="false"
-                edit-mode="editMode"></amc-header>
+                edit-mode="objectiveController.editMode"></amc-header>
     <div class="content">
         <div class="row">
             <!-- Affichage du texte -->
@@ -11,7 +11,7 @@
             </div>
             <div class="columns small-12">
                 <div class="input-group input-group-lg columns small-12 small-centered" >
-                    <input type="text" class="form-control" placeholder="Intitulé" ng-model="selectedObjective.Text" required>
+                    <input type="text" class="form-control" placeholder="Intitulé" ng-model="objectiveController.selectedObjective.Text" required>
                 </div>
             </div>
             <!-- Affichage de l'endroit -->
@@ -22,26 +22,12 @@
                 <div class="input-group input-group-lg columns small-12 small-centered" >
                     <div class="rzslider">
                         <rzslider
-                            rz-slider-model="selectedObjective.ProgressionPercent"
+                            rz-slider-model="objectiveController.selectedObjective.ProgressionPercent"
                             rz-slider-floor="0"
                             rz-slider-ceil="100"></rzslider>
                     </div>
                 </div>
             </div>
-
-            <!--
-            <div class="separator columns small-12">
-                <span class="text">Pondération</span>
-            </div>
-            <div class="item columns small-12">
-                <div class="rzslider">
-                    <rzslider
-                            rz-slider-model="selectedObjective.ponderation"
-                            rz-slider-floor="0"
-                            rz-slider-ceil="100"></rzslider>
-                </div>
-            </div>
-            -->
         </div>
     </div>
 </div>

@@ -3,33 +3,35 @@ angular.module('amCompanion').controller('FullLinkController',
     function( $scope,$routeParams,$anchorScroll ,AmcContextService, RoutesService, linkTypes, SweetAlert){
         'use strict';
 
-        $anchorScroll();
-        $scope.editMode = true;
-        $scope.newMode = false;
-        $scope.selectedDate = undefined;
-        $scope.selectedLinkBackUp = undefined;
+        var that = this;
 
-        $scope.linkTypes = linkTypes;
+        $anchorScroll();
+        this.editMode = true;
+        this.newMode = false;
+        this.selectedDate = undefined;
+        this.selectedLinkBackUp = undefined;
+
+        this.linkTypes = linkTypes;
 
         /**
          * This methods is passed in parameter to header, it allow to go back to employee view
          */
-        $scope.goBack = function()
+        this.goBack = function()
         {
-            RoutesService.loadEmployeeView($scope.selectedEmployee);
+            RoutesService.loadEmployeeView(that.selectedEmployee);
         };
 
-        $scope.changeSelectedDate = function()
+        this.changeSelectedDate = function()
         {
-            if( !!$scope.selectedDate )
+            if( !!that.selectedDate )
             {
-                $scope.selectedLink.DateTimestamp = $scope.selectedDate.getTime();
-                $scope.selectedLink.Date = JSON.stringify($scope.selectedDate);
+                that.selectedLink.DateTimestamp = that.selectedDate.getTime();
+                that.selectedLink.Date = JSON.stringify(that.selectedDate);
             }
 
         };
 
-        $scope.getName = function()
+        this.getName = function()
         {
             var employee = AmcContextService.getSelectedEmployee();
             var str = "";
@@ -44,43 +46,43 @@ angular.module('amCompanion').controller('FullLinkController',
         promise.then(function(){
 
                 AmcContextService.setSelectedEmployeeFromId($routeParams.id);
-                $scope.selectedEmployee = AmcContextService.getSelectedEmployee();
-                $scope.nomPrenom = $scope.getName();
+                that.selectedEmployee = AmcContextService.getSelectedEmployee();
+                that.nomPrenom = that.getName();
                 var currentLink;
 
                 if( $routeParams.timestamp === "new" )
                 {
                     var date = new Date();
 
-                    $scope.selectedLink = {
+                    that.selectedLink = {
                         Type:undefined,
                         DateTimestamp: date.getTime(),
                         Date: JSON.stringify(date),
                         Comment:""
                     };
-                    $scope.newMode = true;
-                    $scope.editMode = true;
-                    $scope.nomPrenom = "Nouveau rendez-vous";
+                    that.newMode = true;
+                    that.editMode = true;
+                    that.nomPrenom = "Nouveau rendez-vous";
 
-                    $scope.selectedDate = date;
+                    that.selectedDate = date;
                 }
                 else
                 {
-                    for( var i = 0 ; i < $scope.selectedEmployee.Links.length ; i++ )
+                    for( var i = 0 ; i < that.selectedEmployee.Links.length ; i++ )
                     {
-                        currentLink = $scope.selectedEmployee.Links[i];
+                        currentLink = that.selectedEmployee.Links[i];
                         if( currentLink.DateTimestamp === parseInt($routeParams.timestamp) )
                         {
-                            $scope.selectedLink = currentLink;
-                            $scope.selectedLinkBackUp = angular.copy($scope.selectedLink);
-                            $scope.selectedDate = new Date($scope.selectedLink.Date.slice(1,25));
-                            $scope.selectedDateTimestamp = new Date($scope.selectedLink.DateTimestamp);
+                            that.selectedLink = currentLink;
+                            that.selectedLinkBackUp = angular.copy(that.selectedLink);
+                            that.selectedDate = new Date(that.selectedLink.Date.slice(1,25));
+                            that.selectedDateTimestamp = new Date(that.selectedLink.DateTimestamp);
                         }
                     }
 
-                    if( $scope.selectedLink === undefined )
+                    if( that.selectedLink === undefined )
                     {
-                        RoutesService.loadEmployeeView($scope.selectedEmployee);
+                        RoutesService.loadEmployeeView(that.selectedEmployee);
                     }
 
                 }
@@ -89,47 +91,47 @@ angular.module('amCompanion').controller('FullLinkController',
 
         $scope.$on("cancelEdit",function()
         {
-            if( $scope.newMode )
+            if( that.newMode )
             {
-                $scope.goBack();
+                that.goBack();
             }
             else
             {
 
-                $scope.selectedLink.Type = $scope.selectedLinkBackUp.Type;
-                $scope.selectedLink.Date = $scope.selectedLinkBackUp.Date;
-                $scope.selectedLink.DateTimestamp = $scope.selectedLinkBackUp.DateTimestamp;
-                $scope.selectedLink.Comment = $scope.selectedLinkBackUp.Comment;
-                $scope.goBack();
+                that.selectedLink.Type = that.selectedLinkBackUp.Type;
+                that.selectedLink.Date = that.selectedLinkBackUp.Date;
+                that.selectedLink.DateTimestamp = that.selectedLinkBackUp.DateTimestamp;
+                that.selectedLink.Comment = that.selectedLinkBackUp.Comment;
+                that.goBack();
             }
 
         });
 
         $scope.$on("validateEdit",function() {
 
-            if( $scope.selectedLink.Date === undefined) {
+            if( that.selectedLink.Date === undefined) {
                 SweetAlert.error("","Une date valide est requise");
             }
-            else if( $scope.selectedLink.Type === undefined )
+            else if( that.selectedLink.Type === undefined )
             {
                 SweetAlert.error("","Un lieu est requis");
             }
             else {
 
                 //If it's a new objective
-                if ($scope.newMode) {
-                    $scope.selectedEmployee.Links.push($scope.selectedLink);
+                if (that.newMode) {
+                    that.selectedEmployee.Links.push(that.selectedLink);
                     AmcContextService.updateCurrentEmployee();
                 }
                 //If the new validated objectif is not the same as the original
-                else if( $scope.selectedLink.Type !== $scope.selectedLinkBackUp.Type ||
-                    $scope.selectedLink.DateTimestamp !== $scope.selectedLinkBackUp.DateTimestamp ||
-                    $scope.selectedLink.Comment !== $scope.selectedLinkBackUp.Comment )
+                else if( that.selectedLink.Type !== that.selectedLinkBackUp.Type ||
+                    that.selectedLink.DateTimestamp !== that.selectedLinkBackUp.DateTimestamp ||
+                    that.selectedLink.Comment !== that.selectedLinkBackUp.Comment )
                 {
                     AmcContextService.updateCurrentEmployee();
                 }
                 //Go back
-                $scope.goBack();
+                that.goBack();
             }
         });
     }
