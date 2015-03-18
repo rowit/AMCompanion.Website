@@ -18,7 +18,7 @@
 
 .btn-steria
 {
-    background : #04315B;
+    background-color : #04315B;
     color : white !important;
     transition : background-color 500ms linear;
     -moz-transition : background-color 500ms linear;

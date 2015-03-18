@@ -32,7 +32,8 @@ angular.module('amCompanion').config(function($routeProvider, $locationProvider)
     $routeProvider.when('/login', {
         id:"login",
         templateUrl: 'app/views/login/login.html',
-        controller: 'FullLoginController'
+        controller: 'FullLoginController',
+        controllerAs: 'loginController'
     });
 
     $locationProvider.html5Mode(true);

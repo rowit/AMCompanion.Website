@@ -1,27 +1,27 @@
 <div id="loginModal">
-    <img id="logo" src="../../../img/logo-white.png"/>
+    <img id="logo" src="/img/logo-white.png"/>
 
     <div class="row">
-        <form class="columns large-4 large-centered small-10 small-centered center-block" ng-submit="login()" name="loginForm">
+        <form class="columns large-4 large-centered small-10 small-centered center-block" ng-submit="loginController.login()" name="loginForm">
             <div class="row collapse">
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon">@</span>
-                    <input type="email" name="email" class="form-control" placeholder="Adresse mail" ng-model="credentials.email" required>
+                    <input type="email" name="email" class="form-control" placeholder="Adresse mail" ng-model="loginController.credentials.email" required>
                 </div>
             </div>
             <div class="row collapse">
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon"><span class="fa fa-lock"></span></span>
-                    <input name="password" type="password" class="form-control" placeholder="Mot de passe" ng-model="credentials.password" required>
+                    <input name="password" type="password" class="form-control" placeholder="Mot de passe" ng-model="loginController.credentials.password" required>
                 </div>
             </div>
 
             <div class="row collapse">
                 <button type="submit"
-                        ng-class="{'btn-danger':failed,'btn-success':success}"
+                        ng-class="{'btn-danger':loginController.failed,'btn-success':loginController.success}"
                         class="btn btn-steria btn-lg btn-block small-10 small-centered columns large-12"
-                        ng-disabled="!loginForm.$valid || loading">
-                    {{buttonLabel}}
+                        ng-disabled="!loginForm.$valid || loginController.loading">
+                    {{loginController.buttonLabel}}
                 </button>
             </div>
         </form>

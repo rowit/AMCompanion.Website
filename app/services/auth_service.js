@@ -7,8 +7,6 @@ angular.module('amCompanion').factory('AuthService',
                 var defer = $q.defer();
                 var data = {Email:credentials.email,Password:credentials.password};
 
-
-
                 $http.post(
                     urls.login, data
                 ).success(

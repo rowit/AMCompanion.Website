@@ -1572,7 +1572,7 @@ fieldset[disabled] .btn-primary.active {
 }
 .btn-success {
   color: #ffffff;
-  background-color: #5cb85c;
+  background-color: #5cb85c !important;
   border-color: #4cae4c;
 }
 .btn-success:hover,
@@ -1604,7 +1604,7 @@ fieldset[disabled] .btn-success:active,
 .btn-success.disabled.active,
 .btn-success[disabled].active,
 fieldset[disabled] .btn-success.active {
-  background-color: #5cb85c;
+  background-color: #5cb85c !important;
   border-color: #4cae4c;
 }
 .btn-success .badge {
@@ -1695,7 +1695,7 @@ fieldset[disabled] .btn-warning.active {
 }
 .btn-danger {
   color: #ffffff;
-  background-color: #d9534f;
+  background-color: #d9534f !important;
   border-color: #d43f3a;
 }
 .btn-danger:hover,
@@ -6250,7 +6250,7 @@ rzslider span.slider-bar {
 
 .btn-steria
 {
-    background : #04315B;
+    background-color : #04315B;
     color : white !important;
     transition : background-color 500ms linear;
     -moz-transition : background-color 500ms linear;

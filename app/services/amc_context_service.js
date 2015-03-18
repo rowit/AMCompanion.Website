@@ -154,7 +154,7 @@ angular.module('amCompanion').factory("AmcContextService",
             }
         }
 
-        this.isDevVersion = function() { return $cookies.env === "dev"; };
+        this.isDevVersion = function() { return $cookies.get("env") === "dev"; };
 
         //Accessor of employees
         this.getEmployees = function() { addEmployeeDate(data.employees); return data.employees; };

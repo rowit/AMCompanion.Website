@@ -1,50 +1,48 @@
 angular.module('amCompanion').controller('FullLoginController',
-    function($scope,$timeout,$location ,AuthService)
+    function($scope, $timeout,$location ,AuthService,RoutesService)
     {
         'use strict';
+        var that = this;
 
         /**
          * Cette méthode permet d'initialiser le bouton de connexion
          */
-        $scope.resetButton = function()
+        this.resetButton = function()
         {
-            $scope.buttonLabel = "Connexion";
-            $scope.failed = false;
-            $scope.success = false;
+            that.buttonLabel = "Connexion";
+            that.failed = false;
+            that.success = false;
         };
 
         /**
          * Cette méthode redirige vers la page principale de l'application une fois connecté
          */
-        $scope.redirectToHome = function ()
+        this.redirectToHome = function ()
         {
-            $location.path("/");
+            RoutesService.loadHomeView();
         };
 
-        $scope.resetButton();
+        this.resetButton();
 
         /**
          * Cette fonction permet de connecter l'utilisateur
          */
-        $scope.login = function()
+        this.login = function()
         {
-            $scope.loading = true;
-            var promise = AuthService.login($scope.credentials);
+            that.loading = true;
+            var promise = AuthService.login(that.credentials);
             promise.then(function()
             {
-                $scope.loading = false;
-                $scope.success = true;
-                $scope.buttonLabel = "Succès";
-
-                $timeout($scope.redirectToHome, 1000);
+                that.loading = false;
+                that.success = true;
+                that.buttonLabel = "Succès";
+                $timeout(that.redirectToHome, 1000);
             },function()
             {
-                $scope.buttonLabel = "Echec de la connexion";
-                $scope.failed = true;
-                $scope.loading = false;
-
-                $timeout($scope.resetButton, 2000);
-
+                that.buttonLabel = "Echec de la connexion";
+                that.failed = true;
+                that.loading = false;
+                $timeout(that.resetButton, 2000);
             });
 
         };
