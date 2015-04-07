@@ -13,16 +13,6 @@ module.exports = function(grunt) {
                 reporter: require('jshint-stylish')
             }
         },
-        babel: {
-            options: {
-                compact:false
-            },
-            dist: {
-                files: {
-                    'dist/amc-script.js': 'dist/amc-script.js'
-                }
-            }
-        },
         ngtemplates:    {
             amCompanion:{
                 src:        ['index.html','app/**/*.html'],
@@ -95,7 +85,7 @@ module.exports = function(grunt) {
         uglify : {
             js: {
                 options: {
-                    sourceMap: true,
+                    sourceMap: false,
                     sourceMapName: 'dist/script.min.js.map'
                 },
                 files: {
@@ -122,12 +112,12 @@ module.exports = function(grunt) {
             css:
             {
                 files: ['app/**/*.css'],
-                tasks: ['concat:css','autoprefixer', 'cssmin',"csslint"]
+                tasks: ['concat:css','autoprefixer', 'cssmin',"csslint",'clean:end-build']
             },
             js:
             {
                 files: ['app/**/*.js'],
-                tasks: ['concat:amc-js','babel','concat:dist-js','ngAnnotate', 'uglify','jshint']
+                tasks: ['concat:amc-js','concat:dist-js','ngAnnotate', 'uglify','jshint','clean:end-build']
             }
         },
         copy: {
@@ -165,7 +155,8 @@ module.exports = function(grunt) {
         clean:
         {
             tmp: ["tmp/"],
-            dist: ["dist/"]
+            dist: ["dist/"],
+            "end-build":["dist/amc-script.js","dist/script.js",'dist/style.css']
         }
     });
 
@@ -181,7 +172,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-bower-task');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-ng-annotate');
-    grunt.loadNpmTasks('grunt-babel');
 
     grunt.registerTask('default', [
         'clean:dist',
@@ -192,11 +182,11 @@ module.exports = function(grunt) {
         'ngtemplates',
         'concat:amc-js',
         'copy:fontFiles',
-        'babel',
         'concat:dist-js',
         'ngAnnotate',
         'uglify',
-        'jshint']);
+        'jshint',
+        'clean:end-build']);
 
     grunt.registerTask('bower-task', ["bower","copy:bowerFiles","clean:tmp"]);
 };
