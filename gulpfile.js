@@ -25,9 +25,8 @@ gulp.task('css', function () {
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('js', function () {
-    gulp.src(["app/vendors/js/angular.min.js","app/vendors/js/*.js", "app/app.js", "app/**/*.js"])
-        .pipe(plumber())
+gulp.task('js', ["partials"], function () {
+    gulp.src(["app/vendors/js/angular.min.js", "app/vendors/js/*.js", "app/app.js", "app/**/*.js"])
         .pipe(ngAnnotate())
         .pipe(uglify())
         .pipe(concat('script.min.js'))
@@ -39,6 +38,7 @@ gulp.task('partials', function () {
         .pipe(plumber())
         .pipe(htmlmin({collapseWhitespace: true}))
         .pipe(ngTemplates({
+            standalone: false,
             filename: 'templates.js',
             module: 'amCompanion',
             path: function (path, base) {
@@ -83,8 +83,8 @@ gulp.task('bower',
 );
 
 gulp.task('watch', function () {
-    gulp.watch('app/**/*.css', ['css','css-lint']);
-    gulp.watch('app/**/*.js', ['js','js-lint']);
+    gulp.watch('app/**/*.css', ['css', 'css-lint']);
+    gulp.watch('app/**/*.js', ['js', 'js-lint']);
     gulp.watch('app/**/*.html', ['partials']);
 });
 
@@ -100,8 +100,9 @@ gulp.task('default',
 gulp.task('default + watch',
     [
         'css',
-        'partials',
         'js',
+        'js-lint',
+        'css-lint',
         "watch"
     ]
 );
