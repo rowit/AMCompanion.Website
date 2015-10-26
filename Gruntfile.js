@@ -1,4 +1,4 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
     grunt.initConfig({
 
         pkg: grunt.file.readJSON('package.json'),
@@ -13,21 +13,21 @@ module.exports = function(grunt) {
                 reporter: require('jshint-stylish')
             }
         },
-        ngtemplates:    {
-            amCompanion:{
-                src:        ['index.html','app/**/*.html'],
-                dest:       'app/templates.js',
-                standalone : true,
-                options:    {
+        ngtemplates: {
+            amCompanion: {
+                src: ['index.html', 'app/**/*.html'],
+                dest: 'app/templates.js',
+                standalone: true,
+                options: {
                     htmlmin: {
-                        collapseBooleanAttributes:      true,
-                        collapseWhitespace:             true,
-                        removeAttributeQuotes:          true,
-                        removeComments:                 true, // Only if you don't use comment directives!
-                        removeEmptyAttributes:          true,
-                        removeRedundantAttributes:      true,
-                        removeScriptTypeAttributes:     true,
-                        removeStyleLinkTypeAttributes:  true
+                        collapseBooleanAttributes: true,
+                        collapseWhitespace: true,
+                        removeAttributeQuotes: true,
+                        removeComments: true, // Only if you don't use comment directives!
+                        removeEmptyAttributes: true,
+                        removeRedundantAttributes: true,
+                        removeScriptTypeAttributes: true,
+                        removeStyleLinkTypeAttributes: true
                     }
                 }
             }
@@ -53,25 +53,17 @@ module.exports = function(grunt) {
                 ],
                 dest: 'dist/style.css'
             },
-            'amc-js' : {
-                src : [
-                    "app/app.js",
-                    "app/**/*.js",
-                    "!app/vendors/**/*.js"
-                ],
-                dest : 'dist/amc-script.js'
-            },
-            'dist-js': {
-                src : [
+            'js': {
+                src: [
                     "app/vendors/js/angular.min.js",
-                    "app/vendors/**/*.js",
-                    "dist/amc-script.js"
+                    "app/app.js",
+                    "app/**/*.js"
                 ],
-                dest : 'dist/script.js'
+                dest: 'dist/script.js'
             }
         },
         autoprefixer: {
-            single_file: {
+            "single_file": {
                 src: 'dist/style.css',
                 dest: 'dist/style.css'
             }
@@ -82,14 +74,14 @@ module.exports = function(grunt) {
                 dest: 'dist/style.min.css'
             }
         },
-        uglify : {
+        uglify: {
             js: {
                 options: {
                     sourceMap: false,
                     sourceMapName: 'dist/script.min.js.map'
                 },
                 files: {
-                    'dist/script.min.js' : [ 'dist/script.js' ]
+                    'dist/script.min.js': ['dist/script.js']
                 }
             }
         },
@@ -104,40 +96,34 @@ module.exports = function(grunt) {
             }
         },
         watch: {
-            html:
-            {
-                files:['app/**/*.html','index.html'],
-                tasks:['ngtemplates']
+            html: {
+                files: ['app/**/*.html', 'index.html'],
+                tasks: ['ngtemplates']
             },
-            css:
-            {
+            css: {
                 files: ['app/**/*.css'],
-                tasks: ['concat:css','autoprefixer', 'cssmin',"csslint",'clean:end-build']
+                tasks: ['concat:css', 'autoprefixer', 'cssmin', "csslint", 'clean:end-build']
             },
-            js:
-            {
+            js: {
                 files: ['app/**/*.js'],
-                tasks: ['concat:amc-js','concat:dist-js','ngAnnotate', 'uglify','jshint','clean:end-build']
+                tasks: ['concat:js', 'ngAnnotate', 'uglify', 'jshint', 'clean:end-build']
             }
         },
         copy: {
             bowerFiles: {
-                src:
-                    [
-                        'tmp/components/**/*.min.js',
-                        'tmp/components/angular-i18n/angular-locale_fr-fr.js'
-                    ],
+                src: [
+                    'tmp/components/**/*.min.js',
+                    'tmp/components/angular-i18n/angular-locale_fr-fr.js'
+                ],
                 dest: 'app/vendors/js/',
                 expand: true,
                 flatten: true,
                 filter: 'isFile'
             },
-            fontFiles:
-            {
-                src:
-                    [
-                        'app/vendors/css/fonts/*'
-                    ],
+            fontFiles: {
+                src: [
+                    'app/vendors/css/fonts/*'
+                ],
                 dest: 'dist/fonts/',
                 expand: true,
                 flatten: true,
@@ -146,17 +132,15 @@ module.exports = function(grunt) {
         },
         bower: {
             install: {
-                options:
-                {
-                    copy:false
+                options: {
+                    copy: false
                 }
             }
         },
-        clean:
-        {
+        clean: {
             tmp: ["tmp/"],
             dist: ["dist/"],
-            "end-build":["dist/amc-script.js","dist/script.js",'dist/style.css']
+            "end-build": ["dist/amc-script.js", "dist/script.js", 'dist/style.css']
         }
     });
 
@@ -180,13 +164,12 @@ module.exports = function(grunt) {
         'cssmin:css',
         'csslint',
         'ngtemplates',
-        'concat:amc-js',
+        'concat:js',
         'copy:fontFiles',
-        'concat:dist-js',
         'ngAnnotate',
         'uglify',
         'jshint',
         'clean:end-build']);
 
-    grunt.registerTask('bower-task', ["bower","copy:bowerFiles","clean:tmp"]);
+    grunt.registerTask('bower-task', ["bower", "copy:bowerFiles", "clean:tmp"]);
 };

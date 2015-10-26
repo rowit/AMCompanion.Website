@@ -9,8 +9,7 @@ angular.module('amCompanion')
     .constant("urls", {
         login: "http://amcserver.cloudapp.net/login",
         employes: "http://amcserver.cloudapp.net/api/employees"
-    }
-)
+    })
     .constant("linkTypes", [
         "Restaurant",
         "Appel",

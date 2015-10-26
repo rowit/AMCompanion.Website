@@ -1,98 +1,83 @@
-@font-face
-{
-    font-family : 'latolight';
-    src : url('/app/css/fonts/lato-light-webfont.eot');
-    src : url('/app/css/fonts/lato-light-webfont.eot?#iefix') format('embedded-opentype'),
+@font-face {
+    font-family: 'latolight';
+    src: url('/app/css/fonts/lato-light-webfont.eot');
+    src: url('/app/css/fonts/lato-light-webfont.eot?#iefix') format('embedded-opentype'),
     url('/app/css/fonts/lato-light-webfont.ttf') format('truetype'),
     url('/app/css/fonts/lato-light-webfont.svg#latolight') format('svg');
-    font-weight : normal;
-    font-style : normal;
+    font-weight: normal;
+    font-style: normal;
 }
 
-.text-center
-{
-    text-align : center;
+.text-center {
+    text-align: center;
 }
 
-.next .fa
-{
-    font-size : 30px;
+.next .fa {
+    font-size: 30px;
 }
 
-.add-new .fa
-{
-    font-size : 18px;
-    color : #3C3C3C;
+.add-new .fa {
+    font-size: 18px;
+    color: #3C3C3C;
 }
 
-body
-{
-    background-color : #E5E5E5 !important;
-    font-family : 'latolight', sans-serif !important;
-    font-weight : 300 !important;
+body {
+    background-color: #E5E5E5 !important;
+    font-family: 'latolight', sans-serif !important;
+    font-weight: 300 !important;
 }
 
-.action
-{
-    margin-right : 3px;
+.action {
+    margin-right: 3px;
 }
 
-.float-right
-{
-    float : right;
+.float-right {
+    float: right;
 }
 
-.sub-info
-{
-    font-size : 13px;
+.sub-info {
+    font-size: 13px;
 }
 
-.content
-{
-    padding-top : 60px;
+.content {
+    padding-top: 60px;
 }
 
 /** NG view fade **/
 .fade-view .view,
 .slide-left-view .view,
-.slide-right-view .view
-{
-    height : 100%;
-    left : 0;
-    opacity : 1;
-    position : absolute;
-    right : 0;
-    top : 0;
-    width : 100%;
+.slide-right-view .view {
+    height: 100%;
+    left: 0;
+    opacity: 1;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
 }
 
 *.ng-enter span.fa,
-*.ng-leave span.fa
-{
-    -webkit-transition : -webkit-transform 0.4s ease-in-out;
-       -moz-transition :    -moz-transform 0.4s ease-in-out;
-         -o-transition :      -o-transform 0.4s ease-in-out;
-            transition :         transform 0.4s ease-in-out;
+*.ng-leave span.fa {
+    -webkit-transition: -webkit-transform 0.4s ease-in-out;
+    -moz-transition: -moz-transform 0.4s ease-in-out;
+    -o-transition: -o-transform 0.4s ease-in-out;
+    transition: transform 0.4s ease-in-out;
 }
 
-*.ng-enter span.fa
-{
-    opacity : 0;
+*.ng-enter span.fa {
+    opacity: 0;
 }
 
-*.ng-enter-active span.fa
-{
-    opacity : 1;
+*.ng-enter-active span.fa {
+    opacity: 1;
 }
 
-*.ng-leave span.fa
-{
-    opacity : 1;
+*.ng-leave span.fa {
+    opacity: 1;
 }
 
-*.ng-leave-active span.fa
-{
-    opacity : 0;
+*.ng-leave-active span.fa {
+    opacity: 0;
 }
 
 .fade-view .view.ng-enter,
@@ -100,410 +85,345 @@ body
 .slide-left-view .view.ng-enter,
 .slide-left-view .view.ng-leave,
 .slide-right-view .view.ng-enter,
-.slide-right-view .view.ng-leave
-{
-    -webkit-transition : -webkit-transform 0.4s ease-in-out;
-       -moz-transition :    -moz-transform 0.4s ease-in-out;
-         -o-transition :      -o-transform 0.4s ease-in-out;
-            transition :         transform 0.4s ease-in-out;
-    -webkit-transform : translate3d(0,0,0);
-            transform : translate3d(0,0,0);
+.slide-right-view .view.ng-leave {
+    -webkit-transition: -webkit-transform 0.4s ease-in-out;
+    -moz-transition: -moz-transform 0.4s ease-in-out;
+    -o-transition: -o-transform 0.4s ease-in-out;
+    transition: transform 0.4s ease-in-out;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
 }
 
-.fade-view .view.ng-enter
-{
-    opacity : 0;
+.fade-view .view.ng-enter {
+    opacity: 0;
 }
 
-.fade-view .view.ng-enter-active
-{
-    opacity : 1;
+.fade-view .view.ng-enter-active {
+    opacity: 1;
 }
 
-.fade-view .view.ng-leave
-{
-    opacity : 1;
+.fade-view .view.ng-leave {
+    opacity: 1;
 }
 
-.fade-view .view.ng-leave-active
-{
-    opacity : 0;
+.fade-view .view.ng-leave-active {
+    opacity: 0;
 }
 
-.slide-left-view .view.ng-enter
-{
-    -webkit-transform : translate3d(-100%,0,0);
-            transform : translate3d(-100%,0,0);
+.slide-left-view .view.ng-enter {
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
 }
 
-.slide-left-view .view.ng-enter-active
-{
-    position : absolute;
-    -webkit-transform : translate3d(0,0,0);
-            transform : translate3d(0,0,0);
+.slide-left-view .view.ng-enter-active {
+    position: absolute;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
 }
 
-.slide-left-view .view.ng-leave
-{
-    position : absolute;
-    -webkit-transform : translate3d(0,0,0);
-            transform : translate3d(0,0,0);
+.slide-left-view .view.ng-leave {
+    position: absolute;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
 }
 
-.slide-left-view .view.ng-leave-active
-{
-    -webkit-transform : translate3d(100%,0,0);
-            transform : translate3d(100%,0,0);
+.slide-left-view .view.ng-leave-active {
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
 }
 
-.slide-right-view .view.ng-enter
-{
-    -webkit-transform : translate3d(100%,0,0);
-            transform : translate3d(100%,0,0);
+.slide-right-view .view.ng-enter {
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
 }
 
-.slide-right-view .view.ng-enter-active
-{
-    position : absolute;
-    -webkit-transform : translate3d(0,0,0);
-            transform : translate3d(0,0,0);
+.slide-right-view .view.ng-enter-active {
+    position: absolute;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
 }
 
-.slide-right-view .view.ng-leave
-{
-    position : absolute;
-    -webkit-transform : translate3d(0,0,0);
-            transform : translate3d(0,0,0);
+.slide-right-view .view.ng-leave {
+    position: absolute;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
 }
 
-.slide-right-view .view.ng-leave-active
-{
-    -webkit-transform : translate3d(-100%,0,0);
-            transform : translate3d(-100%,0,0);
+.slide-right-view .view.ng-leave-active {
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
 }
 
 /* app css stylesheet */
 html,
-body
-{
-    height : 100%;
-    margin : 0;
-    width : 100%;
+body {
+    height: 100%;
+    margin: 0;
+    width: 100%;
 }
 
-.clear
-{
-    clear : both;
+.clear {
+    clear: both;
 }
 
-#main-container
-{
-    height : 100%;
+#main-container {
+    height: 100%;
 }
 
-#am-companion .container
-{
-    margin : 0;
-    padding : 0;
+#am-companion .container {
+    margin: 0;
+    padding: 0;
 }
 
-#am-companion h1
-{
-    margin-top : 0;
+#am-companion h1 {
+    margin-top: 0;
 }
 
-#loginModal .row.collapse
-{
-    opacity : 0.7;
+#loginModal .row.collapse {
+    opacity: 0.7;
 }
 
-#am-companion
-{
-    background-color : #E5E5E5;
-    font-size : 18px;
-    height : 100%;
-    width : 100%;
+#am-companion {
+    background-color: #E5E5E5;
+    font-size: 18px;
+    height: 100%;
+    width: 100%;
 }
 
-@keyframes rotateThis
-{
-    from
-    {
-        transform : scale(1) rotate(0deg);
+@keyframes rotateThis {
+    from {
+        transform: scale(1) rotate(0deg);
     }
-    to
-    {
-        transform : scale(1) rotate(360deg);
+    to {
+        transform: scale(1) rotate(360deg);
     }
 }
 
-.separator
-{
-    padding-bottom : 10px;
-    padding-top : 10px;
+.separator {
+    padding-bottom: 10px;
+    padding-top: 10px;
 }
 
-.separator span
-{
-    background-color : #E5E5E5;
+.separator span {
+    background-color: #E5E5E5;
 }
 
-.item .text
-{
-    overflow : hidden;
-    white-space : nowrap; /* Don't forget this one */
-    text-overflow : ellipsis;
+.item .text {
+    overflow: hidden;
+    white-space: nowrap; /* Don't forget this one */
+    text-overflow: ellipsis;
 }
 
-.separator span.text
-{
-    background-color : #E5E5E5;
-    padding-left : 10px;
-    padding-right : 10px;
-    position : relative;
-    z-index : 10;
+.separator span.text {
+    background-color: #E5E5E5;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: relative;
+    z-index: 10;
 }
 
-.separator .ligne
-{
-    border-top : 1px solid #000000;
-    display : block;
-    height : 1px;
-    margin-left : 4%;
-    margin-top : -9px;
-    position : absolute;
-    width : 92%;
-    z-index : 1;
+.separator .ligne {
+    border-top: 1px solid #000000;
+    display: block;
+    height: 1px;
+    margin-left: 4%;
+    margin-top: -9px;
+    position: absolute;
+    width: 92%;
+    z-index: 1;
 }
 
 /*** employee preview ****/
-.item.last
-{
-    border-bottom : none;
-    margin-bottom : 20px;
+.item.last {
+    border-bottom: none;
+    margin-bottom: 20px;
 }
 
-.item-text
-{
-    padding-left : 10px;
-    padding-top : 13px;
+.item-text {
+    padding-left: 10px;
+    padding-top: 13px;
 }
 
-.item
-{
-    background : #FFFFFF;
-    border-bottom : 1px solid #EEEEEE;
-    height : 60px;
-    padding-bottom : 3px;
-    padding-top : 3px;
+.item {
+    background: #FFFFFF;
+    border-bottom: 1px solid #EEEEEE;
+    height: 60px;
+    padding-bottom: 3px;
+    padding-top: 3px;
 }
 
-.item-without-padding
-{
-    background : #FFFFFF;
-    border-bottom : 1px solid #EEEEEE;
-    height : 50px;
-    padding : 0;
+.item-without-padding {
+    background: #FFFFFF;
+    border-bottom: 1px solid #EEEEEE;
+    height: 50px;
+    padding: 0;
 }
 
-.item-without-padding .text
-{
-    padding-top : 10px;
-    padding-left : 10px;
+.item-without-padding .text {
+    padding-top: 10px;
+    padding-left: 10px;
 }
 
-.item-fit-without-padding
-{
-    background : #FFFFFF;
-    border-bottom : 1px solid #EEEEEE;
-    padding : 0;
+.item-fit-without-padding {
+    background: #FFFFFF;
+    border-bottom: 1px solid #EEEEEE;
+    padding: 0;
 }
 
 .item-without-padding select,
 .item-without-padding input,
-.item-fit-without-padding textarea
-{
-    padding-left : 5px;
-    width : 100%;
-    height : 100%;
-    border : none;
-    -webkit-appearance : none;
-       -moz-appearance : none;
+.item-fit-without-padding textarea {
+    padding-left: 5px;
+    width: 100%;
+    height: 100%;
+    border: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }
 
-.item-fit
-{
-    background : #FFFFFF;
-    border-bottom : 1px solid #EEEEEE;
-    padding : 5px;
+.item-fit {
+    background: #FFFFFF;
+    border-bottom: 1px solid #EEEEEE;
+    padding: 5px;
 }
 
-.item-gray
-{
-    border-bottom : 1px solid #EEEEEE;
-    height : 60px;
-    padding-bottom : 3px;
-    padding-top : 10px;
+.item-gray {
+    border-bottom: 1px solid #EEEEEE;
+    height: 60px;
+    padding-bottom: 3px;
+    padding-top: 10px;
 }
 
-.item:hover
-{
-    cursor : pointer;
+.item:hover {
+    cursor: pointer;
 }
 
-.employee .user-icon
-{
-    font-size : 30px;
-    margin-top : 5px;
-    text-align : center;
-    float : left;
-    text-shadow : 1px 1px 1px rgba(150, 150, 150, 1);
+.employee .user-icon {
+    font-size: 30px;
+    margin-top: 5px;
+    text-align: center;
+    float: left;
+    text-shadow: 1px 1px 1px rgba(150, 150, 150, 1);
 }
 
-.employee .user-info
-{
-    padding-left : 10px;
+.employee .user-info {
+    padding-left: 10px;
 }
 
-.employee .user-info .glyphicon-calendar
-{
-    color : #888888;
-    display : inline-block;
-    margin-right : 5px;
+.employee .user-info .glyphicon-calendar {
+    color: #888888;
+    display: inline-block;
+    margin-right: 5px;
 }
 
-.employee .objectives
-{
-    margin-top : 5px;
-    padding-left : 5px;
-    padding-right : 5px;
+.employee .objectives {
+    margin-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
-.employee-status
-{
-    background-position : 50%;
-    background-repeat : no-repeat;
-    height : 43px;
+.employee-status {
+    background-position: 50%;
+    background-repeat: no-repeat;
+    height: 43px;
 }
 
-.status-4
-{
-    color : red;
+.status-4 {
+    color: red;
 }
 
-.status-3
-{
-    color : orange;
+.status-3 {
+    color: orange;
 }
 
-.status-2
-{
-    color : #FFFF00;
+.status-2 {
+    color: #FFFF00;
 }
 
-.status-1
-{
-    color : lightgreen;
+.status-1 {
+    color: lightgreen;
 }
 
-.status-0
-{
-    color : green;
+.status-0 {
+    color: green;
 }
 
-.next
-{
-    color : #8C8C8C;
-    display : inline-block;
-    margin-top : 12px;
+.next {
+    color: #8C8C8C;
+    display: inline-block;
+    margin-top: 12px;
 }
 
 /******* Employee Full **************/
-#employee-view .item .text
-{
-    margin-left : 60px;
-    margin-top : 12px;
+#employee-view .item .text {
+    margin-left: 60px;
+    margin-top: 12px;
 }
 
-.percent
-{
-    font-size : 14px;
-    left : 18px;
-    position : absolute;
-    top : 16px;
+.percent {
+    font-size: 14px;
+    left: 18px;
+    position: absolute;
+    top: 16px;
 }
 
 input[type='text'],
 input[type='number'],
-textarea
-{
-    font-size : 16px;
+textarea {
+    font-size: 16px;
 }
 
-
-.percent.cent
-{
-    left : 12px;
+.percent.cent {
+    left: 12px;
 }
 
-progress-arc
-{
-    left : 6px;
-    position : absolute;
-    top : 7px;
+progress-arc {
+    left: 6px;
+    position: absolute;
+    top: 7px;
 }
 
-.rzslider span.pointer
-{
-    padding : 15px;
+.rzslider span.pointer {
+    padding: 15px;
 }
 
-.rzslider span.pointer
-{
-    height : 8px;
+.rzslider span.pointer {
+    height: 8px;
 }
 
-.rzslider
-{
-    width : 90%;
-    margin-left : 5%;
+.rzslider {
+    width: 90%;
+    margin-left: 5%;
 }
 
-.item-icon-left
-{
-    color : #04315B;
-    margin-left : 13px;
-    margin-top : 14px;
-    font-size : 24px !important;
+.item-icon-left {
+    color: #04315B;
+    margin-left: 13px;
+    margin-top: 14px;
+    font-size: 24px !important;
 }
 
 /*****************************/
 /**    EDIT MODE         *****/
-.item.height-300
-{
-    height : 100px;
+.item.height-300 {
+    height: 100px;
 }
 
-@media screen and (max-width: 640px)
-{
-    #loginModal
-    {
-        background : url('/img/login-background-mobile.jpg');
-        background-size : cover;
+@media screen and (max-width: 640px) {
+    #loginModal {
+        background: url('/img/login-background-mobile.jpg');
+        background-size: cover;
     }
 
-    #logo
-    {
-        width : 300px;
+    #logo {
+        width: 300px;
     }
 }
 
-.fa-green
-{
-    color : darkgreen;
+.fa-green {
+    color: darkgreen;
 }
 
-.fa-red
-{
-    color : darkred;
+.fa-red {
+    color: darkred;
 }
