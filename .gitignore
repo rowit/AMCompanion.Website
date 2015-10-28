@@ -1,0 +1,7 @@
+.idea/
+## Project ignore
+/node_modules
+/dist
+/npm-debug.log
+/.sass-cache
+/server.js
